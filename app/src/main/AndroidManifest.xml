@@ -7,7 +7,7 @@
 
     <application
         android:allowBackup="true"
-        android:name="com.sms.partyview.activities.apps.ParseApplication"
+        android:name="com.sms.partyview.apps.ParseApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
