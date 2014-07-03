@@ -54,7 +54,7 @@ public class LoginActivity extends Activity {
     }
 
     // Launch the Signup activity.
-    public void doSignup(View view) {
+    private void doSignup() {
         Intent intent = new Intent(this, SignupActivity.class);
         startActivity(intent);
     }
@@ -96,7 +96,7 @@ public class LoginActivity extends Activity {
         signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doSignup(view);
+                doSignup();
             }
         });
     }
