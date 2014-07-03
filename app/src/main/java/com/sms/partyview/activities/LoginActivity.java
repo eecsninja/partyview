@@ -9,7 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.LogInCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.sms.partyview.R;
 
 public class LoginActivity extends Activity {
@@ -55,12 +59,40 @@ public class LoginActivity extends Activity {
         startActivity(intent);
     }
 
+    // Submit login info to Parse server.
+    private void doLogin() {
+        String userName = userNameField.getText().toString();
+        String password = passwordField.getText().toString();
+        ParseUser.logInInBackground(userName, password, new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    Toast.makeText(getApplicationContext(),
+                                   "Successfully signed in!",
+                                   Toast.LENGTH_SHORT).show();
+                    // TODO: Handle what happens after login.
+                } else {
+                    // Signup failed. Look at the ParseException to see what happened.
+                    Toast.makeText(getApplicationContext(),
+                            "Could not sign in!",
+                            Toast.LENGTH_SHORT).show();
+                    System.err.println(e.getMessage());
+                }
+            }
+        });
+    }
+
     private void setupViews() {
         userNameField = (EditText) findViewById(R.id.etLoginUserName);
         passwordField = (EditText) findViewById(R.id.etLoginPassword);
         loginButton = (Button) findViewById(R.id.btLogin);
         signupLink = (TextView) findViewById(R.id.tvLoginSignUp);
 
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                doLogin();
+            }
+        });
         signupLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
