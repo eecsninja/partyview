@@ -21,6 +21,15 @@
         android:layout_centerHorizontal="true" />
 
     <EditText
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/etSignupUserName"
+            android:layout_above="@+id/etSignupEmail"
+            android:layout_centerHorizontal="true"
+            android:hint="@string/signup_user_name_hint"
+            android:layout_marginBottom="16dp" />
+
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textEmailAddress"
@@ -46,15 +55,6 @@
         android:layout_alignEnd="@+id/etSignupEmail"
         android:layout_alignLeft="@+id/etSignupEmail"
         android:layout_alignStart="@+id/etSignupEmail" />
-
-    <EditText
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/etSignupUserName"
-        android:layout_above="@+id/etSignupEmail"
-        android:layout_centerHorizontal="true"
-        android:hint="@string/signup_user_name_hint"
-        android:layout_marginBottom="16dp" />
 
     <Button
         android:layout_width="wrap_content"
