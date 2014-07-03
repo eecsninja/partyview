@@ -9,7 +9,7 @@ import android.widget.EditText;
 
 import com.sms.partyview.R;
 
-public class Signup extends Activity {
+public class SignupActivity extends Activity {
     // Handles to views.
     EditText userNameField;
     EditText emailField;
