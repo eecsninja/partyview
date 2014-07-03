@@ -1,9 +1,11 @@
 package com.sms.partyview.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -47,10 +49,23 @@ public class LoginActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    // Launch the Signup activity.
+    public void doSignup(View view) {
+        Intent intent = new Intent(this, SignupActivity.class);
+        startActivity(intent);
+    }
+
     private void setupViews() {
         userNameField = (EditText) findViewById(R.id.etLoginUserName);
         passwordField = (EditText) findViewById(R.id.etLoginPassword);
         loginButton = (Button) findViewById(R.id.btLogin);
         signupLink = (TextView) findViewById(R.id.tvLoginSignUp);
+
+        signupLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                doSignup(view);
+            }
+        });
     }
 }
