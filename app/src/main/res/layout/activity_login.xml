@@ -45,7 +45,7 @@
         android:id="@+id/tvLoginBanner"
         android:layout_marginBottom="63dp"
         android:layout_above="@+id/etLoginUserName"
-        android:textSize="60dp"
+        android:textSize="60sp"
         android:textColor="@color/blue"
         android:layout_centerHorizontal="true"
         android:textStyle="bold" />
