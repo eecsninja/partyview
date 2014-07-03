@@ -4,10 +4,15 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 import com.sms.partyview.R;
+
 
 public class SignupActivity extends Activity {
     // Handles to views.
@@ -22,6 +27,12 @@ public class SignupActivity extends Activity {
         setContentView(R.layout.activity_signup);
 
         setupViews();
+        signupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSubmit();
+            }
+        });
     }
 
 
@@ -44,6 +55,34 @@ public class SignupActivity extends Activity {
         }
         */
         return super.onOptionsItemSelected(item);
+    }
+
+    // Sends new account info to server.
+    private void onSubmit() {
+        ParseUser user = new ParseUser();
+        user.setUsername(userNameField.getText().toString());
+        user.setPassword(passwordField.getText().toString());
+        user.setEmail(emailField.getText().toString());
+
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(com.parse.ParseException e) {
+                if (e == null) {
+                    // Show a toast to indicate that a user was created.
+                    Toast.makeText(getApplicationContext(),
+                                   "Successfully created user: " +
+                                       userNameField.getText().toString(),
+                                   Toast.LENGTH_SHORT).show();
+                    // TODO: Handle the next step after signup.
+                } else {
+                    // Sign up didn't succeed. Look at the ParseException
+                    // to figure out what went wrong
+                    System.err.println(e.getMessage());
+                    Toast.makeText(getApplicationContext(), "Could not create user.",
+                                   Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void setupViews() {
