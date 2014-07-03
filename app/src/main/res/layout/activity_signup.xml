@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.sms.partyview.activities.Signup">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/app_name"
+        android:id="@+id/tvSignupBanner"
+        android:textSize="60dp"
+        android:textColor="@color/blue"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:ems="10"
+        android:id="@+id/etSignupEmail"
+        android:hint="@string/signup_email_hint"
+        android:layout_above="@+id/etSignupPassword"
+        android:layout_alignRight="@+id/etSignupUserName"
+        android:layout_alignEnd="@+id/etSignupUserName"
+        android:layout_alignLeft="@+id/etSignupUserName"
+        android:layout_alignStart="@+id/etSignupUserName"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/etSignupPassword"
+        android:hint="@string/signup_password_hint"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/etSignupEmail"
+        android:layout_alignEnd="@+id/etSignupEmail"
+        android:layout_alignLeft="@+id/etSignupEmail"
+        android:layout_alignStart="@+id/etSignupEmail" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/etSignupUserName"
+        android:layout_above="@+id/etSignupEmail"
+        android:layout_centerHorizontal="true"
+        android:hint="@string/signup_user_name_hint"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/signup_button_label"
+        android:id="@+id/btSignupCreateAccount"
+        android:layout_below="@+id/etSignupPassword"
+        android:layout_alignRight="@+id/etSignupPassword"
+        android:layout_alignEnd="@+id/etSignupPassword"
+        android:layout_alignLeft="@+id/etSignupPassword"
+        android:layout_alignStart="@+id/etSignupPassword"
+        android:layout_marginTop="16dp" />
+</RelativeLayout>

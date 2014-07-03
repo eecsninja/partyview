@@ -10,5 +10,10 @@
     <string name="login_no_account">Don\'t have an account?</string>
     <string name="login_sign_up">Sign up.</string>
     <string name="title_activity_login">Login</string>
+    <string name="title_activity_signup">Signup</string>
+    <string name="signup_email_hint">E-mail address</string>
+    <string name="signup_password_hint">Choose a password</string>
+    <string name="signup_user_name_hint">Choose a user name</string>
+    <string name="signup_button_label">Create Account</string>
 
 </resources>
