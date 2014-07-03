@@ -14,7 +14,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/app_name"
         android:id="@+id/tvSignupBanner"
-        android:textSize="60dp"
+        android:textSize="60sp"
         android:textColor="@color/blue"
         android:textStyle="bold"
         android:layout_alignParentTop="true"
