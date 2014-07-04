@@ -18,5 +18,8 @@
     <string name="title_activity_home">HomeActivity</string>
     <string name="home_name_label">User name</string>
     <string name="home_email_label">Email address</string>
+    <string name="home_event_title_label">Event title</string>
+    <string name="home_event_time_label">Event date / time</string>
+    <string name="home_event_host_label">Host name</string>
 
 </resources>
