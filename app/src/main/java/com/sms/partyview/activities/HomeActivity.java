@@ -9,10 +9,18 @@ import android.widget.TextView;
 
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.EventListFragment;
+import com.sms.partyview.models.Event;
+import com.sms.partyview.models.User;
 
-public class HomeActivity extends FragmentActivity {
+import java.util.ArrayList;
+
+public class HomeActivity
+        extends FragmentActivity
+        implements EventListFragment.DummyEventProvider {
     TextView userNameLabel;
     TextView emailLabel;
+
+    User currentUser;
 
     // Event list fragment.
     // TODO: Create tabs for events + invites.
@@ -28,15 +36,21 @@ public class HomeActivity extends FragmentActivity {
         setContentView(R.layout.activity_home);
 
         setupViews();
+
+        // Store user information.
+        currentUser = new User();
         // Display the username and email.
         String userName = getIntent().getStringExtra(INTENT_USER_NAME);
         if (userName != null) {
             userNameLabel.setText(userName);
+            currentUser.setUserName(userName);
         }
         String email = getIntent().getStringExtra(INTENT_EMAIL);
         if (email != null) {
             emailLabel.setText(email);
+            currentUser.setEmail(email);
         }
+
         // TODO: Replace all this with actual home screen contents.
 
         // Create the event list fragment dynamically.
@@ -71,5 +85,24 @@ public class HomeActivity extends FragmentActivity {
     private void setupViews() {
         userNameLabel = (TextView) findViewById(R.id.tvHomeUserName);
         emailLabel = (TextView) findViewById(R.id.tvHomeEmail);
+    }
+
+    @Override
+    public ArrayList<Event> getEvents() {
+        Event e1 = new Event();
+        e1.setTitle("Independence Day BBQ");
+        e1.setHost(currentUser);
+        e1.setTime("4 July 2014, 4pm");
+        Event e2 = new Event();
+        e2.setTitle("End of CodePath Android Bootcamp");
+        e2.setHost(currentUser);
+        e2.setTime("24 July 2014, 7pm");
+
+        // Add the events to the event list.
+        ArrayList<Event> events = new ArrayList<Event>();
+        events.add(e1);
+        events.add(e2);
+
+        return events;
     }
 }

@@ -10,22 +10,23 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
 /**
- * A fragment representing a list of Items.
- * <p />
- * <p />
- * Activities containing this fragment MUST implement the {@link Callbacks}
- * interface.
+ * A fragment representing a list of events.
  */
 public class EventListFragment extends Fragment {
     protected ArrayList<Event> events;
     protected HomeScreenEventAdapter eventAdapter;
     protected ListView eventsView;
+
+    protected ArrayList<Event> preOnCreateEvents = new ArrayList<Event>();
+
+    protected DummyEventProvider dummyEventProvider;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,14 +41,12 @@ public class EventListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        /* Auto-generated code. Uncomment to add Activity as a listener.
         try {
-            mListener = (OnFragmentInteractionListener) activity;
+            dummyEventProvider = (DummyEventProvider) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                + " must implement OnFragmentInteractionListener");
+                + " must implement DummyEventProvider");
         }
-        */
     }
 
     @Override
@@ -71,24 +70,30 @@ public class EventListFragment extends Fragment {
                 // TODO: pass it to listener.
             }
         });
+        eventsView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i2, int i3) {
+                // Show some dummy events.
+                // TODO: Remove this test code.
+                if (events.isEmpty()) {
+                    addEvents(dummyEventProvider.getEvents());
+                }
+            }
+        });
 
         // Return it.
         return view;
     }
 
-    /**
-    * This interface must be implemented by activities that contain this
-    * fragment to allow an interaction in this fragment to be communicated
-    * to the activity and potentially other fragments contained in that
-    * activity.
-    * <p>
-    * See the Android Training lesson <a href=
-    * "http://developer.android.com/training/basics/fragments/communicating.html"
-    * >Communicating with Other Fragments</a> for more information.
-    */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(String id);
+    // For testing with dummy events.
+    public interface DummyEventProvider {
+        // Returns an array list of dummy events.
+        public ArrayList<Event> getEvents();
     }
 
     // Add new events to list.
