@@ -76,6 +76,9 @@ public class LoginActivity extends Activity {
                             "Could not sign in!",
                             Toast.LENGTH_SHORT).show();
                     System.err.println(e.getMessage());
+                    // TODO: Launch the home activity regardless, for development purposes.
+                    // Remove this later when we have persistent authentication.
+                    launchHomeActivity(null);
                 }
             }
         });
@@ -83,8 +86,10 @@ public class LoginActivity extends Activity {
 
     private void launchHomeActivity(ParseUser user) {
         Intent intent = new Intent(this, HomeActivity.class);
-        intent.putExtra(HomeActivity.INTENT_USER_NAME, user.getUsername());
-        intent.putExtra(HomeActivity.INTENT_EMAIL, user.getEmail());
+        if (user != null) {
+            intent.putExtra(HomeActivity.INTENT_USER_NAME, user.getUsername());
+            intent.putExtra(HomeActivity.INTENT_EMAIL, user.getEmail());
+        }
         startActivity(intent);
         // Do not let user press back and return to login screen.
         finish();
