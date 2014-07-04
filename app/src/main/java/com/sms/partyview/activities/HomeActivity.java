@@ -1,17 +1,22 @@
 package com.sms.partyview.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.sms.partyview.R;
+import com.sms.partyview.fragments.EventListFragment;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends FragmentActivity {
     TextView userNameLabel;
     TextView emailLabel;
+
+    // Event list fragment.
+    // TODO: Create tabs for events + invites.
+    EventListFragment eventListFragment;
 
     // Keys for passing in data in an intent.
     public static final String INTENT_USER_NAME = "user_name";
@@ -33,6 +38,15 @@ public class HomeActivity extends Activity {
             emailLabel.setText(email);
         }
         // TODO: Replace all this with actual home screen contents.
+
+        // Create the event list fragment dynamically.
+        FragmentTransaction transaction =
+                getSupportFragmentManager().beginTransaction();
+        // Replace the container with fragment.
+        eventListFragment = new EventListFragment();
+        transaction.replace(R.id.flHomeScreenEvents, eventListFragment);
+        // Execute the changes specified
+        transaction.commit();
     }
 
     @Override

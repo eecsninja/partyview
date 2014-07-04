@@ -23,4 +23,9 @@
             android:text="@string/home_email_label"
             android:id="@+id/tvHomeEmail" android:layout_below="@+id/tvHomeUserName"
             android:layout_alignParentLeft="true" android:layout_alignParentStart="true"/>
+    <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" android:layout_below="@+id/tvHomeEmail"
+            android:layout_centerHorizontal="true" android:id="@+id/flHomeScreenEvents">
+    </FrameLayout>
 </RelativeLayout>
