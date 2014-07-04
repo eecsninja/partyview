@@ -69,7 +69,7 @@ public class LoginActivity extends Activity {
                     Toast.makeText(getApplicationContext(),
                                    "Successfully signed in!",
                                    Toast.LENGTH_SHORT).show();
-                    // TODO: Handle what happens after login.
+                    launchHomeActivity(user);
                 } else {
                     // Signup failed. Look at the ParseException to see what happened.
                     Toast.makeText(getApplicationContext(),
@@ -79,6 +79,15 @@ public class LoginActivity extends Activity {
                 }
             }
         });
+    }
+
+    private void launchHomeActivity(ParseUser user) {
+        Intent intent = new Intent(this, HomeActivity.class);
+        intent.putExtra(HomeActivity.INTENT_USER_NAME, user.getUsername());
+        intent.putExtra(HomeActivity.INTENT_EMAIL, user.getEmail());
+        startActivity(intent);
+        // Do not let user press back and return to login screen.
+        finish();
     }
 
     private void setupViews() {
