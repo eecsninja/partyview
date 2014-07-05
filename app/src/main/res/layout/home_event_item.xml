@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="@string/home_event_time_label"
-            android:id="@+id/tvEventItemTime" android:layout_alignBottom="@+id/tvEventItemHost"
-            android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
-            android:layout_marginRight="16dp"/>
+            android:id="@+id/tvEventItemTime"
+            android:layout_below="@+id/tvEventItemHost"
+            android:layout_alignLeft="@+id/tvEventItemHost"
+            android:layout_alignStart="@+id/tvEventItemHost"/>
 </RelativeLayout>
