@@ -37,23 +37,6 @@ public class HomeActivity
 
         setupViews();
 
-        // Store user information.
-        currentUser = new User();
-        // Default user info fields.
-        currentUser.setEmail("foo@example.com");
-        currentUser.setUserName("AnonymousUser");
-        // Display the username and email.
-        String userName = getIntent().getStringExtra(INTENT_USER_NAME);
-        if (userName != null) {
-            currentUser.setUserName(userName);
-        }
-        String email = getIntent().getStringExtra(INTENT_EMAIL);
-        if (email != null) {
-            currentUser.setEmail(email);
-        }
-        userNameLabel.setText(currentUser.getUserName());
-        emailLabel.setText(currentUser.getEmail());
-
         // TODO: Replace all this with actual home screen contents.
 
         // Create the event list fragment dynamically.
@@ -85,11 +68,6 @@ public class HomeActivity
         return super.onOptionsItemSelected(item);
     }
 
-    private void setupViews() {
-        userNameLabel = (TextView) findViewById(R.id.tvHomeUserName);
-        emailLabel = (TextView) findViewById(R.id.tvHomeEmail);
-    }
-
     @Override
     public ArrayList<Event> getEvents() {
         Event e1 = new Event();
@@ -107,5 +85,32 @@ public class HomeActivity
         events.add(e2);
 
         return events;
+    }
+
+    private void setupViews() {
+        userNameLabel = (TextView) findViewById(R.id.tvHomeUserName);
+        emailLabel = (TextView) findViewById(R.id.tvHomeEmail);
+
+        retrieveUserInfo();
+    }
+
+    private void retrieveUserInfo() {
+        // Store user information.
+        currentUser = new User();
+        // Default user info fields.
+        currentUser.setEmail("foo@example.com");
+        currentUser.setUserName("AnonymousUser");
+        // Display the username and email.
+        String userName = getIntent().getStringExtra(INTENT_USER_NAME);
+        if (userName != null) {
+            currentUser.setUserName(userName);
+        }
+        String email = getIntent().getStringExtra(INTENT_EMAIL);
+        if (email != null) {
+            currentUser.setEmail(email);
+        }
+
+        userNameLabel.setText(currentUser.getUserName());
+        emailLabel.setText(currentUser.getEmail());
     }
 }
