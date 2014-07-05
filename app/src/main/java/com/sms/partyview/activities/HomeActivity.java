@@ -39,17 +39,20 @@ public class HomeActivity
 
         // Store user information.
         currentUser = new User();
+        // Default user info fields.
+        currentUser.setEmail("foo@example.com");
+        currentUser.setUserName("AnonymousUser");
         // Display the username and email.
         String userName = getIntent().getStringExtra(INTENT_USER_NAME);
         if (userName != null) {
-            userNameLabel.setText(userName);
             currentUser.setUserName(userName);
         }
         String email = getIntent().getStringExtra(INTENT_EMAIL);
         if (email != null) {
-            emailLabel.setText(email);
             currentUser.setEmail(email);
         }
+        userNameLabel.setText(currentUser.getUserName());
+        emailLabel.setText(currentUser.getEmail());
 
         // TODO: Replace all this with actual home screen contents.
 
