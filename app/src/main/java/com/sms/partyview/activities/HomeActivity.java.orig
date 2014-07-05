@@ -73,23 +73,15 @@ public class HomeActivity
         e1.setTitle("Independence Day BBQ");
         e1.setHost(currentUser);
         e1.setTime("4 July 2014, 4pm");
-        e1.setDescription("BBQ to celebrate 4th of July");
         Event e2 = new Event();
         e2.setTitle("End of CodePath Android Bootcamp");
         e2.setHost(currentUser);
         e2.setTime("24 July 2014, 7pm");
-        e2.setDescription("Party to celebrate the end of bootcamp!");
-        Event e3 = new Event();
-        e3.setTitle("Outsidelands");
-        e3.setHost(currentUser);
-        e3.setTime("8 Aug 2014, 7pm");
-        e3.setDescription("Music festival in SF!");
 
         // Add the events to the event list.
         ArrayList<Event> events = new ArrayList<Event>();
         events.add(e1);
         events.add(e2);
-        events.add(e3);
 
         return events;
     }

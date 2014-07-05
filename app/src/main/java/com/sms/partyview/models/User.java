@@ -1,9 +1,11 @@
 package com.sms.partyview.models;
 
+import java.io.Serializable;
+
 /**
  * Created by sque on 7/3/14.
  */
-public class User {
+public class User implements Serializable {
     String userName;
     String email;
     String password;    // TODO: consider security issues.

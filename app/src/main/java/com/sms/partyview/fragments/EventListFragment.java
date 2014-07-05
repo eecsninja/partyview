@@ -68,6 +68,7 @@ public class EventListFragment extends Fragment {
                 Event event = events.get(position);
                 System.err.println("Event: " + event.getTitle());
                 // TODO: pass it to listener.
+                dummyEventProvider.onEventClick(event);
             }
         });
         eventsView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -94,6 +95,7 @@ public class EventListFragment extends Fragment {
     public interface DummyEventProvider {
         // Returns an array list of dummy events.
         public ArrayList<Event> getEvents();
+        public void onEventClick(Event event);
     }
 
     // Add new events to list.

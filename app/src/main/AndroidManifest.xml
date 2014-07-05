@@ -28,6 +28,9 @@
             android:name=".activities.HomeActivity"
             android:label="@string/title_activity_home" >
         </activity>
+        <activity android:name=".activities.EventDetailActivity"
+            android:label="@string/event_details_title">
+        </activity>
     </application>
 
 </manifest>

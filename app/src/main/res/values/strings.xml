@@ -21,5 +21,9 @@
     <string name="home_event_title_label">Event title</string>
     <string name="home_event_time_label">Event date / time</string>
     <string name="home_event_host_label">Host name</string>
-
+    <string name="event_details_title">Event Details</string>
+    <string name="event_name_title">Name</string>
+    <string name="event_time_title">Time</string>
+    <string name="event_organizer_title">Organizer</string>
+    <string name="event_desc_title">Description</string>
 </resources>
