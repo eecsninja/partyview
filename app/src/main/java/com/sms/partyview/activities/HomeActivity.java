@@ -1,30 +1,35 @@
 package com.sms.partyview.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.sms.partyview.R;
+import com.sms.partyview.adapters.MyPagerAdapter;
+import com.sms.partyview.fragments.AcceptedEventsFragment;
 import com.sms.partyview.fragments.EventListFragment;
+import com.sms.partyview.fragments.PendingEventsFragment;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.User;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HomeActivity
         extends FragmentActivity
         implements EventListFragment.DummyEventProvider {
-    TextView userNameLabel;
-    TextView emailLabel;
+
+    private FragmentPagerAdapter mAdapterViewPager;
+    private PagerSlidingTabStrip mTabs;
 
     User currentUser;
-
-    // Event list fragment.
-    // TODO: Create tabs for events + invites.
-    EventListFragment eventListFragment;
 
     // Keys for passing in data in an intent.
     public static final String INTENT_USER_NAME = "user_name";
@@ -37,16 +42,7 @@ public class HomeActivity
 
         setupViews();
 
-        // TODO: Replace all this with actual home screen contents.
-
-        // Create the event list fragment dynamically.
-        FragmentTransaction transaction =
-                getSupportFragmentManager().beginTransaction();
-        // Replace the container with fragment.
-        eventListFragment = new EventListFragment();
-        transaction.replace(R.id.flHomeScreenEvents, eventListFragment);
-        // Execute the changes specified
-        transaction.commit();
+        setupTabs();
     }
 
     @Override
@@ -88,9 +84,6 @@ public class HomeActivity
     }
 
     private void setupViews() {
-        userNameLabel = (TextView) findViewById(R.id.tvHomeUserName);
-        emailLabel = (TextView) findViewById(R.id.tvHomeEmail);
-
         retrieveUserInfo();
     }
 
@@ -109,8 +102,24 @@ public class HomeActivity
         if (email != null) {
             currentUser.setEmail(email);
         }
+    }
 
-        userNameLabel.setText(currentUser.getUserName());
-        emailLabel.setText(currentUser.getEmail());
+    private void setupTabs() {
+        // Initialize the ViewPager and set an adapter
+        ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+        mAdapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), getFragments());
+        vpPager.setAdapter(mAdapterViewPager);
+
+        mTabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        mTabs.setViewPager(vpPager);
+    }
+
+    private List<Fragment> getFragments() {
+        List<Fragment> fragments = new ArrayList<Fragment>();
+
+        fragments.add(AcceptedEventsFragment.newInstance());
+        fragments.add(PendingEventsFragment.newInstance());
+
+        return fragments;
     }
 }

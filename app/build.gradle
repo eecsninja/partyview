@@ -25,4 +25,7 @@ dependencies {
 
     // support library
     compile "com.android.support:support-v4:19.1.0"
+
+    // An interactive indicator to navigate between the different pages of a ViewPager
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }
