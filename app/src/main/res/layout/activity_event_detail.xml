@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:id="@+id/linearLayout">
+        android:id="@+id/llEventInfo">
         <TextView
             android:id="@+id/tvEventDetailsTitle"
             android:layout_width="wrap_content"
@@ -45,4 +45,46 @@
             android:text="@string/event_desc_title"
             android:padding="2dp"/>
     </LinearLayout>
+    <!-- updating this later, just want to test that the map shows -->
+    <LinearLayout
+        android:id="@+id/llMap"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@+id/llEventInfo">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvMiniMap"
+            android:text="@string/mini_map"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="2dp"/>
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/map"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:padding="2dp"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/llMap">
+        <TextView
+            android:id="@+id/tvAttendeesTitle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="2dp"
+            android:text="@string/attendees_title"/>
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/lvAttendees">
+        </ListView>
+    </LinearLayout>
+
+
 </RelativeLayout>

@@ -28,4 +28,7 @@ dependencies {
 
     // An interactive indicator to navigate between the different pages of a ViewPager
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+
+    // google play services
+    compile 'com.google.android.gms:play-services:5.0.77'
 }
