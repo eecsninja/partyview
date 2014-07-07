@@ -1,30 +1,62 @@
 package com.sms.partyview.activities;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.sms.partyview.R;
+import com.sms.partyview.models.Event;
+
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.sms.partyview.R;
-import com.sms.partyview.models.Event;
-
 public class EventDetailActivity extends Activity {
+
     Event mEvent;
+
     TextView tvEventName;
+
     TextView tvEventOrganizer;
+
     TextView tvEventDescription;
+
     TextView tvEventTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
-        mEvent = (Event) getIntent().getSerializableExtra("event");
+
         setupViews();
-        populateEventInfo();
+
+        retrieveEvent();
     }
 
+    private void retrieveEvent() {
+        String eventId = getIntent().getStringExtra("eventId");
+
+        // Define the class we would like to query
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+
+        // Define our query conditions
+        query.whereEqualTo("objectId", eventId);
+
+        query.getFirstInBackground(new GetCallback<Event>() {
+            @Override
+            public void done(Event event, ParseException e) {
+                mEvent = event;
+
+                Log.d("DEBUG", "in detailed view");
+                Log.d("DEBUG", mEvent.getTitle().toString());
+                populateEventInfo();
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -54,8 +86,13 @@ public class EventDetailActivity extends Activity {
 
     public void populateEventInfo() {
         tvEventName.setText(tvEventName.getText() + ": " + mEvent.getTitle());
-        tvEventOrganizer.setText(tvEventOrganizer.getText() + ": " + mEvent.getHost().getUserName());
+
+        // TODO:
+        // learn how to query relational data from Parse
+//        tvEventOrganizer
+//                .setText(tvEventOrganizer.getText() + ": " + mEvent.getHost().getUsername());
+
         tvEventDescription.setText(tvEventDescription.getText() + ": " + mEvent.getDescription());
-        tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getTime());
+        tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getDate());
     }
 }
