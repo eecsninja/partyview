@@ -2,8 +2,8 @@ package com.sms.partyview.apps;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
+import com.sms.partyview.models.Event;
 import com.sms.partyview.models.Invites;
-import com.sms.partyview.models.MyEvent;
 
 import android.app.Application;
 
@@ -17,7 +17,7 @@ public class ParseApplication extends Application {
         super.onCreate();
 
         // Register your parse models
-        ParseObject.registerSubclass(MyEvent.class);
+        ParseObject.registerSubclass(Event.class);
         ParseObject.registerSubclass(Invites.class);
 
         // Add your initialization code here

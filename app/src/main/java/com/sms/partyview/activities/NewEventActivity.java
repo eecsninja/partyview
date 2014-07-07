@@ -7,8 +7,8 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sms.partyview.R;
+import com.sms.partyview.models.Event;
 import com.sms.partyview.models.Invites;
-import com.sms.partyview.models.MyEvent;
 
 import org.joda.time.DateTime;
 
@@ -113,7 +113,7 @@ public class NewEventActivity extends FragmentActivity
     public void createEvent(View view) {
         // TODO:
         // replace MyEvent with Event
-        final MyEvent event = new MyEvent();
+        final Event event = new Event();
 
         // TODO:
         // handle user error, missing inputs etc.

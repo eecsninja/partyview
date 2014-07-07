@@ -1,45 +1,93 @@
 package com.sms.partyview.models;
 
+import com.google.common.collect.ImmutableList;
+
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseClassName;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
+import android.util.Log;
+
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
- * Created by sque on 7/4/14.
+ * Created by myho on 7/3/14.
  */
-public class Event implements Serializable {
-    String title;
-    String time;
-    User host;
-    String description;
+@ParseClassName("Event")
+public class Event extends ParseObject implements Serializable{
+
+    // Required: public default constructor
+    public Event() {
+    }
+
+    public Event(
+            String title,
+            Date date,
+            String description,
+            String address,
+            ParseUser host,
+            Invites invites
+    ) {
+        super();
+        setTitle(title);
+        setDate(date);
+        setDescription(description);
+        setAddress(address);
+        setHost(host);
+        setInvites(invites);
+    }
 
     public String getTitle() {
-        return title;
+        return getString("title");
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        put("title", title);
     }
 
-    public String getTime() {
-        return time;
+    public Date getDate() {
+        return getDate("date");
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDate(Date date) {
+        put("date", date);
     }
 
-    public User getHost() {
-        return host;
+    public String getDescription() {
+        return getString("description");
     }
 
-    public void setHost(User host) {
-        this.host = host;
+    public void setDescription(String description) {
+        put("description", description);
     }
 
-    public String getDescription() { return description; }
-
-    public void setDescription(String desc) {
-        this.description = desc;
+    public String getAddress() {
+        return getString("address");
     }
 
+    public void setAddress(String address) {
+        put("address", address);
+    }
+
+    public void setHost(ParseUser user) {
+        put("host", user);
+    }
+
+    public ParseUser getHost() {
+        return getParseUser("host");
+    }
+
+    public void setInvites(Invites invites) {
+        put("invites", invites);
+    }
+
+    public Invites getInvites() {
+        return (Invites) getParseObject("invites");
+    }
 }
-

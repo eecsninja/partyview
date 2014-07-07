@@ -11,4 +11,9 @@ public class PendingEventsFragment extends EventListFragment {
         PendingEventsFragment fragment = new PendingEventsFragment();
         return fragment;
     }
+
+    @Override
+    protected void populateEventList() {
+        // do nothing for now
+    }
 }

@@ -2,6 +2,7 @@ package com.sms.partyview.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -21,6 +22,9 @@ public class EventDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
         mEvent = (Event) getIntent().getSerializableExtra("event");
+
+        Log.d("DEBUG", "in detailed view");
+        Log.d("DEBUG", mEvent.getTitle().toString());
         setupViews();
         populateEventInfo();
     }
@@ -54,8 +58,8 @@ public class EventDetailActivity extends Activity {
 
     public void populateEventInfo() {
         tvEventName.setText(tvEventName.getText() + ": " + mEvent.getTitle());
-        tvEventOrganizer.setText(tvEventOrganizer.getText() + ": " + mEvent.getHost().getUserName());
+        tvEventOrganizer.setText(tvEventOrganizer.getText() + ": " + mEvent.getHost().getUsername());
         tvEventDescription.setText(tvEventDescription.getText() + ": " + mEvent.getDescription());
-        tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getTime());
+        tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getDate());
     }
 }
