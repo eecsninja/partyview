@@ -1,10 +1,18 @@
 package com.sms.partyview.activities;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.MyPagerAdapter;
 import com.sms.partyview.fragments.AcceptedEventsFragment;
 import com.sms.partyview.fragments.PendingEventsFragment;
+import com.sms.partyview.helpers.Utils;
+import com.sms.partyview.models.Event;
 import com.sms.partyview.models.User;
 
 import android.content.Intent;
@@ -13,6 +21,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -64,6 +73,19 @@ public class HomeActivity
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if ((requestCode == Utils.NEW_EVENT_REQUEST_CODE) && (resultCode == RESULT_OK)) {
+            String eventId = data.getStringExtra("eventId");
+
+            AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager.getItem(0);
+            fragment.addNewEventToList(eventId);
+
+            // go back to accepted events page
+            mAdapterViewPager.getItem(0);
+        }
+    }
+
     private void setupTabs() {
         // Initialize the ViewPager and set an adapter
         ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
@@ -85,6 +107,6 @@ public class HomeActivity
 
     private void displayNewEventActivity() {
         Intent i = new Intent(this, NewEventActivity.class);
-        startActivity(i);
+        startActivityForResult(i, Utils.NEW_EVENT_REQUEST_CODE);
     }
 }

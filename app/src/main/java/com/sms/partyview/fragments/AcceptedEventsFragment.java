@@ -12,6 +12,7 @@ import com.sms.partyview.models.Event;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,5 +57,22 @@ public class AcceptedEventsFragment extends EventListFragment {
                                    }
                                }
         );
+    }
+
+    public void addNewEventToList(String eventId) {
+        // Define the class we would like to query
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+
+        // Define our query conditions
+        query.whereEqualTo("objectId", eventId);
+
+        query.getFirstInBackground(new GetCallback<Event>() {
+            @Override
+            public void done(Event event, ParseException e) {
+                eventAdapter.add(event);
+                Log.d("DEBUG", "back to main");
+                Log.d("DEBUG", event.getTitle().toString());
+            }
+        });
     }
 }

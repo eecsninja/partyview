@@ -12,6 +12,7 @@ import com.sms.partyview.models.Invites;
 
 import org.joda.time.DateTime;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -142,11 +143,16 @@ public class NewEventActivity extends FragmentActivity
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
+
+                Intent data = new Intent();
+                data.putExtra("eventId", event.getObjectId());
+                setResult(RESULT_OK, data);
+
                 Log.d("DEBUG", "saved event");
                 Log.d("DEBUG", event.getObjectId().toString());
+
+                finish();
             }
         });
-
-        finish();
     }
 }
