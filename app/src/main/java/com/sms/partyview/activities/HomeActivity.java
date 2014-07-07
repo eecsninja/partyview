@@ -38,8 +38,6 @@ public class HomeActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        setupViews();
-
         setupTabs();
     }
 
@@ -63,27 +61,6 @@ public class HomeActivity
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void setupViews() {
-        retrieveUserInfo();
-    }
-
-    private void retrieveUserInfo() {
-        // Store user information.
-        currentUser = new User();
-        // Default user info fields.
-        currentUser.setEmail("foo@example.com");
-        currentUser.setUserName("AnonymousUser");
-        // Display the username and email.
-        String userName = getIntent().getStringExtra(INTENT_USER_NAME);
-        if (userName != null) {
-            currentUser.setUserName(userName);
-        }
-        String email = getIntent().getStringExtra(INTENT_EMAIL);
-        if (email != null) {
-            currentUser.setEmail(email);
         }
     }
 
