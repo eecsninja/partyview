@@ -87,11 +87,6 @@ public abstract class EventListFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), EventDetailActivity.class);
                 intent.putExtra("eventId", event.getObjectId());
                 startActivity(intent);
-
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("event", event);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
             }
         });
     }

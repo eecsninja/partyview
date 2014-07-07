@@ -51,6 +51,12 @@ public class EventDetailActivity extends Activity {
             public void done(Event event, ParseException e) {
                 mEvent = event;
 
+                event.getHost().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
+                    public void done(ParseObject object, ParseException e) {
+                        tvEventOrganizer
+                                .setText(tvEventOrganizer.getText() + ": " + mEvent.getHost().getUsername());
+                    }
+                });
                 Log.d("DEBUG", "in detailed view");
                 Log.d("DEBUG", mEvent.getTitle().toString());
                 populateEventInfo();
@@ -86,12 +92,6 @@ public class EventDetailActivity extends Activity {
 
     public void populateEventInfo() {
         tvEventName.setText(tvEventName.getText() + ": " + mEvent.getTitle());
-
-        // TODO:
-        // learn how to query relational data from Parse
-//        tvEventOrganizer
-//                .setText(tvEventOrganizer.getText() + ": " + mEvent.getHost().getUsername());
-
         tvEventDescription.setText(tvEventDescription.getText() + ": " + mEvent.getDescription());
         tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getDate());
     }
