@@ -61,10 +61,14 @@ public class HomeActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+
+        switch (item.getItemId()) {
+            case R.id.action_new_event:
+                displayNewEventActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -137,6 +141,11 @@ public class HomeActivity
     public void onEventClick(Event event) {
         Intent i = new Intent(this, EventDetailActivity.class);
         i.putExtra("event", event);
+        startActivity(i);
+    }
+
+    private void displayNewEventActivity() {
+        Intent i = new Intent(this, NewEventActivity.class);
         startActivity(i);
     }
 }

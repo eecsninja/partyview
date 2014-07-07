@@ -11,6 +11,8 @@
         android:glEsVersion="0x00020000"
         android:required="true"/>
 
+    <!--to use better picker library-->
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name=".apps.ParseApplication"
@@ -35,8 +37,13 @@
             android:name=".activities.HomeActivity"
             android:label="@string/title_activity_home" >
         </activity>
-        <activity android:name=".activities.EventDetailActivity"
-            android:label="@string/event_details_title">
+        <activity
+                android:name=".activities.EventDetailActivity"
+                android:label="@string/event_details_title">
+        </activity>
+        <activity
+                android:name=".activities.NewEventActivity"
+                android:label="@string/title_activity_new_event">
         </activity>
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
