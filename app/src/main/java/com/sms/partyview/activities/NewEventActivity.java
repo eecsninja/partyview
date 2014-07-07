@@ -88,7 +88,7 @@ public class NewEventActivity extends FragmentActivity
         mTvDate.setText(format("%d/%d/%d", monthOfYear + 1, dayOfMonth, year));
 
         mEventYear = year;
-        mEventMonth = monthOfYear + 1;
+        mEventMonth = monthOfYear;
         mEventDay = dayOfMonth;
         Log.d("DEBUG", format("y:%d; m:%d, d:%d", mEventYear, mEventMonth, mEventDay));
     }
