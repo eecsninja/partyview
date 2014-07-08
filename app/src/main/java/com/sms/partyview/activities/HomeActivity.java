@@ -1,17 +1,11 @@
 package com.sms.partyview.activities;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.MyPagerAdapter;
 import com.sms.partyview.fragments.AcceptedEventsFragment;
 import com.sms.partyview.fragments.PendingEventsFragment;
-import com.sms.partyview.models.Event;
+import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.User;
 
 import android.content.Intent;
@@ -20,7 +14,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -34,17 +27,11 @@ public class HomeActivity
 
     private PagerSlidingTabStrip mTabs;
 
-    User currentUser;
-
     // Keys for passing in data in an intent.
     public static final String INTENT_USER_NAME = "user_name";
 
     public static final String INTENT_EMAIL = "email";
 
-    // TODO: Pull in my's class.
-    private class Utils {
-        public static final int NEW_EVENT_REQUEST_CODE = 20;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +52,6 @@ public class HomeActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
         switch (item.getItemId()) {
             case R.id.action_new_event:
                 displayNewEventActivity();
