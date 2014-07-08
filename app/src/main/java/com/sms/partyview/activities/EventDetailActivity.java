@@ -8,6 +8,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -22,6 +23,7 @@ import com.sms.partyview.models.EventUser;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -94,7 +96,8 @@ public class EventDetailActivity extends FragmentActivity
                 event.getHost().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
                     public void done(ParseObject object, ParseException e) {
                         tvEventOrganizer
-                                .setText(tvEventOrganizer.getText() + ": " + mEvent.getHost().getUsername());
+                                .setText(tvEventOrganizer.getText() + ": " + mEvent.getHost()
+                                        .getUsername());
                     }
                 });
                 Log.d("DEBUG", "in detailed view");
@@ -132,11 +135,14 @@ public class EventDetailActivity extends FragmentActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     public void setupViews() {
@@ -205,7 +211,8 @@ public class EventDetailActivity extends FragmentActivity
                 public void done(ParseUser parseObject, ParseException e) {
                     if (map != null) {
                         Marker marker = map.addMarker(new MarkerOptions()
-                                .position(new LatLng(attendee.getLocation().getLatitude(), attendee.getLocation().getLongitude()))
+                                .position(new LatLng(attendee.getLocation().getLatitude(),
+                                        attendee.getLocation().getLongitude()))
                                 .title(parseObject.getUsername())
                                 .visible(joinedEvent));
 
