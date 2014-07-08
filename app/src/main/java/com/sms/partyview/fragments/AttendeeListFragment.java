@@ -1,21 +1,16 @@
 package com.sms.partyview.fragments;
 
 import android.app.Activity;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.google.android.gms.maps.model.Marker;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
-import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.AttendeeArrayAdapter;
 import com.sms.partyview.models.Event;
@@ -96,28 +91,17 @@ public class AttendeeListFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onUsersLoaded(List<EventUser> attendees);
     }
 
     private void retrieveEventUsers() {
-        ParseQuery innerQuery = ParseQuery.getQuery(Event.class);
-        innerQuery.whereEqualTo("objectId", eventId);
+        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("objectId", eventId);
 
         // Define the class we would like to query
         ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
-        query.whereMatchesQuery("event", innerQuery);
+        query.whereMatchesQuery("event", eventQuery);
 
         query.findInBackground(new FindCallback<EventUser>() {
             @Override

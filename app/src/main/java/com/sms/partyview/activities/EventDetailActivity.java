@@ -37,31 +37,21 @@ import java.util.List;
 public class EventDetailActivity extends FragmentActivity
         implements AttendeeListFragment.OnFragmentInteractionListener {
 
-    Event mEvent;
+    private Event mEvent;
+    private String eventId;
+    private AttendanceStatus status;
+    private String eventUserId;
 
-    TextView tvEventName;
+    private TextView tvEventName;
+    private TextView tvEventOrganizer;
+    private TextView tvEventDescription;
+    private TextView tvEventTime;
+    private Button btnJoinLeave;
 
-    TextView tvEventOrganizer;
+    private MapFragment mapFragment;
+    private GoogleMap map;
 
-    TextView tvEventDescription;
-
-    TextView tvEventTime;
-
-    String eventId;
-
-    List<EventUser> attendees;
-
-    MapFragment mapFragment;
-
-    GoogleMap map;
-
-    List<Marker> markers;
-
-    Button btnJoinLeave;
-
-    AttendanceStatus status;
-
-    String eventUserId;
+    private List<Marker> markers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,9 +129,6 @@ public class EventDetailActivity extends FragmentActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
@@ -216,7 +203,6 @@ public class EventDetailActivity extends FragmentActivity
     }
 
     public void updateUserStatus(EventUser eventUser) {
-        Log.d("debug", "status: " +  status.toString());
         eventUser.put("status", status.toString());
         eventUser.saveInBackground();
     }
@@ -241,18 +227,21 @@ public class EventDetailActivity extends FragmentActivity
 
                         markers.add(marker);
                     }
-
-                    //Calculate the markers to get their position
-                    LatLngBounds.Builder b = new LatLngBounds.Builder();
-                    for (Marker m : markers) {
-                        b.include(m.getPosition());
-                    }
-                    LatLngBounds bounds = b.build();
-                    //Change the padding as per needed
-                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25, 25, 0);
-                    map.animateCamera(cu);
+                    updateCameraView();
                 }
             });
         }
+    }
+
+    private void updateCameraView() {
+        //Calculate the markers to get their position
+        LatLngBounds.Builder b = new LatLngBounds.Builder();
+        for (Marker m : markers) {
+            b.include(m.getPosition());
+        }
+        LatLngBounds bounds = b.build();
+        //Change the padding as per needed
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25, 25, 0);
+        map.animateCamera(cu);
     }
 }
