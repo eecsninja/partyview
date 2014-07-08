@@ -1,21 +1,36 @@
 package com.sms.partyview.activities;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
+import com.sms.partyview.fragments.AttendeeListFragment;
 import com.sms.partyview.models.Event;
+import com.sms.partyview.models.EventUser;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class EventDetailActivity extends Activity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class EventDetailActivity extends FragmentActivity
+        implements AttendeeListFragment.OnFragmentInteractionListener {
 
     Event mEvent;
 
@@ -27,18 +42,33 @@ public class EventDetailActivity extends Activity {
 
     TextView tvEventTime;
 
+    String eventId;
+
+    List<EventUser> attendees;
+
+    MapFragment mapFragment;
+
+    GoogleMap map;
+
+    List<Marker> markers;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
+        markers = new ArrayList<Marker>();
+
         setupViews();
 
         retrieveEvent();
+
+        setupFragment();
+
     }
 
     private void retrieveEvent() {
-        String eventId = getIntent().getStringExtra("eventId");
+        eventId = getIntent().getStringExtra("eventId");
 
         // Define the class we would like to query
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
@@ -88,6 +118,19 @@ public class EventDetailActivity extends Activity {
         tvEventOrganizer = (TextView) findViewById(R.id.tvEventOrganizerTitle);
         tvEventDescription = (TextView) findViewById(R.id.tvEventDescTitle);
         tvEventTime = (TextView) findViewById(R.id.tvEventTimeTitle);
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            map = mapFragment.getMap();
+        }
+    }
+
+    public void setupFragment() {
+        // Create the transaction
+        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+        // Replace the content of the container
+        AttendeeListFragment attendeeListFragment = AttendeeListFragment.newInstance(eventId);
+        fts.replace(R.id.flAttendeesContainer, attendeeListFragment);
+        fts.commit();
     }
 
     public void populateEventInfo() {
@@ -95,4 +138,40 @@ public class EventDetailActivity extends Activity {
         tvEventDescription.setText(tvEventDescription.getText() + ": " + mEvent.getDescription());
         tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getDate());
     }
+
+
+    @Override
+    public void onUsersLoaded(List<EventUser> attendees) {
+        addUsersToMap(attendees);
+    }
+
+    private void addUsersToMap(List<EventUser> attendees) {
+        for (final EventUser attendee : attendees) {
+            attendee.getUser().fetchInBackground(new GetCallback<ParseUser>() {
+                @Override
+                public void done(ParseUser parseObject, ParseException e) {
+                    if (map != null) {
+                        Marker marker = map.addMarker(new MarkerOptions()
+                                .position(new LatLng(attendee.getLocation().getLatitude(), attendee.getLocation().getLongitude()))
+                                .title(parseObject.getUsername()));
+                        markers.add(marker);
+                    }
+
+                    //Calculate the markers to get their position
+                    LatLngBounds.Builder b = new LatLngBounds.Builder();
+                    for (Marker m : markers) {
+                        b.include(m.getPosition());
+                    }
+                    LatLngBounds bounds = b.build();
+                    //Change the padding as per needed
+                    CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25, 25, 0);
+                    map.animateCamera(cu);
+                }
+            });
+
+        }
+
+    }
+
+
 }

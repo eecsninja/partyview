@@ -1,4 +1,4 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,6 +6,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
     tools:context="com.sms.partyview.activities.EventDetailActivity">
 
     <LinearLayout
@@ -50,8 +51,7 @@
         android:id="@+id/llMap"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/llEventInfo">
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,32 +59,27 @@
             android:text="@string/mini_map"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:padding="2dp"/>
-        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        <fragment
             android:id="@+id/map"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="fill_parent"
+            android:layout_height="100dp"
             android:name="com.google.android.gms.maps.MapFragment"
             android:padding="2dp"/>
 
     </LinearLayout>
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvAttendeesTitle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:padding="2dp"
+        android:text="@string/attendees_title"/>
+    <FrameLayout
+        android:id="@+id/flAttendeesContainer"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:orientation="vertical"
-        android:layout_below="@+id/llMap">
-        <TextView
-            android:id="@+id/tvAttendeesTitle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:padding="2dp"
-            android:text="@string/attendees_title"/>
-        <ListView
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/lvAttendees">
-        </ListView>
-    </LinearLayout>
+        android:orientation="vertical">
+    </FrameLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

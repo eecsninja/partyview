@@ -5,15 +5,32 @@ import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.sms.partyview.AttendanceStatus;
+
+import java.util.Date;
 
 /**
  * Created by sandra on 7/6/14.
  */
 @ParseClassName("EventUser")
 public class EventUser extends ParseObject {
-    public ParseGeoPoint location;
-    public ParseUser user;
-    public int attendanceStatus;
+    // Required: public default constructor
+    public EventUser() {
+    }
+
+    public EventUser(
+            AttendanceStatus status,
+            ParseGeoPoint location,
+            ParseUser user,
+            Event event
+    ) {
+        super();
+        setStatus(status);
+        setLocation(location);
+        setUser(user);
+        setEvent(event);
+    }
+
 
     public ParseUser getUser() {
         return getParseUser("user");
@@ -31,12 +48,15 @@ public class EventUser extends ParseObject {
         put("location", value);
     }
 
-    public int getAttendanceStatus() {
-        return attendanceStatus;
+    public AttendanceStatus getStatus() {
+        return AttendanceStatus.valueOf(getString("status"));
+    }
+    public void setStatus(AttendanceStatus status) {
+        put("status", status.toString());
     }
 
-    public void setAttendanceStatus(int attendanceStatus) {
-        put("attendanceStatus", attendanceStatus);
+    public void setEvent(Event event) {
+        put("event", event);
     }
 
     public static ParseQuery<EventUser> getQuery() {
