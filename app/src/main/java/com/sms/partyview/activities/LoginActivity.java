@@ -63,6 +63,20 @@ public class LoginActivity extends Activity {
     private void doLogin() {
         String userName = userNameField.getText().toString();
         String password = passwordField.getText().toString();
+        // User must provide valid login info.
+        String missingField = null;
+        if (userName.isEmpty()) {
+            missingField = "user name";
+        } else if (password.isEmpty()) {
+            missingField = "password";
+        }
+        if (missingField != null) {
+            Toast.makeText(getApplicationContext(),
+                    "Must provide a valid " + missingField + ".",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ParseUser.logInInBackground(userName, password, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {

@@ -59,10 +59,29 @@ public class SignupActivity extends Activity {
 
     // Sends new account info to server.
     private void onSubmit() {
+        String userName = userNameField.getText().toString();
+        String password = passwordField.getText().toString();
+        String email = emailField.getText().toString();
+        // User must provide valid signup info.
+        String missingField = null;
+        if (userName.isEmpty()) {
+            missingField = "user name";
+        } else if (password.isEmpty()) {
+            missingField = "password";
+        } else if (email.isEmpty()) {
+            missingField = "e-mail";
+        }
+        if (missingField != null) {
+            Toast.makeText(getApplicationContext(),
+                    "Must provide a valid " + missingField + ".",
+                    Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         ParseUser user = new ParseUser();
-        user.setUsername(userNameField.getText().toString());
-        user.setPassword(passwordField.getText().toString());
-        user.setEmail(emailField.getText().toString());
+        user.setUsername(userName);
+        user.setPassword(password);
+        user.setEmail(email);
 
         user.signUpInBackground(new SignUpCallback() {
             @Override
