@@ -1,11 +1,5 @@
 package com.sms.partyview.fragments;
 
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.activities.EventDetailActivity;
 import com.sms.partyview.adapters.HomeScreenEventAdapter;
@@ -19,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -86,6 +79,7 @@ public abstract class EventListFragment extends Fragment {
                 Log.d("DEBUG", "calling act: " + getActivity().toString());
                 Intent intent = new Intent(getActivity(), EventDetailActivity.class);
                 intent.putExtra("eventId", event.getObjectId());
+                intent.putExtra("eventTitle", event.getTitle());
                 startActivity(intent);
             }
         });

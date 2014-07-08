@@ -41,6 +41,7 @@ public class EventDetailActivity extends FragmentActivity
     private String eventId;
     private AttendanceStatus status;
     private String eventUserId;
+    private String eventTitle;
 
     private TextView tvEventName;
     private TextView tvEventOrganizer;
@@ -60,6 +61,11 @@ public class EventDetailActivity extends FragmentActivity
 
         markers = new ArrayList<Marker>();
         status = AttendanceStatus.ACCEPTED;
+
+        eventTitle = getIntent().getStringExtra("eventTitle");
+        if (!eventTitle.isEmpty()) {
+            getActionBar().setTitle(eventTitle);
+        }
 
         setupViews();
 
@@ -113,9 +119,11 @@ public class EventDetailActivity extends FragmentActivity
         query.getFirstInBackground(new GetCallback<EventUser>() {
             @Override
             public void done(EventUser eventUser, ParseException e) {
-                eventUserId = eventUser.getObjectId();
-                status = eventUser.getStatus();
-                toggleJoinLeave(status);
+                if (eventUser != null) {
+                    eventUserId = eventUser.getObjectId();
+                    status = eventUser.getStatus();
+                    toggleJoinLeave(status);
+                }
             }
         });
     }
