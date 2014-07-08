@@ -11,7 +11,6 @@ import com.sms.partyview.R;
 import com.sms.partyview.adapters.MyPagerAdapter;
 import com.sms.partyview.fragments.AcceptedEventsFragment;
 import com.sms.partyview.fragments.PendingEventsFragment;
-import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.User;
 
@@ -42,6 +41,10 @@ public class HomeActivity
 
     public static final String INTENT_EMAIL = "email";
 
+    // TODO: Pull in my's class.
+    private class Utils {
+        public static final int NEW_EVENT_REQUEST_CODE = 20;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
