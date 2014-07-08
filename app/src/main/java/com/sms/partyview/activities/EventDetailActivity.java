@@ -57,7 +57,9 @@ public class EventDetailActivity extends FragmentActivity
 
     Button btnJoinLeave;
 
-    boolean joinedEvent;
+    AttendanceStatus status;
+
+    String eventUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class EventDetailActivity extends FragmentActivity
         setContentView(R.layout.activity_event_detail);
 
         markers = new ArrayList<Marker>();
-        joinedEvent = false;
+        status = AttendanceStatus.ACCEPTED;
 
         setupViews();
 
@@ -105,8 +107,12 @@ public class EventDetailActivity extends FragmentActivity
     }
 
     private void retrieveEventUser() {
+        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("objectId", eventId);
+
         // Define the class we would like to query
         ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
+        query.whereMatchesQuery("event", eventQuery);
 
         // Define our query conditions
         query.whereEqualTo("user", ParseUser.getCurrentUser());
@@ -114,8 +120,9 @@ public class EventDetailActivity extends FragmentActivity
         query.getFirstInBackground(new GetCallback<EventUser>() {
             @Override
             public void done(EventUser eventUser, ParseException e) {
-                joinedEvent = eventUser.getStatus().equals(AttendanceStatus.PRESENT);
-                toggleJoinLeave(joinedEvent);
+                eventUserId = eventUser.getObjectId();
+                status = eventUser.getStatus();
+                toggleJoinLeave(status);
             }
         });
     }
@@ -169,27 +176,43 @@ public class EventDetailActivity extends FragmentActivity
     public void onJoinLeave(View v) {
         String currentState = btnJoinLeave.getText().toString();
         if (currentState.equals(getString(R.string.leave_event))) {
-            toggleJoinLeave(false);
+            toggleJoinLeave(AttendanceStatus.ACCEPTED);
         } else {
-            toggleJoinLeave(true);
+            toggleJoinLeave(AttendanceStatus.PRESENT);
         }
 
     }
 
-    public void toggleJoinLeave(boolean joining) {
-        if (joining) {
+    public void toggleJoinLeave(AttendanceStatus status) {
+        if (status.equals(AttendanceStatus.PRESENT)) {
             btnJoinLeave.setText(getString(R.string.leave_event));
             for (Marker marker : markers) {
                 marker.setVisible(true);
             }
-            joinedEvent = true;
+            this.status = AttendanceStatus.PRESENT;
         } else {
             btnJoinLeave.setText(getString(R.string.join_event));
             for (Marker marker : markers) {
                 marker.setVisible(false);
             }
-            joinedEvent = false;
+            this.status = AttendanceStatus.ACCEPTED;
         }
+        ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
+
+        // Retrieve the object by id
+        query.getInBackground(eventUserId, new GetCallback<EventUser>() {
+            public void done(EventUser eventUser, ParseException e) {
+                if (e == null) {
+                    updateUserStatus(eventUser);
+                }
+            }
+        });
+    }
+
+    public void updateUserStatus(EventUser eventUser) {
+        Log.d("debug", "status: " +  status.toString());
+        eventUser.put("status", status.toString());
+        eventUser.saveInBackground();
     }
 
 
@@ -207,7 +230,7 @@ public class EventDetailActivity extends FragmentActivity
                         Marker marker = map.addMarker(new MarkerOptions()
                                 .position(new LatLng(attendee.getLocation().getLatitude(), attendee.getLocation().getLongitude()))
                                 .title(parseObject.getUsername())
-                                .visible(joinedEvent));
+                                .visible(status.equals(AttendanceStatus.PRESENT)));
 
                         markers.add(marker);
                     }
@@ -223,10 +246,6 @@ public class EventDetailActivity extends FragmentActivity
                     map.animateCamera(cu);
                 }
             });
-
         }
-
     }
-
-
 }

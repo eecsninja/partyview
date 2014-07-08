@@ -4,15 +4,13 @@ package com.sms.partyview;
  * Created by sandra on 7/7/14.
  */
 public enum AttendanceStatus {
-    INVITED(0),
-    ACCEPTED(1),
-    DECLINED(2),
-    PRESENT(3);
+    INVITED,
+    ACCEPTED,
+    DECLINED,
+    PRESENT;
 
-    private int value;
+    private AttendanceStatus() {
 
-    private AttendanceStatus(int value) {
-        this.value = value;
     }
 
 }
