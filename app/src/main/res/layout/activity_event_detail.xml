@@ -46,6 +46,13 @@
             android:text="@string/event_desc_title"
             android:padding="2dp"/>
     </LinearLayout>
+    <Button
+        android:id="@+id/btnJoinLeave"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/join_event"
+        android:padding="5dp"
+        android:onClick="onJoinLeave"/>
     <!-- updating this later, just want to test that the map shows -->
     <LinearLayout
         android:id="@+id/llMap"

@@ -13,6 +13,7 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.AttendeeListFragment;
 import com.sms.partyview.models.Event;
@@ -24,6 +25,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -52,16 +55,23 @@ public class EventDetailActivity extends FragmentActivity
 
     List<Marker> markers;
 
+    Button btnJoinLeave;
+
+    boolean joinedEvent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_detail);
 
         markers = new ArrayList<Marker>();
+        joinedEvent = false;
 
         setupViews();
 
         retrieveEvent();
+
+        retrieveEventUser();
 
         setupFragment();
 
@@ -94,6 +104,22 @@ public class EventDetailActivity extends FragmentActivity
         });
     }
 
+    private void retrieveEventUser() {
+        // Define the class we would like to query
+        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
+
+        // Define our query conditions
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+
+        query.getFirstInBackground(new GetCallback<EventUser>() {
+            @Override
+            public void done(EventUser eventUser, ParseException e) {
+                joinedEvent = eventUser.getStatus().equals(AttendanceStatus.PRESENT);
+                toggleJoinLeave(joinedEvent);
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -122,6 +148,7 @@ public class EventDetailActivity extends FragmentActivity
         if (mapFragment != null) {
             map = mapFragment.getMap();
         }
+        btnJoinLeave = (Button) findViewById(R.id.btnJoinLeave);
     }
 
     public void setupFragment() {
@@ -139,6 +166,32 @@ public class EventDetailActivity extends FragmentActivity
         tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getDate());
     }
 
+    public void onJoinLeave(View v) {
+        String currentState = btnJoinLeave.getText().toString();
+        if (currentState.equals(getString(R.string.leave_event))) {
+            toggleJoinLeave(false);
+        } else {
+            toggleJoinLeave(true);
+        }
+
+    }
+
+    public void toggleJoinLeave(boolean joining) {
+        if (joining) {
+            btnJoinLeave.setText(getString(R.string.leave_event));
+            for (Marker marker : markers) {
+                marker.setVisible(true);
+            }
+            joinedEvent = true;
+        } else {
+            btnJoinLeave.setText(getString(R.string.join_event));
+            for (Marker marker : markers) {
+                marker.setVisible(false);
+            }
+            joinedEvent = false;
+        }
+    }
+
 
     @Override
     public void onUsersLoaded(List<EventUser> attendees) {
@@ -153,7 +206,9 @@ public class EventDetailActivity extends FragmentActivity
                     if (map != null) {
                         Marker marker = map.addMarker(new MarkerOptions()
                                 .position(new LatLng(attendee.getLocation().getLatitude(), attendee.getLocation().getLongitude()))
-                                .title(parseObject.getUsername()));
+                                .title(parseObject.getUsername())
+                                .visible(joinedEvent));
+
                         markers.add(marker);
                     }
 
