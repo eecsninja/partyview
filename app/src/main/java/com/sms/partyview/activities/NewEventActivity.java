@@ -29,12 +29,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import static com.sms.partyview.R.string.tag_start_date;
-import static com.sms.partyview.R.string.tag_start_time;
-
 public class NewEventActivity extends FragmentActivity
         implements CalendarDatePickerDialog.OnDateSetListener,
-        RadialTimePickerDialog.OnTimeSetListener {
+        RadialTimePickerDialog.OnTimeSetListener
+{
 
     private static final String FRAG_TAG_DATE_PICKER = "datePickerDialogFragment";
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
@@ -96,28 +94,28 @@ public class NewEventActivity extends FragmentActivity
         mTvStartDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePicker(v);
+                showPicker(v);
             }
         });
 
         mTvStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showTimePicker(v);
+                showPicker(v);
             }
         });
 
         mTvEndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePicker(v);
+                showPicker(v);
             }
         });
 
         mTvEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showTimePicker(v);
+                showPicker(v);
             }
         });
     }
@@ -232,27 +230,6 @@ public class NewEventActivity extends FragmentActivity
         mEtInvites = (EditText) findViewById(R.id.etEventInvites);
     }
 
-    public void showDatePicker(View view) {
-        FragmentManager fm = getSupportFragmentManager();
-
-        String tag = view.getTag().toString();
-        if (tag.equals(getString(tag_start_date))) {
-            mStartDatePicker.show(fm, FRAG_TAG_DATE_PICKER);
-        } else {
-            mEndDatePicker.show(fm, FRAG_TAG_DATE_PICKER);
-        }
-    }
-
-    public void showTimePicker(View view) {
-        FragmentManager fm = getSupportFragmentManager();
-        String tag = view.getTag().toString();
-        if (tag.equals(getString(tag_start_time))) {
-            mStartTimePicker.show(fm, FRAG_TAG_TIME_PICKER);
-        } else {
-            mEndTimePicker.show(fm, FRAG_TAG_TIME_PICKER);
-        }
-    }
-
     public void createEvent(View view) {
         final Event event = new Event();
 
@@ -302,5 +279,26 @@ public class NewEventActivity extends FragmentActivity
     @Override
     public void onTimeSet(RadialPickerLayout radialPickerLayout, int i, int i2) {
 
+    }
+
+    private void showPicker(View view) {
+        FragmentManager fm = getSupportFragmentManager();
+
+        switch(view.getId()) {
+            case R.id.tvStartDate:
+                mStartDatePicker.show(fm, FRAG_TAG_DATE_PICKER);
+                break;
+            case R.id.tvStartTime:
+                mStartTimePicker.show(fm, FRAG_TAG_TIME_PICKER);
+                break;
+            case R.id.tvEndDate:
+                mEndDatePicker.show(fm, FRAG_TAG_DATE_PICKER);
+                break;
+            case R.id.tvEndTime:
+                mEndTimePicker.show(fm, FRAG_TAG_TIME_PICKER);
+                break;
+            default:
+                Log.d("DEBUG", "SOMETHING IS WRONG");
+        }
     }
 }

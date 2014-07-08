@@ -16,12 +16,6 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true">
 
-        <!--<TextView-->
-        <!--android:id="@+id/tvNameLabel"-->
-        <!--android:text="@string/label_event_name"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content" />-->
-
         <EditText
                 android:id="@+id/etEventName"
                 android:layout_width="fill_parent"
@@ -57,13 +51,11 @@
 
             <TextView
                     android:id="@+id/tvStartDate"
-                    android:tag="startDate"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:onClick="showDatePicker"/>
+                    android:textStyle="bold" />
         </LinearLayout>
 
 
@@ -82,14 +74,12 @@
             <TextView
                     android:id="@+id/tvStartTime"
                     android:text="foo"
-                    android:tag="startTime"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:onClick="showTimePicker" />
+                    android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
@@ -120,13 +110,11 @@
 
             <TextView
                     android:id="@+id/tvEndDate"
-                    android:tag="endDate"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:onClick="showDatePicker"/>
+                    android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -143,15 +131,13 @@
 
             <TextView
                     android:id="@+id/tvEndTime"
-                    android:tag="endTime"
                     android:text="foo"
                     android:layout_width="fill_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textSize="15sp"
-                    android:textStyle="bold"
-                    android:onClick="showTimePicker"/>
+                    android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

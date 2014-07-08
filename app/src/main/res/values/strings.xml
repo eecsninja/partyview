@@ -46,5 +46,7 @@
     <string name="label_event_end_date">End</string>
     <string name="tag_start_date">startDate</string>
     <string name="tag_start_time">startTime</string>
+    <string name="tag_end_time">endTime</string>
+    <string name="tag_end_date">endDate</string>
 
 </resources>
