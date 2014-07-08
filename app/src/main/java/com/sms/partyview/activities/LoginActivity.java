@@ -2,6 +2,7 @@ package com.sms.partyview.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,14 +24,17 @@ public class LoginActivity extends Activity {
     Button loginButton;
     TextView signupLink;
 
+    // For accessing shared preferences.
+    private static final String PARTYVIEW_SHARED_PREF_KEY = "CurrentUser";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         setupViews();
+        loadStoredLoginInfo();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -80,6 +84,7 @@ public class LoginActivity extends Activity {
         ParseUser.logInInBackground(userName, password, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
+                    saveLoginInfo();
                     Toast.makeText(getApplicationContext(),
                                    "Successfully signed in!",
                                    Toast.LENGTH_SHORT).show();
@@ -127,5 +132,31 @@ public class LoginActivity extends Activity {
                 doSignup();
             }
         });
+    }
+
+    // Looks for user info in the shared preferences. If it's there, do a login.
+    private void loadStoredLoginInfo() {
+        SharedPreferences settings =
+                getSharedPreferences(PARTYVIEW_SHARED_PREF_KEY, 0);
+        String userName = settings.getString("user_name", "");
+        String password = settings.getString("password", "");
+        // Only attempt a login if there is both a user name and password.
+        if (userName.isEmpty() || password.isEmpty()) {
+            return;
+        }
+        userNameField.setText(userName);
+        passwordField.setText(password);
+        doLogin();
+    }
+
+    // Stores current login info in shared preferences.
+    private void saveLoginInfo() {
+        SharedPreferences settings =
+                getSharedPreferences(PARTYVIEW_SHARED_PREF_KEY, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        // Read data from the EditText views.
+        editor.putString("user_name", userNameField.getText().toString());
+        editor.putString("password", passwordField.getText().toString());
+        editor.commit();
     }
 }
