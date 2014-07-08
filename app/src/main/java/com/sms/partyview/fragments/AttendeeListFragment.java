@@ -11,6 +11,7 @@ import android.widget.ListView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.AttendeeArrayAdapter;
 import com.sms.partyview.models.Event;
@@ -64,14 +65,23 @@ public class AttendeeListFragment extends Fragment {
         attendeesView = (ListView) view.findViewById(R.id.lvAttendees);
         attendeesView.setAdapter(attendeeArrayAdapter);
 
-        populateAttendeeList();
-
         // Return it.
         return view;
     }
 
-    private void populateAttendeeList() {
-
+    public void updateAttendeeStatus(EventUser user, AttendanceStatus status) {
+        int pos = -1;
+        for (int i = 0; i < attendees.size(); i++) {
+            EventUser attendee = attendees.get(i);
+            if (attendee.getObjectId().equals(user.getObjectId())) {
+                pos = i;
+                break;
+            }
+        }
+        if (pos != -1) {
+            attendeeArrayAdapter.getItem(pos).setStatus(status);
+            attendeeArrayAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override

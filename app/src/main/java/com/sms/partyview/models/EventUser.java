@@ -62,4 +62,5 @@ public class EventUser extends ParseObject {
     public static ParseQuery<EventUser> getQuery() {
         return ParseQuery.getQuery(EventUser.class);
     }
+
 }

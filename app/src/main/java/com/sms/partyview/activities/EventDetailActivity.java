@@ -42,6 +42,7 @@ public class EventDetailActivity extends FragmentActivity
     private AttendanceStatus status;
     private String eventUserId;
     private String eventTitle;
+    private EventUser eventUser;
 
     private TextView tvEventName;
     private TextView tvEventOrganizer;
@@ -51,6 +52,7 @@ public class EventDetailActivity extends FragmentActivity
 
     private MapFragment mapFragment;
     private GoogleMap map;
+    private AttendeeListFragment attendeeListFragment;
 
     private List<Marker> markers;
 
@@ -118,10 +120,11 @@ public class EventDetailActivity extends FragmentActivity
 
         query.getFirstInBackground(new GetCallback<EventUser>() {
             @Override
-            public void done(EventUser eventUser, ParseException e) {
-                if (eventUser != null) {
-                    eventUserId = eventUser.getObjectId();
-                    status = eventUser.getStatus();
+            public void done(EventUser user, ParseException e) {
+                if (user != null) {
+                    eventUserId = user.getObjectId();
+                    eventUser = user;
+                    status = user.getStatus();
                     toggleJoinLeave(status);
                 }
             }
@@ -163,7 +166,7 @@ public class EventDetailActivity extends FragmentActivity
         // Create the transaction
         FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
         // Replace the content of the container
-        AttendeeListFragment attendeeListFragment = AttendeeListFragment.newInstance(eventId);
+        attendeeListFragment = AttendeeListFragment.newInstance(eventId);
         fts.replace(R.id.flAttendeesContainer, attendeeListFragment);
         fts.commit();
     }
@@ -198,6 +201,10 @@ public class EventDetailActivity extends FragmentActivity
             }
             this.status = AttendanceStatus.ACCEPTED;
         }
+
+
+        attendeeListFragment.updateAttendeeStatus(eventUser, status);
+
         ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
 
         // Retrieve the object by id
