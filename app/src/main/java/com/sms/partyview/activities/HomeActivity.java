@@ -6,7 +6,6 @@ import com.sms.partyview.adapters.MyPagerAdapter;
 import com.sms.partyview.fragments.AcceptedEventsFragment;
 import com.sms.partyview.fragments.PendingEventsFragment;
 import com.sms.partyview.helpers.Utils;
-import com.sms.partyview.models.User;
 
 import android.content.Intent;
 import android.os.Bundle;
