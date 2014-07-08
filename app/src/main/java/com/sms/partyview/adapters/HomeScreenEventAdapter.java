@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -57,5 +58,18 @@ public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
 //        hostNameField.setText("Hosted by " + event.getHost().getUsername());
 
         return view;
+    }
+
+    @Override
+    public void add(Event object) {
+        super.add(object);
+        // Sort by date.
+        // TODO: This might become deprecated if a local database is implemented.
+        sort(new Comparator<Event>() {
+            @Override
+            public int compare(Event e1, Event e2) {
+                return e1.getDate().compareTo(e2.getDate());
+            }
+        });
     }
 }
