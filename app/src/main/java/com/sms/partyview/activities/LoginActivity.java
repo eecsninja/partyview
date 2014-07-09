@@ -30,10 +30,13 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // If there is saved login info, use it.
+        ParseUser currentUser = ParseUser.getCurrentUser();
+        if (currentUser != null) {
+            launchHomeActivity(currentUser);
+        }
         setContentView(R.layout.activity_login);
-
         setupViews();
-        loadStoredLoginInfo();
     }
 
     @Override
@@ -84,7 +87,6 @@ public class LoginActivity extends Activity {
         ParseUser.logInInBackground(userName, password, new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
-                    saveLoginInfo();
                     Toast.makeText(getApplicationContext(),
                                    "Successfully signed in!",
                                    Toast.LENGTH_SHORT).show();
@@ -132,31 +134,5 @@ public class LoginActivity extends Activity {
                 doSignup();
             }
         });
-    }
-
-    // Looks for user info in the shared preferences. If it's there, do a login.
-    private void loadStoredLoginInfo() {
-        SharedPreferences settings =
-                getSharedPreferences(PARTYVIEW_SHARED_PREF_KEY, 0);
-        String userName = settings.getString("user_name", "");
-        String password = settings.getString("password", "");
-        // Only attempt a login if there is both a user name and password.
-        if (userName.isEmpty() || password.isEmpty()) {
-            return;
-        }
-        userNameField.setText(userName);
-        passwordField.setText(password);
-        doLogin();
-    }
-
-    // Stores current login info in shared preferences.
-    private void saveLoginInfo() {
-        SharedPreferences settings =
-                getSharedPreferences(PARTYVIEW_SHARED_PREF_KEY, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        // Read data from the EditText views.
-        editor.putString("user_name", userNameField.getText().toString());
-        editor.putString("password", passwordField.getText().toString());
-        editor.commit();
     }
 }
