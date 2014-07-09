@@ -9,13 +9,16 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
+import com.sms.partyview.fragments.AttendeeListDialogFragment;
 import com.sms.partyview.fragments.AttendeeListFragment;
+import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
@@ -33,8 +36,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventDetailActivity extends FragmentActivity
-        implements AttendeeListFragment.OnFragmentInteractionListener {
+public class EventDetailActivity extends FragmentActivity {
 
     private Event mEvent;
     private String eventId;
@@ -52,6 +54,9 @@ public class EventDetailActivity extends FragmentActivity
     private MapFragment mapFragment;
     private GoogleMap map;
     private AttendeeListFragment attendeeListFragment;
+    private AttendeeListDialogFragment attendeeListDialogFragment;
+    private List<EventUser> eventUsers;
+    private ArrayList<Attendee> attendees;
 
     private List<Marker> markers;
 
@@ -67,14 +72,12 @@ public class EventDetailActivity extends FragmentActivity
         if (!eventTitle.isEmpty()) {
             getActionBar().setTitle(eventTitle);
         }
+        eventUsers = new ArrayList<EventUser>();
+        attendees = new ArrayList<Attendee>();
 
         setupViews();
 
         retrieveEvent();
-
-        retrieveEventUser();
-
-        setupFragment();
 
     }
 
@@ -95,6 +98,8 @@ public class EventDetailActivity extends FragmentActivity
                 Log.d("DEBUG", "in detailed view");
                 Log.d("DEBUG", mEvent.getTitle().toString());
                 populateEventInfo();
+                retrieveEventUsers();
+                retrieveEventUser();
             }
         });
     }
@@ -109,6 +114,7 @@ public class EventDetailActivity extends FragmentActivity
 
         // Define our query conditions
         query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.include("user");
 
         query.getFirstInBackground(new GetCallback<EventUser>() {
             @Override
@@ -155,14 +161,14 @@ public class EventDetailActivity extends FragmentActivity
         btnJoinLeave = (Button) findViewById(R.id.btnJoinLeave);
     }
 
-    public void setupFragment() {
-        // Create the transaction
-        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
-        // Replace the content of the container
-        attendeeListFragment = AttendeeListFragment.newInstance(eventId);
-        fts.replace(R.id.flAttendeesContainer, attendeeListFragment);
-        fts.commit();
-    }
+//    public void setupFragment() {
+//        // Create the transaction
+//        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+//        // Replace the content of the container
+//        attendeeListFragment = AttendeeListFragment.newInstance(eventId);
+//        fts.replace(R.id.flAttendeesContainer, attendeeListFragment);
+//        fts.commit();
+//    }
 
     public void populateEventInfo() {
         tvEventName.setText(tvEventName.getText() + ": " + mEvent.getTitle());
@@ -171,6 +177,10 @@ public class EventDetailActivity extends FragmentActivity
         tvEventOrganizer
                 .setText(tvEventOrganizer.getText() + ": " + mEvent.getHost()
                         .getUsername());
+    }
+
+    public void onViewAttendees(View v) {
+        AttendeeListDialogFragment.show(this, "Attendees", attendees);
     }
 
     public void onJoinLeave(View v) {
@@ -198,8 +208,9 @@ public class EventDetailActivity extends FragmentActivity
             this.status = AttendanceStatus.ACCEPTED;
         }
 
+        updateAttendeeInList(eventUser, status);
 
-        attendeeListFragment.updateAttendeeStatus(eventUser, status);
+      //  attendeeListFragment.updateAttendeeStatus(eventUser, status);
 
         ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
 
@@ -213,16 +224,25 @@ public class EventDetailActivity extends FragmentActivity
         });
     }
 
+    public void updateAttendeeInList(EventUser user, AttendanceStatus status) {
+        for (Attendee attendee : attendees) {
+            if (attendee.getUsername().equals(user.getUser().getUsername())) {
+                attendee.setStatus(status);
+                break;
+            }
+        }
+    }
+
     public void updateUserStatus(EventUser eventUser) {
         eventUser.put("status", status.toString());
         eventUser.saveInBackground();
     }
 
-
-    @Override
-    public void onUsersLoaded(List<EventUser> attendees) {
-        addUsersToMap(attendees);
-    }
+//
+//    @Override
+//    public void onUsersLoaded(List<EventUser> attendees) {
+//        addUsersToMap(attendees);
+//    }
 
     private void addUsersToMap(List<EventUser> attendees) {
         for (final EventUser attendee : attendees) {
@@ -254,5 +274,26 @@ public class EventDetailActivity extends FragmentActivity
         //Change the padding as per needed
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25, 25, 0);
         map.animateCamera(cu);
+    }
+
+    private void retrieveEventUsers() {
+        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("objectId", eventId);
+
+        // Define the class we would like to query
+        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
+        query.whereMatchesQuery("event", eventQuery);
+        query.include("user");
+
+        query.findInBackground(new FindCallback<EventUser>() {
+            @Override
+            public void done(List<EventUser> users, ParseException e) {
+                for (EventUser attendee : users) {
+                    eventUsers.add(attendee);
+                    attendees.add(new Attendee(attendee.getUser().getUsername(), attendee.getStatus()));
+                }
+                addUsersToMap(eventUsers);
+            }
+        });
     }
 }

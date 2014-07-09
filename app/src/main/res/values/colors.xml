@@ -16,4 +16,27 @@
     <color name="blue">#0000FF</color>
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
+
+
+    <!-- custom light theme: -->
+    <color name="dialog_message_text">#333333</color>
+    <color name="dialog_title_text">#e0637e</color>
+    <color name="dialog_title_separator">#ffffff</color>
+    <color name="dialog_button_text">#e0637e</color>
+    <color name="dialog_button_normal">@android:color/transparent</color>
+    <color name="dialog_button_pressed">#99f3a71e</color> <!-- 60 % opacity -->
+    <color name="dialog_button_focused">#4Cf3a71e</color> <!-- 30 % opacity -->
+    <color name="dialog_button_separator">#25ffffff</color> <!-- 7% opacity -->
+    <color name="background">#ffffff</color>
+    <!-- custom dark theme: -->
+    <color name="dialog_message_text_dark">#FFFFFF</color>
+    <color name="dialog_title_text_dark">#F8A500</color>
+    <color name="dialog_title_separator_dark">#F8A500</color>
+    <color name="dialog_button_text_dark">#FFFFFF</color>
+    <color name="dialog_button_normal_dark">@android:color/transparent</color>
+    <color name="dialog_button_pressed_dark">#99F8A500</color> <!-- 60 % opacity -->
+    <color name="dialog_button_focused_dark">#4CF8A500</color> <!-- 30 % opacity -->
+    <color name="dialog_button_separator_dark">#12FFFFFF</color> <!-- 7% opacity -->
+    <color name="background_dark">#C35817</color>
+
 </resources>

@@ -68,25 +68,34 @@
             android:padding="2dp"/>
         <fragment
             android:id="@+id/map"
-            android:layout_width="fill_parent"
-            android:layout_height="100dp"
+            android:layout_width="225dp"
+            android:layout_height="225dp"
             android:name="com.google.android.gms.maps.MapFragment"
-            android:padding="2dp"/>
+            android:padding="2dp"
+            android:layout_margin="5dp"
+            android:layout_gravity="center"/>
 
     </LinearLayout>
-    <TextView
-        android:id="@+id/tvAttendeesTitle"
+    <!--<TextView-->
+        <!--android:id="@+id/tvAttendeesTitle"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+        <!--android:padding="2dp"-->
+        <!--android:text="@string/attendees_title"/>-->
+    <!--<FrameLayout-->
+        <!--android:id="@+id/flAttendeesContainer"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="vertical">-->
+    <!--</FrameLayout>-->
+
+    <Button
+        android:id="@+id/btnViewAttendees"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:padding="2dp"
-        android:text="@string/attendees_title"/>
-    <FrameLayout
-        android:id="@+id/flAttendeesContainer"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:orientation="vertical">
-    </FrameLayout>
+        android:text="@string/view_attendees"
+        android:onClick="onViewAttendees"/>
 
 
 </LinearLayout>

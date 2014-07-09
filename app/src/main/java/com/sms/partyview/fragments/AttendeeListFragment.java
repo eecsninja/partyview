@@ -11,9 +11,9 @@ import android.widget.ListView;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.AttendeeArrayAdapter;
+import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AttendeeListFragment extends Fragment {
-    protected List<EventUser> attendees;
+    protected List<Attendee> attendees;
 
     protected AttendeeArrayAdapter attendeeArrayAdapter;
 
@@ -47,7 +47,7 @@ public class AttendeeListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Initialize event list and adapter.
-        attendees = new ArrayList<EventUser>();
+        attendees = new ArrayList<Attendee>();
         attendeeArrayAdapter = new AttendeeArrayAdapter(getActivity(), attendees);
 
         eventId = getArguments().getString("eventId");
@@ -69,20 +69,20 @@ public class AttendeeListFragment extends Fragment {
         return view;
     }
 
-    public void updateAttendeeStatus(EventUser user, AttendanceStatus status) {
-        int pos = -1;
-        for (int i = 0; i < attendees.size(); i++) {
-            EventUser attendee = attendees.get(i);
-            if (attendee.getObjectId().equals(user.getObjectId())) {
-                pos = i;
-                break;
-            }
-        }
-        if (pos != -1) {
-            attendeeArrayAdapter.getItem(pos).setStatus(status);
-            attendeeArrayAdapter.notifyDataSetChanged();
-        }
-    }
+//    public void updateAttendeeStatus(EventUser user, AttendanceStatus status) {
+//        int pos = -1;
+//        for (int i = 0; i < attendees.size(); i++) {
+//          //  EventUser attendee = attendees.get(i);
+//            if (attendee.getObjectId().equals(user.getObjectId())) {
+//                pos = i;
+//                break;
+//            }
+//        }
+//        if (pos != -1) {
+//            attendeeArrayAdapter.getItem(pos).setStatus(status);
+//            attendeeArrayAdapter.notifyDataSetChanged();
+//        }
+//    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -118,7 +118,7 @@ public class AttendeeListFragment extends Fragment {
             @Override
             public void done(List<EventUser> attendees, ParseException e) {
                 for (EventUser attendee : attendees) {
-                    attendeeArrayAdapter.add(attendee);
+                    //attendeeArrayAdapter.add(attendee);
                 }
                 mListener.onUsersLoaded(attendees);
             }

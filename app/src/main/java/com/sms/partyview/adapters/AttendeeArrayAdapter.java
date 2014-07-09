@@ -8,15 +8,14 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.sms.partyview.R;
-import com.sms.partyview.models.EventUser;
-
+import com.sms.partyview.models.Attendee;
 import java.util.List;
 
 /**
  * Created by sandra on 7/7/14.
  */
-public class AttendeeArrayAdapter extends ArrayAdapter<EventUser> {
-    public AttendeeArrayAdapter(Context context, List<EventUser> userList) {
+public class AttendeeArrayAdapter extends ArrayAdapter<Attendee> {
+    public AttendeeArrayAdapter(Context context, List<Attendee> userList) {
         super(context, 0, userList);
     }
 
@@ -37,9 +36,9 @@ public class AttendeeArrayAdapter extends ArrayAdapter<EventUser> {
                 (TextView) view.findViewById(R.id.tvAttendeeStatus);
 
         // Set view content.
-        EventUser eventUser = getItem(position);
-        tvAttendeeName.setText(eventUser.getUser().getUsername());
-        tvAttendeeStatus.setText("<" + eventUser.getStatus().toString() + ">");
+        Attendee attendee = getItem(position);
+        tvAttendeeName.setText(attendee.getUsername());
+        tvAttendeeStatus.setText("<" + attendee.getStatus().toString() + ">");
         return view;
     }
 }
