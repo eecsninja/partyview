@@ -87,19 +87,12 @@ public class EventDetailActivity extends FragmentActivity
 
         // Define our query conditions
         query.whereEqualTo("objectId", eventId);
+        query.include("host");
 
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override
             public void done(Event event, ParseException e) {
                 mEvent = event;
-
-                event.getHost().fetchIfNeededInBackground(new GetCallback<ParseObject>() {
-                    public void done(ParseObject object, ParseException e) {
-                        tvEventOrganizer
-                                .setText(tvEventOrganizer.getText() + ": " + mEvent.getHost()
-                                        .getUsername());
-                    }
-                });
                 Log.d("DEBUG", "in detailed view");
                 Log.d("DEBUG", mEvent.getTitle().toString());
                 populateEventInfo();
@@ -155,6 +148,7 @@ public class EventDetailActivity extends FragmentActivity
         tvEventOrganizer = (TextView) findViewById(R.id.tvEventOrganizerTitle);
         tvEventDescription = (TextView) findViewById(R.id.tvEventDescTitle);
         tvEventTime = (TextView) findViewById(R.id.tvEventTimeTitle);
+
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             map = mapFragment.getMap();
@@ -175,6 +169,9 @@ public class EventDetailActivity extends FragmentActivity
         tvEventName.setText(tvEventName.getText() + ": " + mEvent.getTitle());
         tvEventDescription.setText(tvEventDescription.getText() + ": " + mEvent.getDescription());
         tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getDate());
+        tvEventOrganizer
+                .setText(tvEventOrganizer.getText() + ": " + mEvent.getHost()
+                        .getUsername());
     }
 
     public void onJoinLeave(View v) {

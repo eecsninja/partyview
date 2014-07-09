@@ -53,9 +53,7 @@ public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
         timeField.setText(DF.format(date));
         // TODO: should show a display name.
 
-        // TODO:
-        // fix exception; understand how Parse relation data works
-//        hostNameField.setText("Hosted by " + event.getHost().getUsername());
+        hostNameField.setText("Hosted by: " + event.getHost().getUsername());
 
         return view;
     }

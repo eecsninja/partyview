@@ -38,21 +38,11 @@ public class AcceptedEventsFragment extends EventListFragment {
         // TODO: add condition when attendee include currentUser
         query.whereEqualTo("host", ParseUser.getCurrentUser());
         query.addAscendingOrder("date");
+        query.include("host");
 
         query.findInBackground(new FindCallback<Event>() {
                                    @Override
                                    public void done(List<Event> events, ParseException e) {
-                                       for (Event event : events) {
-                                           event.getHost()
-                                                   .fetchIfNeededInBackground(
-                                                           new GetCallback<ParseObject>() {
-                                                               public void done(ParseObject object,
-                                                                       ParseException e) {
-                                                               }
-                                                           }
-                                                   );
-                                       }
-
                                        eventAdapter.addAll(events);
                                    }
                                }
