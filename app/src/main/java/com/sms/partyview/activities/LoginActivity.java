@@ -97,9 +97,6 @@ public class LoginActivity extends Activity {
                             "Could not sign in!",
                             Toast.LENGTH_SHORT).show();
                     System.err.println(e.getMessage());
-                    // TODO: Launch the home activity regardless, for development purposes.
-                    // Remove this later when we have persistent authentication.
-                    launchHomeActivity(null);
                 }
             }
         });
