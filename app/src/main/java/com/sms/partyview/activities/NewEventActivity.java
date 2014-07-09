@@ -29,6 +29,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 public class NewEventActivity extends FragmentActivity
         implements CalendarDatePickerDialog.OnDateSetListener,
         RadialTimePickerDialog.OnTimeSetListener,
@@ -216,8 +218,8 @@ public class NewEventActivity extends FragmentActivity
         event.setTitle(mEtTitle.getText().toString());
         event.setAddress(mEtAddress.getText().toString());
         event.setDescription(mEtDescription.getText().toString());
-        event.setDate(mStartDateTime.toDate());
-        //TODO: save end datetime
+        event.setStartDate(mStartDateTime.toDate());
+        event.setEndDate(mEndDateTime.toDate());
         event.setHost(ParseUser.getCurrentUser());
 
         // TODO:

@@ -1,20 +1,10 @@
 package com.sms.partyview.models;
 
-import com.google.common.collect.ImmutableList;
-
-import com.parse.FindCallback;
-import com.parse.GetCallback;
 import com.parse.ParseClassName;
-import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import android.util.Log;
-
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by myho on 7/3/14.
@@ -28,7 +18,8 @@ public class Event extends ParseObject {
 
     public Event(
             String title,
-            Date date,
+            Date startDate,
+            Date endDate,
             String description,
             String address,
             ParseUser host,
@@ -36,7 +27,8 @@ public class Event extends ParseObject {
     ) {
         super();
         setTitle(title);
-        setDate(date);
+        setStartDate(startDate);
+        setEndDate(endDate);
         setDescription(description);
         setAddress(address);
         setHost(host);
@@ -51,12 +43,20 @@ public class Event extends ParseObject {
         put("title", title);
     }
 
-    public Date getDate() {
-        return getDate("date");
+    public Date getStartDate() {
+        return getDate("start_date");
     }
 
-    public void setDate(Date date) {
-        put("date", date);
+    public void setStartDate(Date date) {
+        put("start_date", date);
+    }
+
+    public Date getEndDate() {
+        return getDate("end_date");
+    }
+
+    public void setEndDate(Date date) {
+        put("end_date", date);
     }
 
     public String getDescription() {

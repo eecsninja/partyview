@@ -6,14 +6,12 @@ import com.sms.partyview.models.Event;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +47,7 @@ public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
         Event event = getItem(position);
         titleField.setText(event.getTitle());
 
-        Date date = event.getDate();
+        Date date = event.getStartDate();
         timeField.setText(DF.format(date));
         // TODO: should show a display name.
 
@@ -66,7 +64,7 @@ public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
         sort(new Comparator<Event>() {
             @Override
             public int compare(Event e1, Event e2) {
-                return e1.getDate().compareTo(e2.getDate());
+                return e1.getStartDate().compareTo(e2.getStartDate());
             }
         });
     }

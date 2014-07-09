@@ -55,6 +55,7 @@ public class AcceptedEventsFragment extends EventListFragment {
 
         // Define our query conditions
         query.whereEqualTo("objectId", eventId);
+        query.include("host");
 
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override

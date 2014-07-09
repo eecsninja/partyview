@@ -11,7 +11,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
@@ -168,7 +167,7 @@ public class EventDetailActivity extends FragmentActivity
     public void populateEventInfo() {
         tvEventName.setText(tvEventName.getText() + ": " + mEvent.getTitle());
         tvEventDescription.setText(tvEventDescription.getText() + ": " + mEvent.getDescription());
-        tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getDate());
+        tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getStartDate());
         tvEventOrganizer
                 .setText(tvEventOrganizer.getText() + ": " + mEvent.getHost()
                         .getUsername());
