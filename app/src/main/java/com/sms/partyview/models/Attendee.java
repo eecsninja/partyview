@@ -11,6 +11,8 @@ import com.sms.partyview.AttendanceStatus;
 public class Attendee implements Parcelable {
     private String username;
     private AttendanceStatus status;
+    private double latitude;
+    private double longitude;
 
     public Attendee(Parcel in) {
         super();
@@ -18,9 +20,11 @@ public class Attendee implements Parcelable {
     }
 
 
-    public Attendee(String username, AttendanceStatus status) {
-        this.username = username;
-        this.status = status;
+    public Attendee(EventUser eventUser) {
+        this.username = eventUser.getUser().getUsername();
+        this.status = eventUser.getStatus();
+        this.latitude = eventUser.getLocation().getLatitude();
+        this.longitude = eventUser.getLocation().getLongitude();
     }
 
     public static final Parcelable.Creator<Attendee> CREATOR = new Parcelable.Creator<Attendee>() {
@@ -38,6 +42,8 @@ public class Attendee implements Parcelable {
     public void readFromParcel(Parcel in) {
         username = in.readString();
         status = AttendanceStatus.valueOf(in.readString());
+        latitude = in.readDouble();
+        longitude = in.readDouble();
     }
 
     public int describeContents() {
@@ -47,6 +53,8 @@ public class Attendee implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(username);
         dest.writeString(status.toString());
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
     }
 
     public String getUsername() {
@@ -63,5 +71,21 @@ public class Attendee implements Parcelable {
 
     public void setStatus(AttendanceStatus status) {
         this.status = status;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

@@ -53,5 +53,6 @@
     <string name="hint_location">1234 Sample Street, CA 00000</string>
     <string name="hint_description">This is an event</string>
     <string name="view_attendees">View Attendees</string>
+    <string name="title_activity_full_map">Full Map</string>
 
 </resources>

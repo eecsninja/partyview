@@ -1,13 +1,8 @@
 package com.sms.partyview.activities;
 
-import com.google.android.gms.maps.CameraUpdate;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -17,11 +12,12 @@ import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.AttendeeListDialogFragment;
-import com.sms.partyview.fragments.AttendeeListFragment;
+import com.sms.partyview.fragments.EventMapFragment;
 import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -36,14 +32,13 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventDetailActivity extends FragmentActivity {
+public class EventDetailActivity extends FragmentActivity implements EventMapFragment.EventMapFragmentListener {
 
     private Event mEvent;
     private String eventId;
     private AttendanceStatus status;
-    private String eventUserId;
     private String eventTitle;
-    private EventUser eventUser;
+    private EventUser currentEventUser;
 
     private TextView tvEventName;
     private TextView tvEventOrganizer;
@@ -51,10 +46,7 @@ public class EventDetailActivity extends FragmentActivity {
     private TextView tvEventTime;
     private Button btnJoinLeave;
 
-    private MapFragment mapFragment;
-    private GoogleMap map;
-    private AttendeeListFragment attendeeListFragment;
-    private AttendeeListDialogFragment attendeeListDialogFragment;
+    private EventMapFragment eventMapFragment;
     private List<EventUser> eventUsers;
     private ArrayList<Attendee> attendees;
 
@@ -72,13 +64,13 @@ public class EventDetailActivity extends FragmentActivity {
         if (!eventTitle.isEmpty()) {
             getActionBar().setTitle(eventTitle);
         }
+
         eventUsers = new ArrayList<EventUser>();
         attendees = new ArrayList<Attendee>();
 
         setupViews();
 
         retrieveEvent();
-
     }
 
     private void retrieveEvent() {
@@ -99,32 +91,6 @@ public class EventDetailActivity extends FragmentActivity {
                 Log.d("DEBUG", mEvent.getTitle().toString());
                 populateEventInfo();
                 retrieveEventUsers();
-                retrieveEventUser();
-            }
-        });
-    }
-
-    private void retrieveEventUser() {
-        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
-        eventQuery.whereEqualTo("objectId", eventId);
-
-        // Define the class we would like to query
-        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
-        query.whereMatchesQuery("event", eventQuery);
-
-        // Define our query conditions
-        query.whereEqualTo("user", ParseUser.getCurrentUser());
-        query.include("user");
-
-        query.getFirstInBackground(new GetCallback<EventUser>() {
-            @Override
-            public void done(EventUser user, ParseException e) {
-                if (user != null) {
-                    eventUserId = user.getObjectId();
-                    eventUser = user;
-                    status = user.getStatus();
-                    toggleJoinLeave(status);
-                }
             }
         });
     }
@@ -153,22 +119,17 @@ public class EventDetailActivity extends FragmentActivity {
         tvEventOrganizer = (TextView) findViewById(R.id.tvEventOrganizerTitle);
         tvEventDescription = (TextView) findViewById(R.id.tvEventDescTitle);
         tvEventTime = (TextView) findViewById(R.id.tvEventTimeTitle);
-
-        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment != null) {
-            map = mapFragment.getMap();
-        }
         btnJoinLeave = (Button) findViewById(R.id.btnJoinLeave);
     }
 
-//    public void setupFragment() {
-//        // Create the transaction
-//        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
-//        // Replace the content of the container
-//        attendeeListFragment = AttendeeListFragment.newInstance(eventId);
-//        fts.replace(R.id.flAttendeesContainer, attendeeListFragment);
-//        fts.commit();
-//    }
+    public void setupMapFragment() {
+        // Create the transaction
+        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+        // Replace the content of the container
+        eventMapFragment = EventMapFragment.newInstance(attendees);
+        fts.replace(R.id.flMapContainer, eventMapFragment);
+        fts.commit();
+    }
 
     public void populateEventInfo() {
         tvEventName.setText(tvEventName.getText() + ": " + mEvent.getTitle());
@@ -179,8 +140,36 @@ public class EventDetailActivity extends FragmentActivity {
                         .getUsername());
     }
 
+    private void retrieveEventUsers() {
+        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("objectId", eventId);
+
+        // Define the class we would like to query
+        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
+        query.whereMatchesQuery("event", eventQuery);
+        query.include("user");
+
+        query.findInBackground(new FindCallback<EventUser>() {
+            @Override
+            public void done(List<EventUser> users, ParseException e) {
+                for (EventUser eventUser : users) {
+                    if (eventUser != null) {
+                        eventUsers.add(eventUser);
+                        attendees.add(new Attendee(eventUser));
+                        if (eventUser.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                            currentEventUser = eventUser;
+                            status = eventUser.getStatus();
+                            toggleJoinLeave(status);
+                        }
+                    }
+                }
+                setupMapFragment();
+            }
+        });
+    }
+
     public void onViewAttendees(View v) {
-        AttendeeListDialogFragment.show(this, "Attendees", attendees);
+        AttendeeListDialogFragment.show(this, getString(R.string.attendees_title), attendees);
     }
 
     public void onJoinLeave(View v) {
@@ -194,34 +183,35 @@ public class EventDetailActivity extends FragmentActivity {
     }
 
     public void toggleJoinLeave(AttendanceStatus status) {
-        if (status.equals(AttendanceStatus.PRESENT)) {
-            btnJoinLeave.setText(getString(R.string.leave_event));
-            for (Marker marker : markers) {
-                marker.setVisible(true);
+        if (status != null) {
+            if (status.equals(AttendanceStatus.PRESENT)) {
+                btnJoinLeave.setText(getString(R.string.leave_event));
+                this.status = AttendanceStatus.PRESENT;
+            } else {
+                btnJoinLeave.setText(getString(R.string.join_event));
+                this.status = AttendanceStatus.ACCEPTED;
             }
-            this.status = AttendanceStatus.PRESENT;
-        } else {
-            btnJoinLeave.setText(getString(R.string.join_event));
-            for (Marker marker : markers) {
-                marker.setVisible(false);
+
+            if (eventMapFragment != null) {
+                eventMapFragment.setMarkerVisibility(status.equals(AttendanceStatus.PRESENT));
             }
-            this.status = AttendanceStatus.ACCEPTED;
+
+            if (currentEventUser != null) {
+
+                updateAttendeeInList(currentEventUser, status);
+
+                ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
+
+                // Retrieve the object by id
+                query.getInBackground(currentEventUser.getObjectId(), new GetCallback<EventUser>() {
+                    public void done(EventUser eventUser, ParseException e) {
+                        if (e == null) {
+                            updateUserStatus(eventUser);
+                        }
+                    }
+                });
+            }
         }
-
-        updateAttendeeInList(eventUser, status);
-
-      //  attendeeListFragment.updateAttendeeStatus(eventUser, status);
-
-        ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
-
-        // Retrieve the object by id
-        query.getInBackground(eventUserId, new GetCallback<EventUser>() {
-            public void done(EventUser eventUser, ParseException e) {
-                if (e == null) {
-                    updateUserStatus(eventUser);
-                }
-            }
-        });
     }
 
     public void updateAttendeeInList(EventUser user, AttendanceStatus status) {
@@ -238,62 +228,19 @@ public class EventDetailActivity extends FragmentActivity {
         eventUser.saveInBackground();
     }
 
-//
-//    @Override
-//    public void onUsersLoaded(List<EventUser> attendees) {
-//        addUsersToMap(attendees);
-//    }
-
-    private void addUsersToMap(List<EventUser> attendees) {
-        for (final EventUser attendee : attendees) {
-            attendee.getUser().fetchInBackground(new GetCallback<ParseUser>() {
+    public void onViewCreated() {
+        if (eventMapFragment != null) {
+            eventMapFragment.setOnMapClick(new GoogleMap.OnMapClickListener() {
                 @Override
-                public void done(ParseUser parseObject, ParseException e) {
-                    if (map != null) {
-                        Marker marker = map.addMarker(new MarkerOptions()
-                                .position(new LatLng(attendee.getLocation().getLatitude(),
-                                        attendee.getLocation().getLongitude()))
-                                .title(parseObject.getUsername())
-                                .visible(status.equals(AttendanceStatus.PRESENT)));
-
-                        markers.add(marker);
+                public void onMapClick(LatLng latLng) {
+                    if (status.equals(AttendanceStatus.PRESENT)) {
+                        Intent mapIntent = new Intent(EventDetailActivity.this, FullMapActivity.class);
+                        mapIntent.putParcelableArrayListExtra("attendees", attendees);
+                        startActivity(mapIntent);
                     }
-                    updateCameraView();
                 }
             });
+            eventMapFragment.setMarkerVisibility(status.equals(AttendanceStatus.PRESENT));
         }
-    }
-
-    private void updateCameraView() {
-        //Calculate the markers to get their position
-        LatLngBounds.Builder b = new LatLngBounds.Builder();
-        for (Marker m : markers) {
-            b.include(m.getPosition());
-        }
-        LatLngBounds bounds = b.build();
-        //Change the padding as per needed
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 25, 25, 0);
-        map.animateCamera(cu);
-    }
-
-    private void retrieveEventUsers() {
-        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
-        eventQuery.whereEqualTo("objectId", eventId);
-
-        // Define the class we would like to query
-        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
-        query.whereMatchesQuery("event", eventQuery);
-        query.include("user");
-
-        query.findInBackground(new FindCallback<EventUser>() {
-            @Override
-            public void done(List<EventUser> users, ParseException e) {
-                for (EventUser attendee : users) {
-                    eventUsers.add(attendee);
-                    attendees.add(new Attendee(attendee.getUser().getUsername(), attendee.getStatus()));
-                }
-                addUsersToMap(eventUsers);
-            }
-        });
     }
 }
