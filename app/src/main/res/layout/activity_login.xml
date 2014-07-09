@@ -9,7 +9,7 @@
             android:id="@+id/etLoginUserName"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:hint="@string/login_user_name_hint" />
+            android:hint="@string/login_user_name_hint"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -18,7 +18,6 @@
         android:ems="10"
         android:id="@+id/etLoginPassword"
         android:layout_below="@+id/etLoginUserName"
-        android:layout_marginTop="16dp"
         android:hint="@string/login_password_hint"
         android:layout_alignRight="@+id/etLoginUserName"
         android:layout_alignEnd="@+id/etLoginUserName"
@@ -31,7 +30,6 @@
         android:text="@string/login_button_label"
         android:id="@+id/btLogin"
         android:layout_below="@+id/etLoginPassword"
-        android:layout_marginTop="16dp"
         android:layout_alignRight="@+id/etLoginPassword"
         android:layout_alignEnd="@+id/etLoginPassword"
         android:layout_alignLeft="@+id/etLoginPassword"
@@ -76,5 +74,10 @@
             android:layout_marginLeft="16dp"
             android:textColor="@color/blue" />
     </LinearLayout>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceMedium"
+              android:text="@string/login_forgot_password_label" android:id="@+id/tvForgotPassword"
+              android:layout_below="@+id/llLoginSignUp" android:layout_centerHorizontal="true"
+              android:layout_marginTop="16dp" android:textColor="@color/blue"/>
 
 </RelativeLayout>

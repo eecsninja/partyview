@@ -164,6 +164,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:inputType="textPostalAddress"
+                android:hint="@string/hint_location"
                 android:textSize="12sp"/>
 
     </LinearLayout>
@@ -195,6 +196,7 @@
                 android:minLines="2"
                 android:maxLines="2"
                 android:layout_marginTop="5dp"
+                android:hint="@string/hint_description"
                 android:textSize="12sp"/>
 
     </LinearLayout>
@@ -225,6 +227,7 @@
                 android:ems="10"
                 android:minLines="2"
                 android:maxLines="2"
+                android:hint="@string/hint_invites"
                 android:textSize="12sp"/>
 
     </LinearLayout>
