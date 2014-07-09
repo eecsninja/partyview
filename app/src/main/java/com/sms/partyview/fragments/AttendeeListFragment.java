@@ -112,6 +112,7 @@ public class AttendeeListFragment extends Fragment {
         // Define the class we would like to query
         ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
         query.whereMatchesQuery("event", eventQuery);
+        query.include("user");
 
         query.findInBackground(new FindCallback<EventUser>() {
             @Override

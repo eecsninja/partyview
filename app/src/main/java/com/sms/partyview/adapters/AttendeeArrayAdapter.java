@@ -7,10 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.models.EventUser;
 
@@ -41,16 +37,9 @@ public class AttendeeArrayAdapter extends ArrayAdapter<EventUser> {
                 (TextView) view.findViewById(R.id.tvAttendeeStatus);
 
         // Set view content.
-        final EventUser eventUser = getItem(position);
-        eventUser.getUser().fetchInBackground(new GetCallback<ParseUser>() {
-            @Override
-            public void done(ParseUser parseObject, ParseException e) {
-                tvAttendeeName.setText(eventUser.getUser().getUsername());
-            }
-        });
+        EventUser eventUser = getItem(position);
+        tvAttendeeName.setText(eventUser.getUser().getUsername());
         tvAttendeeStatus.setText("<" + eventUser.getStatus().toString() + ">");
-
-       // tvAttendeeName.setText(eventUser.getUser().getUsername());
         return view;
     }
 }
