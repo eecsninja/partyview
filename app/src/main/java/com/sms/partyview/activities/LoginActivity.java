@@ -23,6 +23,7 @@ public class LoginActivity extends Activity {
     EditText passwordField;
     Button loginButton;
     TextView signupLink;
+    TextView forgotPasswordLink;
 
     // For accessing shared preferences.
     private static final String PARTYVIEW_SHARED_PREF_KEY = "CurrentUser";
@@ -118,6 +119,7 @@ public class LoginActivity extends Activity {
         passwordField = (EditText) findViewById(R.id.etLoginPassword);
         loginButton = (Button) findViewById(R.id.btLogin);
         signupLink = (TextView) findViewById(R.id.tvLoginSignUp);
+        forgotPasswordLink = (TextView) findViewById(R.id.tvForgotPassword);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,6 +131,13 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
                 doSignup();
+            }
+        });
+        forgotPasswordLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: Launch forgot password activity.
+                System.err.println("Forgot password.");
             }
         });
     }
