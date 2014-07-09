@@ -94,7 +94,7 @@ public class LoginActivity extends Activity {
                 } else {
                     // Signup failed. Look at the ParseException to see what happened.
                     Toast.makeText(getApplicationContext(),
-                            "Could not sign in!",
+                            "Login failed: " + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
                     System.err.println(e.getMessage());
                 }
