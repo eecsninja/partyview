@@ -31,8 +31,8 @@ import android.widget.TextView;
 
 public class NewEventActivity extends FragmentActivity
         implements CalendarDatePickerDialog.OnDateSetListener,
-        RadialTimePickerDialog.OnTimeSetListener
-{
+        RadialTimePickerDialog.OnTimeSetListener,
+        TextView.OnClickListener {
 
     private static final String FRAG_TAG_DATE_PICKER = "datePickerDialogFragment";
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
@@ -87,40 +87,17 @@ public class NewEventActivity extends FragmentActivity
         findViews();
         populateViews();
         setUpClickListeners();
-        setUpListeners();
+        setUpPickerListeners();
     }
 
     private void setUpClickListeners() {
-        mTvStartDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPicker(v);
-            }
-        });
-
-        mTvStartTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPicker(v);
-            }
-        });
-
-        mTvEndDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPicker(v);
-            }
-        });
-
-        mTvEndTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPicker(v);
-            }
-        });
+        mTvStartDate.setOnClickListener(this);
+        mTvStartTime.setOnClickListener(this);
+        mTvEndDate.setOnClickListener(this);
+        mTvEndTime.setOnClickListener(this);
     }
 
-    private void setUpListeners() {
+    private void setUpPickerListeners() {
         initializePickers();
 
         // DatePicker uses (0-11) for month, so have to add one back
@@ -131,7 +108,7 @@ public class NewEventActivity extends FragmentActivity
                     int dayOfMonth) {
 
                 mStartDateTime.set(DateTimeFieldType.year(), year);
-                mStartDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear+1);
+                mStartDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear + 1);
                 mStartDateTime.set(DateTimeFieldType.dayOfMonth(), dayOfMonth);
 
                 mTvStartDate.setText(mStartDateTime.toString(DISPLAY_DATE_FORMATTER));
@@ -157,7 +134,7 @@ public class NewEventActivity extends FragmentActivity
                     int dayOfMonth) {
 
                 mEndDateTime.set(DateTimeFieldType.year(), year);
-                mEndDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear+1);
+                mEndDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear + 1);
                 mEndDateTime.set(DateTimeFieldType.dayOfMonth(), dayOfMonth);
 
                 mTvEndDate.setText(mEndDateTime.toString(DISPLAY_DATE_FORMATTER));
@@ -281,10 +258,15 @@ public class NewEventActivity extends FragmentActivity
 
     }
 
+    @Override
+    public void onClick(View v) {
+        showPicker(v);
+    }
+
     private void showPicker(View view) {
         FragmentManager fm = getSupportFragmentManager();
 
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.tvStartDate:
                 mStartDatePicker.show(fm, FRAG_TAG_DATE_PICKER);
                 break;
