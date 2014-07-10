@@ -123,11 +123,11 @@ public class HomeActivity
     // Registers the user with this installation's info.
     private void storeInstallationInfo() {
         ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-        if (installation.getString(INSTALLATION_USER_NAME_KEY) != null) {
+        String currentUserName = ParseUser.getCurrentUser().getUsername();
+        if (currentUserName == installation.getString(INSTALLATION_USER_NAME_KEY)) {
             return;
         }
-        installation.put(INSTALLATION_USER_NAME_KEY,
-                         ParseUser.getCurrentUser().getUsername());
+        installation.put(INSTALLATION_USER_NAME_KEY, currentUserName);
         installation.saveInBackground();
     }
 }
