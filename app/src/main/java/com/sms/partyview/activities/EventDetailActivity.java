@@ -127,7 +127,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         // Create the transaction
         FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
         // Replace the content of the container
-        eventMapFragment = EventMapFragment.newInstance(attendees);
+        eventMapFragment = EventMapFragment.newInstance(attendees, currentEventUser.getObjectId());
         fts.replace(R.id.flMapContainer, eventMapFragment);
         fts.commit();
     }
@@ -237,6 +237,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
                     if (status.equals(AttendanceStatus.PRESENT)) {
                         Intent mapIntent = new Intent(EventDetailActivity.this, FullMapActivity.class);
                         mapIntent.putParcelableArrayListExtra("attendees", attendees);
+                        mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
                         startActivity(mapIntent);
                     }
                 }
@@ -245,19 +246,4 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         }
     }
 
-    public void updateUserLocation(final ParseGeoPoint location) {
-        if (currentEventUser != null) {
-            ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
-
-            // Retrieve the object by id
-            query.getInBackground(currentEventUser.getObjectId(), new GetCallback<EventUser>() {
-                public void done(EventUser eventUser, ParseException e) {
-                    if (e == null) {
-                        eventUser.put("location", location);
-                        eventUser.saveInBackground();
-                    }
-                }
-            });
-        }
-    }
 }

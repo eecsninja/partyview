@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -23,10 +24,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.parse.GetCallback;
+import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.models.Attendee;
+import com.sms.partyview.models.Event;
+import com.sms.partyview.models.EventUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,15 +81,17 @@ public class EventMapFragment extends Fragment implements LocationListener,
     private LocationClient locationClient;
 
 
+    private String currentEventUserObjId;
+
     public interface EventMapFragmentListener {
         public void onViewCreated();
-        public void updateUserLocation(ParseGeoPoint location);
     }
 
-    public static EventMapFragment newInstance(ArrayList<Attendee> attendees) {
+    public static EventMapFragment newInstance(ArrayList<Attendee> attendees, String currentEventUserObjId) {
         EventMapFragment fragment = new EventMapFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("attendees", attendees);
+        args.putString("currentEventUserObjId", currentEventUserObjId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -98,6 +106,8 @@ public class EventMapFragment extends Fragment implements LocationListener,
         super.onCreate(savedInstanceState);
         // Initialize event list and adapter.
         attendees = getArguments().getParcelableArrayList("attendees");
+        currentEventUserObjId = getArguments().getString("currentEventUserObjId");
+
         markers = new ArrayList<Marker>();
 
 
@@ -225,12 +235,12 @@ public class EventMapFragment extends Fragment implements LocationListener,
         currentLocation = location;
         if (lastLocation != null
                 && geoPointFromLocation(location)
-                .distanceInKilometersTo(geoPointFromLocation(lastLocation)) < 0.01) {
+                .distanceInKilometersTo(geoPointFromLocation(lastLocation)) < 0.001) {
             return;
         }
         lastLocation = location;
 
-        mListener.updateUserLocation(geoPointFromLocation(location));
+        updateUserLocation(geoPointFromLocation(location));
         updateUserMarker(location);
     }
 
@@ -240,6 +250,22 @@ public class EventMapFragment extends Fragment implements LocationListener,
                 marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
                 break;
             }
+        }
+    }
+
+    public void updateUserLocation(final ParseGeoPoint location) {
+        if (currentEventUserObjId != null) {
+            ParseQuery query = ParseQuery.getQuery(EventUser.class);
+
+            // Retrieve the object by id
+            query.getInBackground(currentEventUserObjId, new GetCallback<EventUser>() {
+                public void done(EventUser eventUser, ParseException e) {
+                    if (e == null) {
+                        eventUser.put("location", location);
+                        eventUser.saveInBackground();
+                    }
+                }
+            });
         }
     }
 

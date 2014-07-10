@@ -6,7 +6,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.parse.ParseGeoPoint;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.EventMapFragment;
 import com.sms.partyview.models.Attendee;
@@ -17,6 +16,7 @@ public class FullMapActivity extends FragmentActivity implements EventMapFragmen
 
     private EventMapFragment eventMapFragment;
     private ArrayList<Attendee> attendees;
+    private String currentEventUserObjId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,7 @@ public class FullMapActivity extends FragmentActivity implements EventMapFragmen
         setContentView(R.layout.activity_full_map);
 
         attendees = getIntent().getParcelableArrayListExtra("attendees");
+        currentEventUserObjId = getIntent().getStringExtra("currentEventUserObjId");
         setupMapFragment();
     }
 
@@ -51,16 +52,12 @@ public class FullMapActivity extends FragmentActivity implements EventMapFragmen
         // Create the transaction
         FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
         // Replace the content of the container
-        eventMapFragment = EventMapFragment.newInstance(attendees);
+        eventMapFragment = EventMapFragment.newInstance(attendees, currentEventUserObjId);
         fts.replace(R.id.flFullMapContainer, eventMapFragment);
         fts.commit();
     }
 
     public void onViewCreated() {
-
-    }
-
-    public void updateUserLocation(ParseGeoPoint location) {
 
     }
 }
