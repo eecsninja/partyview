@@ -1,6 +1,7 @@
 package com.sms.partyview.models;
 
 import com.parse.ParseClassName;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
@@ -22,6 +23,7 @@ public class Event extends ParseObject {
             Date endDate,
             String description,
             String address,
+            ParseGeoPoint location,
             ParseUser host,
             Invites invites
     ) {
@@ -31,6 +33,7 @@ public class Event extends ParseObject {
         setEndDate(endDate);
         setDescription(description);
         setAddress(address);
+        setLocation(location);
         setHost(host);
         setInvites(invites);
     }
@@ -73,6 +76,14 @@ public class Event extends ParseObject {
 
     public void setAddress(String address) {
         put("address", address);
+    }
+
+    public ParseGeoPoint getLocation() {
+        return getParseGeoPoint("location");
+    }
+
+    public void setLocation(ParseGeoPoint location) {
+        put("location", location);
     }
 
     public void setHost(ParseUser user) {

@@ -4,9 +4,11 @@ import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDi
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sms.partyview.R;
+import com.sms.partyview.helpers.GetGeoPointTask;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.Invites;
 
@@ -26,10 +28,9 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import java.util.Locale;
 
 public class NewEventActivity extends FragmentActivity
         implements CalendarDatePickerDialog.OnDateSetListener,
@@ -65,6 +66,10 @@ public class NewEventActivity extends FragmentActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // MUST request the feature before setting content view
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         setContentView(R.layout.activity_new_event);
 
         setUpViews();
@@ -210,13 +215,14 @@ public class NewEventActivity extends FragmentActivity
     }
 
     public void createEvent(View view) {
+        showProgressBar();
+
         final Event event = new Event();
 
         // TODO:
         // handle user error, missing inputs etc.
 
         event.setTitle(mEtTitle.getText().toString());
-        event.setAddress(mEtAddress.getText().toString());
         event.setDescription(mEtDescription.getText().toString());
         event.setStartDate(mStartDateTime.toDate());
         event.setEndDate(mEndDateTime.toDate());
@@ -229,6 +235,17 @@ public class NewEventActivity extends FragmentActivity
         invites.setInvites(mEtInvites.getText().toString());
         event.setInvites(invites);
 
+        String address = mEtAddress.getText().toString();
+        event.setAddress(address);
+
+        new GetGeoPointTask(this) {
+            @Override
+            protected void onPostExecute(ParseGeoPoint parseGeoPoint) {
+                //TODO: handle error case when result is null
+                event.setLocation(parseGeoPoint);
+            }
+        }.execute(address);
+
         //TODO: discuss with team on best way to save:
         //      saveInBackground
         //      saveEventually: offline protection
@@ -236,6 +253,7 @@ public class NewEventActivity extends FragmentActivity
         event.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
+                hideProgressBar();
 
                 Intent data = new Intent();
                 data.putExtra("eventId", event.getObjectId());
@@ -284,5 +302,15 @@ public class NewEventActivity extends FragmentActivity
             default:
                 Log.d("DEBUG", "SOMETHING IS WRONG");
         }
+    }
+
+    // Should be called manually when an async task has started
+    private void showProgressBar() {
+        this.setProgressBarIndeterminateVisibility(true);
+    }
+
+    // Should be called when an async task has finished
+    private void hideProgressBar() {
+        this.setProgressBarIndeterminateVisibility(false);
     }
 }
