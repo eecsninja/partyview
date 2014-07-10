@@ -1,6 +1,7 @@
 package com.sms.partyview.activities;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.MyPagerAdapter;
@@ -30,6 +31,9 @@ public class HomeActivity
 
     private PagerSlidingTabStrip mTabs;
 
+    // Key used to store the user name in the installation info.
+    public static final String INSTALLATION_USER_NAME_KEY = "username";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +58,8 @@ public class HomeActivity
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
+
+        storeInstallationInfo();
     }
 
     @Override
@@ -112,5 +118,16 @@ public class HomeActivity
     private void displayNewEventActivity() {
         Intent i = new Intent(this, NewEventActivity.class);
         startActivityForResult(i, Utils.NEW_EVENT_REQUEST_CODE);
+    }
+
+    // Registers the user with this installation's info.
+    private void storeInstallationInfo() {
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        if (installation.getString(INSTALLATION_USER_NAME_KEY) != null) {
+            return;
+        }
+        installation.put(INSTALLATION_USER_NAME_KEY,
+                         ParseUser.getCurrentUser().getUsername());
+        installation.saveInBackground();
     }
 }
