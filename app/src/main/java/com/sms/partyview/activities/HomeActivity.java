@@ -26,11 +26,6 @@ public class HomeActivity
 
     private PagerSlidingTabStrip mTabs;
 
-    // Keys for passing in data in an intent.
-    public static final String INTENT_USER_NAME = "user_name";
-
-    public static final String INTENT_EMAIL = "email";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
