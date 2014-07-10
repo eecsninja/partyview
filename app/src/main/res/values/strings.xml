@@ -49,7 +49,7 @@
     <string name="tag_end_time">endTime</string>
     <string name="tag_end_date">endDate</string>
     <string name="login_forgot_password_label">Forgot your password?</string>
-    <string name="hint_invites">me@gmail.com, you@gmail.com</string>
+    <string name="hint_invites">userFoo, userBar</string>
     <string name="hint_location">1234 Sample Street, CA 00000</string>
     <string name="hint_description">This is an event</string>
     <string name="view_attendees">View Attendees</string>

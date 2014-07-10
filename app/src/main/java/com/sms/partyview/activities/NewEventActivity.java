@@ -3,8 +3,12 @@ package com.sms.partyview.activities;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sms.partyview.R;
@@ -29,8 +33,15 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NewEventActivity extends FragmentActivity
         implements CalendarDatePickerDialog.OnDateSetListener,
@@ -44,6 +55,11 @@ public class NewEventActivity extends FragmentActivity
     private static final DateTimeFormatter DISPLAY_TIME_FORMATTER = DateTimeFormat
             .forPattern("h:mm a");
 
+    // TODO(My): find a more efficient way to retrieve and store this data
+    private List<String> mUserNames = new ArrayList<String>();
+    private Map<String, String> mUserNameToID = new HashMap<String, String>();
+
+    private ArrayAdapter<String> mAdapterInvitesAutoComplete;
     private TextView mTvStartDate;
     private TextView mTvStartTime;
     private TextView mTvEndDate;
@@ -51,15 +67,13 @@ public class NewEventActivity extends FragmentActivity
     private EditText mEtTitle;
     private EditText mEtAddress;
     private EditText mEtDescription;
-    private EditText mEtInvites;
-
+    private MultiAutoCompleteTextView mAutoTvInvites;
     private LocalDateTime mNow;
     private LocalDateTime mNowPlusOne;
     private CalendarDatePickerDialog mStartDatePicker;
     private CalendarDatePickerDialog mEndDatePicker;
     private RadialTimePickerDialog mStartTimePicker;
     private RadialTimePickerDialog mEndTimePicker;
-
     private MutableDateTime mStartDateTime;
     private MutableDateTime mEndDateTime;
 
@@ -71,6 +85,8 @@ public class NewEventActivity extends FragmentActivity
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         setContentView(R.layout.activity_new_event);
+
+        getUserNames();
 
         setUpViews();
     }
@@ -211,7 +227,13 @@ public class NewEventActivity extends FragmentActivity
         mEtTitle = (EditText) findViewById(R.id.etEventName);
         mEtAddress = (EditText) findViewById(R.id.etEventLocation);
         mEtDescription = (EditText) findViewById(R.id.etEventDescription);
-        mEtInvites = (EditText) findViewById(R.id.etEventInvites);
+        mAutoTvInvites = (MultiAutoCompleteTextView) findViewById(R.id.autoTvInvites);
+
+        // set up autocomplete for invites
+        mAdapterInvitesAutoComplete = new ArrayAdapter<String>(this,
+                android.R.layout.simple_dropdown_item_1line, mUserNames);
+        mAutoTvInvites.setAdapter(mAdapterInvitesAutoComplete);
+        mAutoTvInvites.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
 
     public void createEvent(View view) {
@@ -231,8 +253,9 @@ public class NewEventActivity extends FragmentActivity
         // TODO:
         // add logic for inviting people
         // determine best way to store invites
+
         Invites invites = new Invites();
-        invites.setInvites(mEtInvites.getText().toString());
+        invites.setInvites(mAutoTvInvites.getText().toString());
         event.setInvites(invites);
 
         String address = mEtAddress.getText().toString();
@@ -312,5 +335,23 @@ public class NewEventActivity extends FragmentActivity
     // Should be called when an async task has finished
     private void hideProgressBar() {
         this.setProgressBarIndeterminateVisibility(false);
+    }
+
+    private void getUserNames() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+
+        // Query for new results from the network.
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(final List<ParseUser> users, ParseException e) {
+                for (ParseUser user : users) {
+                    mUserNames.add(user.getUsername());
+                    mUserNameToID.put(user.getUsername(), user.getObjectId());
+                }
+                mAdapterInvitesAutoComplete.notifyDataSetChanged();
+
+                Log.d(NewEventActivity.class.getSimpleName() + "_DEBUG", "got all usernames");
+                Log.d(NewEventActivity.class.getSimpleName() + "_DEBUG", mUserNames.toString());
+            }
+        });
     }
 }

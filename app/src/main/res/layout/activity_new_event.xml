@@ -218,17 +218,19 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"/>
 
-        <EditText
-                android:id="@+id/etEventInvites"
+        <MultiAutoCompleteTextView
+                android:id="@+id/autoTvInvites"
                 android:layout_marginLeft="10dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine|textEmailAddress"
                 android:ems="10"
+                android:inputType="textMultiLine"
                 android:minLines="2"
                 android:maxLines="2"
                 android:hint="@string/hint_invites"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:completionThreshold="1">
+        </MultiAutoCompleteTextView>
 
     </LinearLayout>
 
