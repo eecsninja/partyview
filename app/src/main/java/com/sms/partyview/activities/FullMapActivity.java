@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.ParseGeoPoint;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.EventMapFragment;
 import com.sms.partyview.models.Attendee;
@@ -56,6 +57,10 @@ public class FullMapActivity extends FragmentActivity implements EventMapFragmen
     }
 
     public void onViewCreated() {
+
+    }
+
+    public void updateUserLocation(ParseGeoPoint location) {
 
     }
 }

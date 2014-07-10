@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
@@ -241,6 +242,22 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
                 }
             });
             eventMapFragment.setMarkerVisibility(status.equals(AttendanceStatus.PRESENT));
+        }
+    }
+
+    public void updateUserLocation(final ParseGeoPoint location) {
+        if (currentEventUser != null) {
+            ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
+
+            // Retrieve the object by id
+            query.getInBackground(currentEventUser.getObjectId(), new GetCallback<EventUser>() {
+                public void done(EventUser eventUser, ParseException e) {
+                    if (e == null) {
+                        eventUser.put("location", location);
+                        eventUser.saveInBackground();
+                    }
+                }
+            });
         }
     }
 }
