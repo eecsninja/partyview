@@ -1,17 +1,21 @@
 package com.sms.partyview.activities;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.MyPagerAdapter;
 import com.sms.partyview.fragments.AcceptedEventsFragment;
 import com.sms.partyview.fragments.PendingEventsFragment;
 import com.sms.partyview.helpers.Utils;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,6 +36,24 @@ public class HomeActivity
         setContentView(R.layout.activity_home);
 
         setupTabs();
+
+        // Create notification with current user info.
+        // TODO: This is just a template for other notifications. Remove it
+        // when no longer needed.
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_notification)
+                        .setContentTitle("Successfully logged in");
+        ParseUser user = ParseUser.getCurrentUser();
+        try {
+            notificationBuilder.
+                    setContentText("Signed in as " + user.getUsername());
+        } catch (NullPointerException e) {
+            System.err.println(e.getMessage());
+        }
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notificationBuilder.build());
     }
 
     @Override
