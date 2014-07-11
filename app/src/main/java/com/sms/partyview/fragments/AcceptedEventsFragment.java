@@ -37,6 +37,7 @@ public class AcceptedEventsFragment extends EventListFragment {
         query.whereNotEqualTo("status", AttendanceStatus.DECLINED.toString());
         query.whereNotEqualTo("status", AttendanceStatus.INVITED.toString());
         query.addAscendingOrder("date");
+        query.include("host");
         query.include("event");
         query.include("host");
 
