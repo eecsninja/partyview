@@ -59,6 +59,10 @@ public class EventUser extends ParseObject {
         put("event", event);
     }
 
+    public Event getEvent() {
+        return (Event) getParseObject("event");
+    }
+
     public static ParseQuery<EventUser> getQuery() {
         return ParseQuery.getQuery(EventUser.class);
     }
