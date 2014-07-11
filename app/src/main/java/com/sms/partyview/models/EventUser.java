@@ -7,13 +7,12 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
 
-import java.util.Date;
-
 /**
  * Created by sandra on 7/6/14.
  */
 @ParseClassName("EventUser")
 public class EventUser extends ParseObject {
+
     // Required: public default constructor
     public EventUser() {
     }
@@ -30,7 +29,6 @@ public class EventUser extends ParseObject {
         setUser(user);
         setEvent(event);
     }
-
 
     public ParseUser getUser() {
         return getParseUser("user");
@@ -51,20 +49,16 @@ public class EventUser extends ParseObject {
     public AttendanceStatus getStatus() {
         return AttendanceStatus.valueOf(getString("status"));
     }
+
     public void setStatus(AttendanceStatus status) {
         put("status", status.toString());
-    }
-
-    public void setEvent(Event event) {
-        put("event", event);
     }
 
     public Event getEvent() {
         return (Event) getParseObject("event");
     }
 
-    public static ParseQuery<EventUser> getQuery() {
-        return ParseQuery.getQuery(EventUser.class);
+    public void setEvent(Event event) {
+        put("event", event);
     }
-
 }
