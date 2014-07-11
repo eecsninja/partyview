@@ -1,13 +1,9 @@
 package com.sms.partyview.apps;
 
 import com.parse.Parse;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
-import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
-import com.sms.partyview.models.Invites;
 
 import android.app.Application;
 
@@ -22,7 +18,6 @@ public class ParseApplication extends Application {
 
         // Register your parse models
         ParseObject.registerSubclass(Event.class);
-        ParseObject.registerSubclass(Invites.class);
         ParseObject.registerSubclass(EventUser.class);
 
         // must be before app initialization
