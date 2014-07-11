@@ -5,6 +5,7 @@ import android.location.Location;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,10 @@ import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.pubnub.api.Callback;
+import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubError;
+import com.pubnub.api.PubnubException;
 import com.sms.partyview.R;
 import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.Event;
@@ -83,15 +88,23 @@ public class EventMapFragment extends Fragment implements LocationListener,
 
     private String currentEventUserObjId;
 
+    private String eventId;
+
+    private Pubnub pubnub;
+
+    public static final String PUBLISH_KEY = "pub-c-adf5251f-8c96-477d-95fd-ab1907f93905";
+    public static final String SUBSCRIBE_KEY = "sub-c-2f5285ae-08b6-11e4-9ae5-02ee2ddab7fe";
+
     public interface EventMapFragmentListener {
         public void onViewCreated();
     }
 
-    public static EventMapFragment newInstance(ArrayList<Attendee> attendees, String currentEventUserObjId) {
+    public static EventMapFragment newInstance(ArrayList<Attendee> attendees, String currentEventUserObjId, String eventId) {
         EventMapFragment fragment = new EventMapFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("attendees", attendees);
         args.putString("currentEventUserObjId", currentEventUserObjId);
+        args.putString("eventId", eventId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -107,6 +120,7 @@ public class EventMapFragment extends Fragment implements LocationListener,
         // Initialize event list and adapter.
         attendees = getArguments().getParcelableArrayList("attendees");
         currentEventUserObjId = getArguments().getString("currentEventUserObjId");
+        eventId = getArguments().getString("eventId");
 
         markers = new ArrayList<Marker>();
 
@@ -125,6 +139,8 @@ public class EventMapFragment extends Fragment implements LocationListener,
 
         // Create a new location client, using the enclosing class to handle callbacks.
         locationClient = new LocationClient(getActivity(), this, this);
+
+        subscribeToChannel();
     }
 
 
@@ -242,6 +258,7 @@ public class EventMapFragment extends Fragment implements LocationListener,
 
         updateUserLocation(geoPointFromLocation(location));
         updateUserMarker(location);
+        publishUserLocationChange();
     }
 
     public void updateUserMarker(Location location) {
@@ -267,6 +284,18 @@ public class EventMapFragment extends Fragment implements LocationListener,
                 }
             });
         }
+    }
+
+    public void publishUserLocationChange() {
+        Callback callback = new Callback() {
+            public void successCallback(String channel, Object response) {
+                Log.d("PUBNUB",response.toString());
+            }
+            public void errorCallback(String channel, PubnubError error) {
+                Log.d("PUBNUB",error.toString());
+            }
+        };
+        pubnub.publish(eventId, currentEventUserObjId , callback);
     }
 
     @Override
@@ -308,6 +337,49 @@ public class EventMapFragment extends Fragment implements LocationListener,
             return true;
         } else {
             return false;
+        }
+    }
+
+    public void subscribeToChannel () {
+        pubnub = new Pubnub(PUBLISH_KEY, SUBSCRIBE_KEY);
+        try {
+            pubnub.subscribe(eventId, new Callback() {
+
+                        @Override
+                        public void connectCallback(String channel, Object message) {
+                            Log.d("PUBNUB", "SUBSCRIBE : CONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                        }
+
+                        @Override
+                        public void disconnectCallback(String channel, Object message) {
+                            Log.d("PUBNUB","SUBSCRIBE : DISCONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                        }
+
+                        public void reconnectCallback(String channel, Object message) {
+                            Log.d("PUBNUB","SUBSCRIBE : RECONNECT on channel:" + channel
+                                    + " : " + message.getClass() + " : "
+                                    + message.toString());
+                        }
+
+                        @Override
+                        public void successCallback(String channel, Object message) {
+                            Log.d("PUBNUB","SUBSCRIBE : " + channel + " : "
+                                    + message.getClass() + " : " + message.toString());
+                        }
+
+                        @Override
+                        public void errorCallback(String channel, PubnubError error) {
+                            Log.d("PUBNUB","SUBSCRIBE : ERROR on channel " + channel
+                                    + " : " + error.toString());
+                        }
+                    }
+            );
+        } catch (PubnubException e) {
+            Log.d("PUBNUB",e.toString());
         }
     }
 }

@@ -17,6 +17,7 @@ public class FullMapActivity extends FragmentActivity implements EventMapFragmen
     private EventMapFragment eventMapFragment;
     private ArrayList<Attendee> attendees;
     private String currentEventUserObjId;
+    private String eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,7 @@ public class FullMapActivity extends FragmentActivity implements EventMapFragmen
 
         attendees = getIntent().getParcelableArrayListExtra("attendees");
         currentEventUserObjId = getIntent().getStringExtra("currentEventUserObjId");
+        eventId = getIntent().getStringExtra("eventId");
         setupMapFragment();
     }
 
@@ -52,7 +54,7 @@ public class FullMapActivity extends FragmentActivity implements EventMapFragmen
         // Create the transaction
         FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
         // Replace the content of the container
-        eventMapFragment = EventMapFragment.newInstance(attendees, currentEventUserObjId);
+        eventMapFragment = EventMapFragment.newInstance(attendees, currentEventUserObjId, eventId);
         fts.replace(R.id.flFullMapContainer, eventMapFragment);
         fts.commit();
     }

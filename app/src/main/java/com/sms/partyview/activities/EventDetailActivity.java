@@ -127,7 +127,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         // Create the transaction
         FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
         // Replace the content of the container
-        eventMapFragment = EventMapFragment.newInstance(attendees, currentEventUser.getObjectId());
+        eventMapFragment = EventMapFragment.newInstance(attendees, currentEventUser.getObjectId(), eventId);
         fts.replace(R.id.flMapContainer, eventMapFragment);
         fts.commit();
     }
@@ -238,6 +238,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
                         Intent mapIntent = new Intent(EventDetailActivity.this, FullMapActivity.class);
                         mapIntent.putParcelableArrayListExtra("attendees", attendees);
                         mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
+                        mapIntent.putExtra("eventId", eventId);
                         startActivity(mapIntent);
                     }
                 }

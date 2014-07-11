@@ -3,6 +3,7 @@ package com.sms.partyview.fragments;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
@@ -37,19 +38,28 @@ public class AcceptedEventsFragment extends EventListFragment {
         query.whereNotEqualTo("status", AttendanceStatus.INVITED.toString());
         query.addAscendingOrder("date");
         query.include("event");
+        query.include("host");
 
         query.findInBackground(
-                new FindCallback<EventUser>() {
-                    @Override
-                    public void done(List<EventUser> eventUsers, ParseException e) {
+            new FindCallback<EventUser>() {
+                @Override
+                public void done(List<EventUser> eventUsers, ParseException e) {
 
-                        List<Event> events = new ArrayList<Event>();
-                        for (EventUser eventUser : eventUsers) {
-                            events.add(eventUser.getEvent());
+                List<Event> events = new ArrayList<Event>();
+                for (EventUser eventUser : eventUsers) {
+                    Event event = eventUser.getEvent();
+                    events.add(event);
+
+                    event.getHost().fetchInBackground(new GetCallback<ParseObject>() {
+                        @Override
+                        public void done(ParseObject parseObject, ParseException e) {
+                            eventAdapter.notifyDataSetChanged();
                         }
-                        eventAdapter.addAll(events);
-                    }
+                    });
                 }
+                eventAdapter.addAll(events);
+                }
+            }
         );
     }
 
