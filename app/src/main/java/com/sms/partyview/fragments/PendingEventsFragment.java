@@ -35,7 +35,7 @@ public class PendingEventsFragment extends EventListFragment {
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.whereEqualTo("status", AttendanceStatus.INVITED.toString());
         query.addAscendingOrder("date");
-        query.include("event");
+        query.include("event.host");
 
         query.findInBackground(
                 new FindCallback<EventUser>() {

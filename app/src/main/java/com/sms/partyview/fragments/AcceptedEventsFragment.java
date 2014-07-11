@@ -30,16 +30,11 @@ public class AcceptedEventsFragment extends EventListFragment {
         // Define the class we would like to query
         ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
 
-        // Define our query conditions
-
-        // get list of events where user
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.whereNotEqualTo("status", AttendanceStatus.DECLINED.toString());
         query.whereNotEqualTo("status", AttendanceStatus.INVITED.toString());
         query.addAscendingOrder("date");
-        query.include("host");
-        query.include("event");
-        query.include("host");
+        query.include("event.host");
 
         query.findInBackground(
             new FindCallback<EventUser>() {
@@ -48,15 +43,7 @@ public class AcceptedEventsFragment extends EventListFragment {
 
                 List<Event> events = new ArrayList<Event>();
                 for (EventUser eventUser : eventUsers) {
-                    Event event = eventUser.getEvent();
-                    events.add(event);
-
-                    event.getHost().fetchInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject parseObject, ParseException e) {
-                            eventAdapter.notifyDataSetChanged();
-                        }
-                    });
+                    events.add(eventUser.getEvent());
                 }
                 eventAdapter.addAll(events);
                 }
