@@ -1,20 +1,21 @@
 package com.sms.partyview.activities;
 
+import com.google.common.base.Splitter;
+
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
-import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.helpers.GetGeoPointTask;
 import com.sms.partyview.models.Event;
-import com.sms.partyview.models.Invites;
+import com.sms.partyview.models.EventUser;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
@@ -57,7 +58,7 @@ public class NewEventActivity extends FragmentActivity
 
     // TODO(My): find a more efficient way to retrieve and store this data
     private List<String> mUserNames = new ArrayList<String>();
-    private Map<String, String> mUserNameToID = new HashMap<String, String>();
+    private Map<String, ParseUser> mUserNameToUser = new HashMap<String, ParseUser>();
 
     private ArrayAdapter<String> mAdapterInvitesAutoComplete;
     private TextView mTvStartDate;
@@ -79,6 +80,8 @@ public class NewEventActivity extends FragmentActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(NewEventActivity.class.getSimpleName() + "_DEBUG", "create activity");
+
         super.onCreate(savedInstanceState);
 
         // MUST request the feature before setting content view
@@ -250,13 +253,7 @@ public class NewEventActivity extends FragmentActivity
         event.setEndDate(mEndDateTime.toDate());
         event.setHost(ParseUser.getCurrentUser());
 
-        // TODO:
-        // add logic for inviting people
-        // determine best way to store invites
-
-        Invites invites = new Invites();
-        invites.setInvites(mAutoTvInvites.getText().toString());
-        event.setInvites(invites);
+        final String invitesString = mAutoTvInvites.getText().toString();
 
         String address = mEtAddress.getText().toString();
         event.setAddress(address);
@@ -266,28 +263,36 @@ public class NewEventActivity extends FragmentActivity
             protected void onPostExecute(ParseGeoPoint parseGeoPoint) {
                 //TODO: handle error case when result is null
                 event.setLocation(parseGeoPoint);
+
+                //TODO: discuss with team on best way to save:
+                //      saveInBackground
+                //      saveEventually: offline protection
+
+                event.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+
+                        hideProgressBar();
+                        if (e == null) {
+
+                            generateEventUsers(invitesString, event);
+
+                            Intent data = new Intent();
+                            data.putExtra("eventId", event.getObjectId());
+                            setResult(RESULT_OK, data);
+
+                            Log.d("DEBUG", "saved event");
+                            Log.d("DEBUG", event.getObjectId().toString());
+
+                            finish();
+                        } else {
+                            Log.d("DEBUG", "exception creating event");
+                            Log.d("DEBUG", e.toString());
+                        }
+                    }
+                });
             }
         }.execute(address);
-
-        //TODO: discuss with team on best way to save:
-        //      saveInBackground
-        //      saveEventually: offline protection
-
-        event.saveInBackground(new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                hideProgressBar();
-
-                Intent data = new Intent();
-                data.putExtra("eventId", event.getObjectId());
-                setResult(RESULT_OK, data);
-
-                Log.d("DEBUG", "saved event");
-                Log.d("DEBUG", event.getObjectId().toString());
-
-                finish();
-            }
-        });
     }
 
     @Override
@@ -340,12 +345,13 @@ public class NewEventActivity extends FragmentActivity
     private void getUserNames() {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
-        // Query for new results from the network.
+        query.fromLocalDatastore();
+
         query.findInBackground(new FindCallback<ParseUser>() {
             public void done(final List<ParseUser> users, ParseException e) {
                 for (ParseUser user : users) {
                     mUserNames.add(user.getUsername());
-                    mUserNameToID.put(user.getUsername(), user.getObjectId());
+                    mUserNameToUser.put(user.getUsername(), user);
                 }
                 mAdapterInvitesAutoComplete.notifyDataSetChanged();
 
@@ -353,5 +359,34 @@ public class NewEventActivity extends FragmentActivity
                 Log.d(NewEventActivity.class.getSimpleName() + "_DEBUG", mUserNames.toString());
             }
         });
+    }
+
+    private void generateEventUsers(String invitesString, Event event) {
+        List<ParseUser> attendeeList = getAttendeeList(invitesString);
+
+        // create an EventUser object for host and everyone in invites
+        for (ParseUser user : attendeeList) {
+            EventUser eventUser = new EventUser(
+                    AttendanceStatus.INVITED,
+                    new ParseGeoPoint(),
+                    user,
+                    event
+            );
+
+            eventUser.saveInBackground();
+        }
+    }
+    
+    private List<ParseUser> getAttendeeList(String invitesString) {
+        Iterable<String> tokens = Splitter.on(',').omitEmptyStrings().trimResults()
+                .split(invitesString);
+
+        List<ParseUser> attendeeList = new ArrayList<ParseUser>();
+        for (String userName : tokens) {
+            attendeeList.add(mUserNameToUser.get(userName));
+        }
+
+        attendeeList.add(ParseUser.getCurrentUser());
+        return attendeeList;
     }
 }

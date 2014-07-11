@@ -24,8 +24,7 @@ public class Event extends ParseObject {
             String description,
             String address,
             ParseGeoPoint location,
-            ParseUser host,
-            Invites invites
+            ParseUser host
     ) {
         super();
         setTitle(title);
@@ -35,7 +34,6 @@ public class Event extends ParseObject {
         setAddress(address);
         setLocation(location);
         setHost(host);
-        setInvites(invites);
     }
 
     public String getTitle() {
@@ -92,13 +90,5 @@ public class Event extends ParseObject {
 
     public ParseUser getHost() {
         return getParseUser("host");
-    }
-
-    public void setInvites(Invites invites) {
-        put("invites", invites);
-    }
-
-    public Invites getInvites() {
-        return (Invites) getParseObject("invites");
     }
 }

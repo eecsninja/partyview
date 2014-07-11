@@ -1,7 +1,12 @@
 package com.sms.partyview.activities;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.MyPagerAdapter;
@@ -18,6 +23,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,12 +33,10 @@ import java.util.List;
 public class HomeActivity
         extends FragmentActivity {
 
-    private FragmentPagerAdapter mAdapterViewPager;
-
-    private PagerSlidingTabStrip mTabs;
-
     // Key used to store the user name in the installation info.
     public static final String INSTALLATION_USER_NAME_KEY = "username";
+    private FragmentPagerAdapter mAdapterViewPager;
+    private PagerSlidingTabStrip mTabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +120,8 @@ public class HomeActivity
     }
 
     private void displayNewEventActivity() {
+        cacheAppUsers();
+
         Intent i = new Intent(this, NewEventActivity.class);
         startActivityForResult(i, Utils.NEW_EVENT_REQUEST_CODE);
     }
@@ -129,5 +135,28 @@ public class HomeActivity
         }
         installation.put(INSTALLATION_USER_NAME_KEY, currentUserName);
         installation.saveInBackground();
+    }
+
+    private void cacheAppUsers() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+
+        // Query for new results from the network.
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(final List<ParseUser> users, ParseException e) {
+
+                Log.d(HomeActivity.class.getSimpleName() + "_DEBUG", "got user info");
+                Log.d(HomeActivity.class.getSimpleName() + "_DEBUG", users.toString());
+
+                // Remove the previously cached results.
+                ParseObject.unpinAllInBackground("users", new DeleteCallback() {
+                    public void done(ParseException e) {
+                        // Cache the new results.
+                        ParseObject.pinAllInBackground("users", users);
+                        Log.d(HomeActivity.class.getSimpleName() + "_DEBUG", "pin all user info");
+
+                    }
+                });
+            }
+        });
     }
 }

@@ -25,6 +25,9 @@ public class ParseApplication extends Application {
         ParseObject.registerSubclass(Invites.class);
         ParseObject.registerSubclass(EventUser.class);
 
+        // must be before app initialization
+        Parse.enableLocalDatastore(this);
+
         // Add your initialization code here
         Parse.initialize(this, "B29aQbOLKvph6s5n6kyt03lO2Spku4IotpCXVzJq",
                 "eLqJBEWNzRrFso9Dj0AWzcocRRDaplnlDVGPAUvU");
