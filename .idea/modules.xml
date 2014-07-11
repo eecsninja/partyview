@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ParseLoginUI/ParseLoginUI.iml" filepath="$PROJECT_DIR$/ParseLoginUI/ParseLoginUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/facebook-sdk/facebook/facebook.iml" filepath="$PROJECT_DIR$/facebook-sdk/facebook/facebook.iml" />
       <module fileurl="file://$PROJECT_DIR$/partyview.iml" filepath="$PROJECT_DIR$/partyview.iml" />
     </modules>
   </component>
