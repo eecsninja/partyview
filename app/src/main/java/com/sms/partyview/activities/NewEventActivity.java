@@ -366,15 +366,22 @@ public class NewEventActivity extends FragmentActivity
 
         // create an EventUser object for host and everyone in invites
         for (ParseUser user : attendeeList) {
-            EventUser eventUser = new EventUser(
+
+            new EventUser(
                     AttendanceStatus.INVITED,
                     new ParseGeoPoint(),
                     user,
                     event
-            );
-
-            eventUser.saveInBackground();
+            ).saveInBackground();
         }
+
+        // host's invitation status should default to accepted
+        new EventUser(
+                AttendanceStatus.ACCEPTED,
+                new ParseGeoPoint(),
+                ParseUser.getCurrentUser(),
+                event
+        ).saveInBackground();
     }
     
     private List<ParseUser> getAttendeeList(String invitesString) {
