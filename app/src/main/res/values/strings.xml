@@ -55,7 +55,7 @@
     <string name="hint_description">This is an event</string>
     <string name="view_attendees">View Attendees</string>
     <string name="title_activity_full_map">Full Map</string>
-    <string name="title_activity_invite_detail">InviteDetailActivity</string>
+    <string name="title_activity_invite_detail">Invitation to </string>
     <string name="accept_invite">Accept</string>
     <string name="reject_invite">Reject</string>
 

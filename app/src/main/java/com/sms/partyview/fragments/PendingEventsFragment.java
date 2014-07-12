@@ -68,6 +68,7 @@ public class PendingEventsFragment extends EventListFragment {
                 Event event = events.get(position);
                 Intent intent = new Intent(getActivity(), InviteDetailActivity.class);
                 intent.putExtra("eventId", event.getObjectId());
+                intent.putExtra("eventTitle", event.getTitle());
                 getActivity().startActivityForResult(intent, Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE);
             }
         });

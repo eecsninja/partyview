@@ -32,6 +32,7 @@ public class InviteDetailActivity extends Activity {
     private String eventId;
     private Event mEvent;
     private EventUser currentUser;
+    private String eventTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,11 @@ public class InviteDetailActivity extends Activity {
         setContentView(R.layout.activity_invite_detail);
 
         eventId = getIntent().getStringExtra("eventId");
+
+        eventTitle = getIntent().getStringExtra("eventTitle");
+        if (!eventTitle.isEmpty()) {
+            getActionBar().setTitle(getString(R.string.title_activity_invite_detail) + " " +  eventTitle);
+        }
 
         setupViews();
 
