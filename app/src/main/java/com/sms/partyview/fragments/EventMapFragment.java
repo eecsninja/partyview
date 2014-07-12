@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +40,9 @@ import com.sms.partyview.R;
 import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -205,12 +210,14 @@ public class EventMapFragment extends Fragment implements LocationListener,
     private void addUsersToMap(List<Attendee> attendees) {
         if (map != null) {
             for (Attendee attendee : attendees) {
-                Marker marker = map.addMarker(new MarkerOptions()
-                        .position(new LatLng(attendee.getLatitude(),
-                                attendee.getLongitude()))
-                        .title(attendee.getUsername()));
+                //if (attendee.getLatitude() != 0 || attendee.getLongitude() != 0) {
+                    Marker marker = map.addMarker(new MarkerOptions()
+                            .position(new LatLng(attendee.getLatitude(),
+                                    attendee.getLongitude()))
+                            .title(attendee.getUsername()));
 
-                markers.add(marker);
+                    markers.add(marker);
+             //   }
             }
             if (attendees.size() > 0) {
                 updateCameraView();
@@ -295,8 +302,27 @@ public class EventMapFragment extends Fragment implements LocationListener,
                 Log.d("PUBNUB",error.toString());
             }
         };
-        pubnub.publish(eventId, currentEventUserObjId , callback);
+
+        try {
+            JSONObject dataToPublish = new JSONObject();
+            dataToPublish.put("username", ParseUser.getCurrentUser().getUsername());
+            dataToPublish.put("lat", currentLocation.getLatitude());
+            dataToPublish.put("long", currentLocation.getLongitude());
+            pubnub.publish(eventId, dataToPublish, callback);
+        } catch (JSONException jsonException) {
+
+        }
     }
+
+//    public void updateOtherUserMarker(String username, double latitude, double longitude) {
+//        for (Marker marker : markers) {
+//            if (marker.getTitle().equals(username)) {
+//                marker.setPosition(new LatLng(latitude, longitude));
+//                break;
+//            }
+//        }
+//        updateCameraView();
+//    }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
@@ -344,39 +370,64 @@ public class EventMapFragment extends Fragment implements LocationListener,
         pubnub = new Pubnub(PUBLISH_KEY, SUBSCRIBE_KEY);
         try {
             pubnub.subscribe(eventId, new Callback() {
+                @Override
+                public void connectCallback(String channel, Object message) {
+                    Log.d("PUBNUB", "SUBSCRIBE : CONNECT on channel:" + channel
+                            + " : " + message.getClass() + " : "
+                            + message.toString());
+                }
 
-                        @Override
-                        public void connectCallback(String channel, Object message) {
-                            Log.d("PUBNUB", "SUBSCRIBE : CONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
+                @Override
+                public void disconnectCallback(String channel, Object message) {
+                    Log.d("PUBNUB","SUBSCRIBE : DISCONNECT on channel:" + channel
+                            + " : " + message.getClass() + " : "
+                            + message.toString());
+                }
 
-                        @Override
-                        public void disconnectCallback(String channel, Object message) {
-                            Log.d("PUBNUB","SUBSCRIBE : DISCONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
+                public void reconnectCallback(String channel, Object message) {
+                    Log.d("PUBNUB","SUBSCRIBE : RECONNECT on channel:" + channel
+                            + " : " + message.getClass() + " : "
+                            + message.toString());
+                }
 
-                        public void reconnectCallback(String channel, Object message) {
-                            Log.d("PUBNUB","SUBSCRIBE : RECONNECT on channel:" + channel
-                                    + " : " + message.getClass() + " : "
-                                    + message.toString());
-                        }
+                @Override
+                public void successCallback(String channel, Object message) {
+                    Log.d("PUBNUB","SUBSCRIBE : " + channel + " : "
+                            + message.getClass() + " : " + message.toString());
+                    try {
+                        if (message instanceof JSONObject) {
+                            JSONObject data = (JSONObject) message;
+                            final String username = data.getString("username");
+                            final double latitude = data.getLong("lat");
+                            final double longitude = data.getLong("long");
+                            Handler handler = new Handler(Looper.getMainLooper());
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    for (Marker marker : markers) {
+                                        if (marker.getTitle().equals(username)) {
+                                            marker.setPosition(new LatLng(latitude, longitude));
+                                            break;
+                                        }
+                                    }
+                                    updateCameraView();
+                                }
 
-                        @Override
-                        public void successCallback(String channel, Object message) {
-                            Log.d("PUBNUB","SUBSCRIBE : " + channel + " : "
-                                    + message.getClass() + " : " + message.toString());
-                        }
+                            });
 
-                        @Override
-                        public void errorCallback(String channel, PubnubError error) {
-                            Log.d("PUBNUB","SUBSCRIBE : ERROR on channel " + channel
-                                    + " : " + error.toString());
+
                         }
+                    } catch (JSONException e) {
+
                     }
+                }
+
+                @Override
+                public void errorCallback(String channel, PubnubError error) {
+                    Log.d("PUBNUB","SUBSCRIBE : ERROR on channel " + channel
+                            + " : " + error.toString());
+                }
+            }
             );
         } catch (PubnubException e) {
             Log.d("PUBNUB",e.toString());

@@ -188,7 +188,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
             if (status.equals(AttendanceStatus.PRESENT)) {
                 btnJoinLeave.setText(getString(R.string.leave_event));
                 this.status = AttendanceStatus.PRESENT;
-            } else {
+            } else if (status.equals(AttendanceStatus.ACCEPTED)) {
                 btnJoinLeave.setText(getString(R.string.join_event));
                 this.status = AttendanceStatus.ACCEPTED;
             }

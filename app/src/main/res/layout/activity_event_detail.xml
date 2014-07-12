@@ -50,7 +50,7 @@
         android:id="@+id/btnJoinLeave"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/join_event"
+        android:text=""
         android:padding="5dp"
         android:onClick="onJoinLeave"/>
     <TextView
