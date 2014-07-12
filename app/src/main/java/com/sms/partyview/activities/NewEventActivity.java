@@ -393,7 +393,6 @@ public class NewEventActivity extends FragmentActivity
             attendeeList.add(mUserNameToUser.get(userName));
         }
 
-        attendeeList.add(ParseUser.getCurrentUser());
         return attendeeList;
     }
 }

@@ -43,15 +43,7 @@ public class AcceptedEventsFragment extends EventListFragment {
 
                 List<Event> events = new ArrayList<Event>();
                 for (EventUser eventUser : eventUsers) {
-                    Event event = eventUser.getEvent();
-                    events.add(event);
-
-                    event.getHost().fetchInBackground(new GetCallback<ParseObject>() {
-                        @Override
-                        public void done(ParseObject parseObject, ParseException e) {
-                            eventAdapter.notifyDataSetChanged();
-                        }
-                    });
+                    events.add(eventUser.getEvent());
                 }
                 eventAdapter.addAll(events);
                 }

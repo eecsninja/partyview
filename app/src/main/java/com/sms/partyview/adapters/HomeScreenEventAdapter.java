@@ -20,6 +20,7 @@ import java.util.List;
  * Created by sque on 7/4/14.
  */
 public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
+
     private static final DateFormat DF = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
     public HomeScreenEventAdapter(Context context, List<Event> event_list) {
@@ -51,7 +52,7 @@ public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
         timeField.setText(DF.format(date));
         // TODO: should show a display name.
 
-       // hostNameField.setText("Hosted by: " + event.getHost().getUsername());
+        hostNameField.setText("Hosted by: " + event.getHost().getUsername());
 
         return view;
     }
