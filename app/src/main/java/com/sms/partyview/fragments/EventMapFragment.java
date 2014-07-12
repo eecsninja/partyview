@@ -314,16 +314,6 @@ public class EventMapFragment extends Fragment implements LocationListener,
         }
     }
 
-//    public void updateOtherUserMarker(String username, double latitude, double longitude) {
-//        for (Marker marker : markers) {
-//            if (marker.getTitle().equals(username)) {
-//                marker.setPosition(new LatLng(latitude, longitude));
-//                break;
-//            }
-//        }
-//        updateCameraView();
-//    }
-
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
@@ -398,23 +388,24 @@ public class EventMapFragment extends Fragment implements LocationListener,
                         if (message instanceof JSONObject) {
                             JSONObject data = (JSONObject) message;
                             final String username = data.getString("username");
-                            final double latitude = data.getLong("lat");
-                            final double longitude = data.getLong("long");
-                            Handler handler = new Handler(Looper.getMainLooper());
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    for (Marker marker : markers) {
-                                        if (marker.getTitle().equals(username)) {
-                                            marker.setPosition(new LatLng(latitude, longitude));
-                                            break;
+                            if (!username.equals(ParseUser.getCurrentUser().getUsername())) {
+                                final double latitude = data.getLong("lat");
+                                final double longitude = data.getLong("long");
+                                Handler handler = new Handler(Looper.getMainLooper());
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        for (Marker marker : markers) {
+                                            if (marker.getTitle().equals(username)) {
+                                                marker.setPosition(new LatLng(latitude, longitude));
+                                                break;
+                                            }
                                         }
+                                        updateCameraView();
                                     }
-                                    updateCameraView();
-                                }
 
-                            });
-
+                                });
+                            }
 
                         }
                     } catch (JSONException e) {

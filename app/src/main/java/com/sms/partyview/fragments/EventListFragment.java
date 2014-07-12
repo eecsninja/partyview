@@ -67,7 +67,7 @@ public abstract class EventListFragment extends Fragment {
         return view;
     }
 
-    private void setUpDisplayDetailedView() {
+    protected void setUpDisplayDetailedView() {
         eventsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,

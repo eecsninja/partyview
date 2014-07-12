@@ -5,11 +5,16 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
+import com.sms.partyview.activities.EventDetailActivity;
+import com.sms.partyview.activities.InviteDetailActivity;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,5 +57,20 @@ public class PendingEventsFragment extends EventListFragment {
                     }
                 }
         );
+    }
+
+    @Override
+    protected void setUpDisplayDetailedView() {
+        eventsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                Event event = events.get(position);
+                Intent intent = new Intent(getActivity(), InviteDetailActivity.class);
+                intent.putExtra("eventId", event.getObjectId());
+                intent.putExtra("eventTitle", event.getTitle());
+                startActivity(intent);
+            }
+        });
     }
 }
