@@ -347,9 +347,15 @@ public class EditEventFragment extends Fragment
 
         query.findInBackground(new FindCallback<ParseUser>() {
             public void done(final List<ParseUser> users, ParseException e) {
+                ParseUser currentUser = ParseUser.getCurrentUser();
+
                 for (ParseUser user : users) {
-                    mUserNames.add(user.getUsername());
-                    mUserNameToUser.put(user.getUsername(), user);
+
+                    // do not include host as suggestion for invitees 
+                    if(!user.equals(currentUser)) {
+                        mUserNames.add(user.getUsername());
+                        mUserNameToUser.put(user.getUsername(), user);
+                    }
                 }
                 mAdapterInvitesAutoComplete.notifyDataSetChanged();
 
