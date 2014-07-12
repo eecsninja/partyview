@@ -329,4 +329,17 @@ public class EditEventFragment extends Fragment
 
         return attendeeList;
     }
+
+    // Loads an event for editing. Fills the fields with the event parameters.
+    public void loadEvent(Event event) {
+        mEtTitle.setText(event.getTitle());
+        mEtAddress.setText(event.getAddress());
+        mEtDescription.setText(event.getDescription());
+
+        // TODO: Properly display these parameters as text
+        mTvStartDate.setText(event.getStartDate().toString());
+        mTvEndDate.setText(event.getEndDate().toString());
+        mTvStartTime.setText("" + event.getStartDate().getTime());
+        mTvEndTime.setText("" + event.getEndDate().getTime());
+    }
 }

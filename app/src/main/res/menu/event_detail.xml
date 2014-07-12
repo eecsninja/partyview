@@ -6,5 +6,6 @@
           android:title="@string/action_edit_event"
           android:showAsAction="ifRoom|withText"
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content" />
+          android:layout_height="wrap_content"
+          android:onClick="editEvent" />
 </menu>

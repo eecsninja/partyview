@@ -27,7 +27,7 @@ import android.view.Window;
 import java.util.List;
 
 public class NewEventActivity extends FragmentActivity implements EventSaverInterface {
-    private EditEventFragment mEditEventFragment;
+    protected EditEventFragment mEditEventFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +138,7 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
         this.setProgressBarIndeterminateVisibility(false);
     }
 
-    private void notifyInvitees(List<ParseUser> invitees) {
+    protected void notifyInvitees(List<ParseUser> invitees) {
         // TODO: Is there a way to send as a single query?
         for (ParseUser invitee : invitees) {
             ParseQuery query = ParseInstallation.getQuery();

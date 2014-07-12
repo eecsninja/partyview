@@ -74,6 +74,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.HomeActivity" />
         </activity>
+        <activity
+            android:name=".activities.EditEventActivity"
+            android:label="@string/title_activity_edit_event" >
+        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"

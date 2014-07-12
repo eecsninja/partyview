@@ -53,6 +53,8 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
 
     private List<Marker> markers;
 
+    private final int EDIT_EVENT_REQUEST = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -247,4 +249,9 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         }
     }
 
+    public void editEvent(MenuItem menuItem) {
+        Intent intent = new Intent(this, EditEventActivity.class);
+        intent.putExtra(EditEventActivity.EVENT_ID_INTENT_KEY, mEvent.getObjectId());
+        startActivityForResult(intent, EDIT_EVENT_REQUEST);
+    }
 }
