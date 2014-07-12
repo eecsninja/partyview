@@ -30,6 +30,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
@@ -63,6 +64,7 @@ public class EditEventFragment extends Fragment
     private EditText mEtTitle;
     private EditText mEtAddress;
     private EditText mEtDescription;
+    private Button mBtnCreate;
     private MultiAutoCompleteTextView mAutoTvInvites;
     private LocalDateTime mNow;
     private LocalDateTime mNowPlusOne;
@@ -112,6 +114,12 @@ public class EditEventFragment extends Fragment
     }
 
     private void setUpClickListeners() {
+        mBtnCreate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createEvent();
+            }
+        });
         mTvStartDate.setOnClickListener(this);
         mTvStartTime.setOnClickListener(this);
         mTvEndDate.setOnClickListener(this);
@@ -225,6 +233,7 @@ public class EditEventFragment extends Fragment
         mEtTitle = (EditText) view.findViewById(R.id.etEventName);
         mEtAddress = (EditText) view.findViewById(R.id.etEventLocation);
         mEtDescription = (EditText) view.findViewById(R.id.etEventDescription);
+        mBtnCreate = (Button) view.findViewById(R.id.btnCreateEvent);
         mAutoTvInvites = (MultiAutoCompleteTextView) view.findViewById(R.id.autoTvInvites);
 
         // set up autocomplete for invites
@@ -236,7 +245,7 @@ public class EditEventFragment extends Fragment
         mAutoTvInvites.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
     }
 
-    public void createEvent(View view) {
+    public void createEvent() {
         final Event event = new Event();
 
         // TODO:
