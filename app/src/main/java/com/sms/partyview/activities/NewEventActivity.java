@@ -22,7 +22,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
 
 import java.util.List;
@@ -61,10 +60,6 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void createEvent(View view) {
-        mEditEventFragment.createEvent(view);
     }
 
     @Override
