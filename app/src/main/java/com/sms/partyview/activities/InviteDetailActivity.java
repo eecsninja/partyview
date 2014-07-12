@@ -61,12 +61,9 @@ public class InviteDetailActivity extends Activity {
         mTvLocation = (TextView) findViewById(R.id.tvLocation);
         mBtnAccept = (Button) findViewById(R.id.btnAcceptInvite);
         mBtnReject = (Button) findViewById(R.id.btnRejectInvite);
-
-
     }
 
     public void retrieveEvent() {
-
         // Define the class we would like to query
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
 
