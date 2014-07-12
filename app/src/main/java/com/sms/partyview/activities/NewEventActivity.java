@@ -23,6 +23,43 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
     private EditEventFragment mEditEventFragment;
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        Log.d(getClass().getSimpleName() + "_DEBUG", "create activity");
+
+        super.onCreate(savedInstanceState);
+
+        // MUST request the feature before setting content view
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+        setContentView(R.layout.activity_new_event);
+
+        // Display the edit event fragment.
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        mEditEventFragment = new EditEventFragment();
+        ft.replace(R.id.flNewEventContainer, mEditEventFragment);
+        ft.commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public void createEvent(View view) {
+        mEditEventFragment.createEvent(view);
+    }
+
+    @Override
     public void saveNewEvent(final Event event, final String invitesString) {
         showProgressBar();
         new GetGeoPointTask(this) {
@@ -64,50 +101,13 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
         }.execute(event.getAddress());
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.d(getClass().getSimpleName() + "_DEBUG", "create activity");
-
-        super.onCreate(savedInstanceState);
-
-        // MUST request the feature before setting content view
-        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
-        setContentView(R.layout.activity_new_event);
-
-        // Display the edit event fragment.
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        mEditEventFragment = new EditEventFragment();
-        ft.replace(R.id.flNewEventContainer, mEditEventFragment);
-        ft.commit();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
     // Should be called manually when an async task has started
-    public void showProgressBar() {
+    private void showProgressBar() {
         this.setProgressBarIndeterminateVisibility(true);
     }
 
     // Should be called when an async task has finished
-    public void hideProgressBar() {
+    private void hideProgressBar() {
         this.setProgressBarIndeterminateVisibility(false);
-    }
-
-    public void createEvent(View view) {
-        mEditEventFragment.createEvent(view);
     }
 }
