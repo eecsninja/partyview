@@ -261,7 +261,11 @@ public class NewEventActivity extends FragmentActivity
         new GetGeoPointTask(this) {
             @Override
             protected void onPostExecute(ParseGeoPoint parseGeoPoint) {
-                //TODO: handle error case when result is null
+                // TODO: What is the proper behavior when this is null?
+                // I'm creating an empty ParseGeoPoint object for now.
+                if (parseGeoPoint == null) {
+                    parseGeoPoint = new ParseGeoPoint();
+                }
                 event.setLocation(parseGeoPoint);
 
                 //TODO: discuss with team on best way to save:
