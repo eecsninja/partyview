@@ -1,5 +1,6 @@
 package com.sms.partyview.fragments;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
@@ -10,7 +11,6 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
-import com.sms.partyview.activities.NewEventActivity;
 import com.sms.partyview.helpers.EventSaverInterface;
 import com.sms.partyview.models.Event;
 
@@ -37,7 +37,6 @@ import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +56,9 @@ public class EditEventFragment extends Fragment
     private static final DateTimeFormatter DISPLAY_TIME_FORMATTER = DateTimeFormat
             .forPattern("h:mm a");
 
-    private static final Splitter INVITEES_SPLITTER = Splitter.on(',').omitEmptyStrings().trimResults();
+    private static final Splitter INVITEES_SPLITTER = Splitter.on(',').omitEmptyStrings()
+            .trimResults();
+    private static final Joiner JOINER = Joiner.on(',');
 
     // TODO(My): find a more efficient way to retrieve and store this data
     private List<String> mUserNames = new ArrayList<String>();
@@ -273,12 +274,46 @@ public class EditEventFragment extends Fragment
             validationErrorMessage.append(getResources().getString(R.string.error_blank_location));
         }
 
-        if(isEmpty(invitees)) {
+        if (isEmpty(invitees)) {
             if (validationError) {
                 validationErrorMessage.append(getResources().getString(R.string.error_join));
             }
             validationError = true;
             validationErrorMessage.append(getResources().getString(R.string.error_blank_invitees));
+        }
+
+        Iterable<String> tokens = INVITEES_SPLITTER.split(invitees);
+        StringBuilder invalidInviteesErrorMessage = new StringBuilder();
+        boolean inviteesValidationError = false;
+        List<String> incorrectUserNames = new ArrayList<String>();
+        for (String userName : tokens) {
+            if (mUserNameToUser.get(userName) == null) {
+                inviteesValidationError = true;
+                incorrectUserNames.add(userName);
+            }
+        }
+
+        if (inviteesValidationError) {
+
+            invalidInviteesErrorMessage.append(JOINER.join(incorrectUserNames));
+
+            if (incorrectUserNames.size() > 1) {
+                invalidInviteesErrorMessage
+                        .append(getString(R.string.error_invalid_invitees_plural_end));
+            } else {
+                invalidInviteesErrorMessage
+                        .append(getString(R.string.error_invalid_invitees_singular_end));
+            }
+
+            if (validationError) {
+                validationErrorMessage.append(getResources().getString(R.string.error_join));
+            }
+            validationError = true;
+            validationErrorMessage
+                    .append(getString(R.string.error_invalid_invitees_begin));
+
+            validationErrorMessage
+                    .append(invalidInviteesErrorMessage);
         }
 
         validationErrorMessage.append(getResources().getString(R.string.error_end));
@@ -351,8 +386,8 @@ public class EditEventFragment extends Fragment
 
                 for (ParseUser user : users) {
 
-                    // do not include host as suggestion for invitees 
-                    if(!user.equals(currentUser)) {
+                    // do not include host as suggestion for invitees
+                    if (!user.equals(currentUser)) {
                         mUserNames.add(user.getUsername());
                         mUserNameToUser.put(user.getUsername(), user);
                     }

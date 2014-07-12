@@ -60,17 +60,19 @@
     <string name="reject_invite">Reject</string>
     <string name="title_activity_edit_event">Edit Event</string>
     <string name="msg_missing_incorrect_location">Location cannot be null</string>
+    <string name="last_update">Last update</string>
 
     <!--for event creation validation-->
     <string name="error_intro">"Please "</string>
     <string name="error_invalid_location">This address is invalid</string>
-    <string name="error_invalid_invites">This invites is invalid</string>
+    <string name="error_invalid_invitees_plural_end">" are not valid users"</string>
+    <string name="error_invalid_invitees_singular_end">" is not a valid user"</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_blank_location">enter a location</string>
     <string name="error_join">", and "</string>
     <string name="error_end">.</string>
     <string name="error_blank_title">enter a title</string>
     <string name="error_blank_invitees">invite at least one person</string>
-    <string name="last_update">Last update</string>
+    <string name="error_invalid_invitees_begin">"fix invitees. "</string>
 
 </resources>
