@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -23,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -44,8 +46,10 @@ import com.sms.partyview.models.UserMarker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,7 +67,7 @@ public class EventMapFragment extends Fragment implements LocationListener,
     private GoogleMap map;
     private ArrayList<Attendee> attendees;
     private EventMapFragmentListener mListener;
-    private HashMap<Marker, UserMarker> mMarkersHashMap;
+    private HashMap<Marker, UserMarker> mMarkersHashMap = new HashMap<Marker, UserMarker>();
     private ArrayList<UserMarker> mMyMarkersArray = new ArrayList<UserMarker>();
 
     /*
@@ -226,21 +230,33 @@ public class EventMapFragment extends Fragment implements LocationListener,
     private void addUsersToMap(List<Attendee> attendees) {
         if (map != null) {
             for (Attendee attendee : attendees) {
-                Marker marker = map.addMarker(new MarkerOptions()
-                        .position(new LatLng(attendee.getLatitude(),
-                                attendee.getLongitude()))
-                        .title(attendee.getUsername()));
+//                Marker marker = map.addMarker(new MarkerOptions()
+//                        .position(new LatLng(attendee.getLatitude(),
+//                                attendee.getLongitude()))
+//                        .title(attendee.getUsername()));
+                UserMarker userMarker = new UserMarker(attendee.getUsername(),
+                        attendee.getLatitude(), attendee.getLongitude(), attendee.getUpdatedAt());
+
+                MarkerOptions markerOption = new MarkerOptions().position(new LatLng(attendee.getLatitude(), attendee.getLongitude()));
+                //  markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.));
+
+                Marker marker = map.addMarker(markerOption);
+                mMarkersHashMap.put(marker, userMarker);
                 if (attendee.getLatitude() == 0 && attendee.getLongitude() == 0) {
                     marker.setVisible(false);
                 }
 
                 userMarkersMap.put(attendee.getUsername(), marker);
+
+                mMyMarkersArray.add(userMarker);
                 markers.add(marker);
             }
             if (attendees.size() > 0) {
                 updateCameraView();
             }
         }
+
+        map.setInfoWindowAdapter(new MarkerInfoWindowAdapter());
     }
 
     private void updateCameraView() {
@@ -290,6 +306,10 @@ public class EventMapFragment extends Fragment implements LocationListener,
         Marker marker = userMarkersMap.get(ParseUser.getCurrentUser().getUsername());
         marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
         userMarkersMap.put(ParseUser.getCurrentUser().getUsername(), marker);
+
+        UserMarker userMarker = mMarkersHashMap.get(marker);
+        userMarker.setmLastUpdate(new Date());
+        mMarkersHashMap.put(marker, userMarker);
     }
 
     public void updateUserLocation(final ParseGeoPoint location) {
@@ -437,6 +457,39 @@ public class EventMapFragment extends Fragment implements LocationListener,
             );
         } catch (PubnubException e) {
             Log.d("PUBNUB",e.toString());
+        }
+    }
+
+    public class MarkerInfoWindowAdapter implements GoogleMap.InfoWindowAdapter
+    {
+        public MarkerInfoWindowAdapter()
+        {
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker)
+        {
+            return null;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker)
+        {
+            View v  = getActivity().getLayoutInflater().inflate(R.layout.infowindow_layout, null);
+
+            UserMarker myMarker = mMarkersHashMap.get(marker);
+
+            TextView markerTitle = (TextView) v.findViewById(R.id.tvMarkerTitle);
+
+            TextView markerLastUpdate = (TextView)v.findViewById(R.id.tvMarkerLastUpdate);
+
+            markerTitle.setText(myMarker.getmLabel());
+
+
+            PrettyTime p = new PrettyTime();
+            markerLastUpdate.setText(getString(R.string.last_update) + ": " + p.format(myMarker.getmLastUpdate()));
+
+            return v;
         }
     }
 }

@@ -46,4 +46,6 @@ dependencies {
     compile 'com.google.guava:guava:17.0'
 
     compile 'eu.inmite.android.lib:android-styled-dialogs:1.1.2@aar'
+
+    compile 'org.ocpsoft.prettytime:prettytime:3.2.5.Final'
 }

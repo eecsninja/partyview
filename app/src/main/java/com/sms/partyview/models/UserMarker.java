@@ -5,15 +5,16 @@ import java.util.Date;
 public class UserMarker
 {
     private String mLabel;
-    private Date lastUpdated;
+    private Date mLastUpdate;
     private Double mLatitude;
     private Double mLongitude;
 
-    public UserMarker(String label, Double latitude, Double longitude)
+    public UserMarker(String label, Double latitude, Double longitude, Date mLastUpdate)
     {
         this.mLabel = label;
         this.mLatitude = latitude;
         this.mLongitude = longitude;
+        this.mLastUpdate = mLastUpdate;
     }
 
     public String getmLabel()
@@ -44,5 +45,13 @@ public class UserMarker
     public void setmLongitude(Double mLongitude)
     {
         this.mLongitude = mLongitude;
+    }
+
+    public Date getmLastUpdate() {
+        return mLastUpdate;
+    }
+
+    public void setmLastUpdate(Date mLastUpdate) {
+        this.mLastUpdate = mLastUpdate;
     }
 }

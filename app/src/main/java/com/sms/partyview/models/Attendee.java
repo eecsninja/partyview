@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.sms.partyview.AttendanceStatus;
 
+import java.util.Date;
+
 /**
  * Created by sandra on 7/8/14.
  */
@@ -13,6 +15,7 @@ public class Attendee implements Parcelable {
     private AttendanceStatus status;
     private double latitude;
     private double longitude;
+    private Date updatedAt;
 
     public Attendee(Parcel in) {
         super();
@@ -25,6 +28,7 @@ public class Attendee implements Parcelable {
         this.status = eventUser.getStatus();
         this.latitude = eventUser.getLocation().getLatitude();
         this.longitude = eventUser.getLocation().getLongitude();
+        this.updatedAt = eventUser.getUpdatedAt();
     }
 
     public static final Parcelable.Creator<Attendee> CREATOR = new Parcelable.Creator<Attendee>() {
@@ -44,6 +48,7 @@ public class Attendee implements Parcelable {
         status = AttendanceStatus.valueOf(in.readString());
         latitude = in.readDouble();
         longitude = in.readDouble();
+        updatedAt = new Date(in.readLong());
     }
 
     public int describeContents() {
@@ -55,6 +60,7 @@ public class Attendee implements Parcelable {
         dest.writeString(status.toString());
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
+        dest.writeLong(updatedAt.getTime());
     }
 
     public String getUsername() {
@@ -88,4 +94,15 @@ public class Attendee implements Parcelable {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+
+
 }

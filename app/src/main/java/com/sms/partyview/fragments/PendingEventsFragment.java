@@ -46,14 +46,15 @@ public class PendingEventsFragment extends EventListFragment {
                 new FindCallback<EventUser>() {
                     @Override
                     public void done(List<EventUser> eventUsers, ParseException e) {
-
-                        Log.d("DEBUG", "invited eventUsers");
-                        Log.d("DEBUG", eventUsers.size() + eventUsers.toString());
-                        List<Event> events = new ArrayList<Event>();
-                        for (EventUser eventUser : eventUsers) {
-                            events.add(eventUser.getEvent());
+                        if (e == null) {
+                          //  Log.d("DEBUG", "invited eventUsers");
+                          //  Log.d("DEBUG", eventUsers.size() + eventUsers.toString());
+                            List<Event> events = new ArrayList<Event>();
+                            for (EventUser eventUser : eventUsers) {
+                                events.add(eventUser.getEvent());
+                            }
+                            eventAdapter.addAll(events);
                         }
-                        eventAdapter.addAll(events);
                     }
                 }
         );
