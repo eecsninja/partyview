@@ -7,14 +7,11 @@ import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
 import com.parse.FindCallback;
 import com.parse.ParseException;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.helpers.EventSaverInterface;
 import com.sms.partyview.models.Event;
-import com.sms.partyview.models.EventUser;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
@@ -312,30 +309,7 @@ public class EditEventFragment extends Fragment
         });
     }
 
-    public void generateEventUsers(String invitesString, Event event) {
-        List<ParseUser> attendeeList = getAttendeeList(invitesString);
-
-        // create an EventUser object for host and everyone in invites
-        for (ParseUser user : attendeeList) {
-
-            new EventUser(
-                    AttendanceStatus.INVITED,
-                    new ParseGeoPoint(),
-                    user,
-                    event
-            ).saveInBackground();
-        }
-
-        // host's invitation status should default to accepted
-        new EventUser(
-                AttendanceStatus.ACCEPTED,
-                new ParseGeoPoint(),
-                ParseUser.getCurrentUser(),
-                event
-        ).saveInBackground();
-    }
-
-    private List<ParseUser> getAttendeeList(String invitesString) {
+    public List<ParseUser> getAttendeeList(String invitesString) {
         Iterable<String> tokens = Splitter.on(',').omitEmptyStrings().trimResults()
                 .split(invitesString);
 

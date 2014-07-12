@@ -2,12 +2,15 @@ package com.sms.partyview.activities;
 
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.EditEventFragment;
 import com.sms.partyview.helpers.EventSaverInterface;
 import com.sms.partyview.helpers.GetGeoPointTask;
 import com.sms.partyview.models.Event;
+import com.sms.partyview.models.EventUser;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +21,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+
+import java.util.List;
 
 public class NewEventActivity extends FragmentActivity implements EventSaverInterface {
     private EditEventFragment mEditEventFragment;
@@ -81,7 +86,9 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
                     public void done(ParseException e) {
                         hideProgressBar();
                         if (e == null) {
-                            mEditEventFragment.generateEventUsers(invitesString, event);
+                            List<ParseUser> attendeeList =
+                                    mEditEventFragment.getAttendeeList(invitesString);
+                            generateEventUsers(attendeeList, event);
 
                             Intent data = new Intent();
                             data.putExtra("eventId", event.getObjectId());
@@ -99,6 +106,27 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
                 });
             }
         }.execute(event.getAddress());
+    }
+
+    public static void generateEventUsers(List<ParseUser> attendeeList, Event event) {
+        // create an EventUser object for host and everyone in invites
+        for (ParseUser user : attendeeList) {
+
+            new EventUser(
+                    AttendanceStatus.INVITED,
+                    new ParseGeoPoint(),
+                    user,
+                    event
+            ).saveInBackground();
+        }
+
+        // host's invitation status should default to accepted
+        new EventUser(
+                AttendanceStatus.ACCEPTED,
+                new ParseGeoPoint(),
+                ParseUser.getCurrentUser(),
+                event
+        ).saveInBackground();
     }
 
     // Should be called manually when an async task has started
