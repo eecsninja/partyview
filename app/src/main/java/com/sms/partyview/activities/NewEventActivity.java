@@ -2,6 +2,9 @@ package com.sms.partyview.activities;
 
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sms.partyview.AttendanceStatus;
@@ -89,6 +92,7 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
                             List<ParseUser> attendeeList =
                                     mEditEventFragment.getAttendeeList(invitesString);
                             generateEventUsers(attendeeList, event);
+                            notifyInvitees(attendeeList);
 
                             Intent data = new Intent();
                             data.putExtra("eventId", event.getObjectId());
@@ -138,4 +142,19 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
     private void hideProgressBar() {
         this.setProgressBarIndeterminateVisibility(false);
     }
+
+    private void notifyInvitees(List<ParseUser> invitees) {
+        // TODO: Is there a way to send as a single query?
+        for (ParseUser invitee : invitees) {
+            ParseQuery query = ParseInstallation.getQuery();
+            query.whereEqualTo(HomeActivity.INSTALLATION_USER_NAME_KEY,
+                               invitee.getUsername());
+
+            ParsePush push = new ParsePush();
+            push.setQuery(query);
+            push.setMessage("You have an event invite!");
+            push.sendInBackground();
+        }
+    }
+
 }
