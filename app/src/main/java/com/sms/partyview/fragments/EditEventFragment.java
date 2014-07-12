@@ -10,6 +10,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
+import com.sms.partyview.activities.NewEventActivity;
 import com.sms.partyview.helpers.EventSaverInterface;
 import com.sms.partyview.models.Event;
 
@@ -34,12 +35,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static android.text.TextUtils.isEmpty;
 
 public class EditEventFragment extends Fragment
         implements CalendarDatePickerDialog.OnDateSetListener,
@@ -52,6 +56,8 @@ public class EditEventFragment extends Fragment
             .forPattern("E, MMM d");
     private static final DateTimeFormatter DISPLAY_TIME_FORMATTER = DateTimeFormat
             .forPattern("h:mm a");
+
+    private static final Splitter INVITEES_SPLITTER = Splitter.on(',').omitEmptyStrings().trimResults();
 
     // TODO(My): find a more efficient way to retrieve and store this data
     private List<String> mUserNames = new ArrayList<String>();
@@ -245,10 +251,46 @@ public class EditEventFragment extends Fragment
     }
 
     public void createEvent() {
-        final Event event = new Event();
 
-        // TODO:
-        // handle user error, missing inputs etc.
+        boolean validationError = false;
+        StringBuilder validationErrorMessage =
+                new StringBuilder(getResources().getString(R.string.error_intro));
+
+        String title = mEtTitle.getText().toString();
+        String address = mEtAddress.getText().toString();
+        String invitees = mAutoTvInvites.getText().toString();
+
+        if (isEmpty(title)) {
+            validationError = true;
+            validationErrorMessage.append(getResources().getString(R.string.error_blank_title));
+        }
+
+        if (isEmpty(address)) {
+            if (validationError) {
+                validationErrorMessage.append(getResources().getString(R.string.error_join));
+            }
+            validationError = true;
+            validationErrorMessage.append(getResources().getString(R.string.error_blank_location));
+        }
+
+        if(isEmpty(invitees)) {
+            if (validationError) {
+                validationErrorMessage.append(getResources().getString(R.string.error_join));
+            }
+            validationError = true;
+            validationErrorMessage.append(getResources().getString(R.string.error_blank_invitees));
+        }
+
+        validationErrorMessage.append(getResources().getString(R.string.error_end));
+
+        // If there is a validation error, display the error
+        if (validationError) {
+            Toast.makeText(getActivity(), validationErrorMessage.toString(), Toast.LENGTH_LONG)
+                    .show();
+            return;
+        }
+
+        final Event event = new Event();
 
         event.setTitle(mEtTitle.getText().toString());
         event.setDescription(mEtDescription.getText().toString());
@@ -317,9 +359,8 @@ public class EditEventFragment extends Fragment
         });
     }
 
-    public List<ParseUser> getAttendeeList(String invitesString) {
-        Iterable<String> tokens = Splitter.on(',').omitEmptyStrings().trimResults()
-                .split(invitesString);
+    public List<ParseUser> getAttendeeList(String inviteesString) {
+        Iterable<String> tokens = INVITEES_SPLITTER.split(inviteesString);
 
         List<ParseUser> attendeeList = new ArrayList<ParseUser>();
         for (String userName : tokens) {
