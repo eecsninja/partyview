@@ -35,6 +35,7 @@ import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -91,8 +92,6 @@ public class EditEventFragment extends Fragment
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.d(this.getClass() + "_DEBUG", "create activity");
-
         super.onCreate(savedInstanceState);
 
         getUserNames();
@@ -336,10 +335,12 @@ public class EditEventFragment extends Fragment
         mEtAddress.setText(event.getAddress());
         mEtDescription.setText(event.getDescription());
 
-        // TODO: Properly display these parameters as text
-        mTvStartDate.setText(event.getStartDate().toString());
-        mTvEndDate.setText(event.getEndDate().toString());
-        mTvStartTime.setText("" + event.getStartDate().getTime());
-        mTvEndTime.setText("" + event.getEndDate().getTime());
+        DateTime startDate = new DateTime(event.getStartDate());
+        mTvStartDate.setText(DISPLAY_DATE_FORMATTER.print(startDate));
+        mTvStartTime.setText(DISPLAY_TIME_FORMATTER.print(startDate));
+
+        DateTime endDate = new DateTime(event.getEndDate());
+        mTvEndDate.setText(DISPLAY_DATE_FORMATTER.print(endDate));
+        mTvEndTime.setText(DISPLAY_TIME_FORMATTER.print(endDate));
     }
 }
