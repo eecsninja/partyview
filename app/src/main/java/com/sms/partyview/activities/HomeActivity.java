@@ -109,14 +109,14 @@ public class HomeActivity
                 mAdapterViewPager.getItem(1);
                 mAdapterViewPager.notifyDataSetChanged();
 
+                vpPager.setCurrentItem(0);
+
                 // go back to accepted events page
                 AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager.getItem(0);
                 fragment.addNewEventToList(eventId);
 
                 mAdapterViewPager.getItem(0);
                 mAdapterViewPager.notifyDataSetChanged();
-
-                vpPager.setCurrentItem(0);
 
             } else {
                 PendingEventsFragment fragment = (PendingEventsFragment) mAdapterViewPager.getItem(1);
