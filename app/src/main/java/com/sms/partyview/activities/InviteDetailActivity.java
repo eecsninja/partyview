@@ -1,26 +1,23 @@
 package com.sms.partyview.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
-import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
-import java.util.List;
 
 public class InviteDetailActivity extends Activity {
 
@@ -137,6 +134,14 @@ public class InviteDetailActivity extends Activity {
                 if (e == null) {
                     eventUser.put("status", AttendanceStatus.ACCEPTED.toString());
                     eventUser.saveInBackground();
+
+                    // return to list of events
+                    Intent data = new Intent();
+                    data.putExtra("eventId", eventId);
+                    data.putExtra("response", "accepted");
+                    setResult(RESULT_OK, data);
+
+                    finish();
                 }
             }
         });
@@ -151,6 +156,14 @@ public class InviteDetailActivity extends Activity {
                 if (e == null) {
                     eventUser.put("status", AttendanceStatus.DECLINED.toString());
                     eventUser.saveInBackground();
+
+                    // return to list of events
+                    Intent data = new Intent();
+                    data.putExtra("eventId", eventId);
+                    data.putExtra("response", "rejected");
+                    setResult(RESULT_OK, data);
+
+                    finish();
                 }
             }
         });

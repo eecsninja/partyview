@@ -37,6 +37,7 @@ public class HomeActivity
     public static final String INSTALLATION_USER_NAME_KEY = "username";
     private FragmentPagerAdapter mAdapterViewPager;
     private PagerSlidingTabStrip mTabs;
+    private ViewPager vpPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,12 +98,41 @@ public class HomeActivity
 
             // go back to accepted events page
             mAdapterViewPager.getItem(0);
+        } else if ((requestCode == Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE) && (resultCode == RESULT_OK)) {
+            String eventId = data.getStringExtra("eventId");
+            String response = data.getStringExtra("response");
+
+            if (response.equals("accepted")) {
+                // remove from pending events
+                PendingEventsFragment pendingFragment = (PendingEventsFragment) mAdapterViewPager.getItem(1);
+                pendingFragment.removeEventFromList(eventId);
+                mAdapterViewPager.getItem(1);
+                mAdapterViewPager.notifyDataSetChanged();
+
+                // go back to accepted events page
+                AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager.getItem(0);
+                fragment.addNewEventToList(eventId);
+
+                mAdapterViewPager.getItem(0);
+                mAdapterViewPager.notifyDataSetChanged();
+
+                vpPager.setCurrentItem(0);
+
+            } else {
+                PendingEventsFragment fragment = (PendingEventsFragment) mAdapterViewPager.getItem(1);
+                fragment.removeEventFromList(eventId);
+
+                // go back to invited events page
+                mAdapterViewPager.getItem(1);
+                mAdapterViewPager.notifyDataSetChanged();
+                vpPager.setCurrentItem(1);
+            }
         }
     }
 
     private void setupTabs() {
         // Initialize the ViewPager and set an adapter
-        ViewPager vpPager = (ViewPager) findViewById(R.id.vpPager);
+        vpPager = (ViewPager) findViewById(R.id.vpPager);
         mAdapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), getFragments());
         vpPager.setAdapter(mAdapterViewPager);
 

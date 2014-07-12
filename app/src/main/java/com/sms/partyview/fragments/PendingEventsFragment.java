@@ -1,16 +1,16 @@
 package com.sms.partyview.fragments;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
-import com.sms.partyview.activities.EventDetailActivity;
 import com.sms.partyview.activities.InviteDetailActivity;
+import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -68,8 +68,25 @@ public class PendingEventsFragment extends EventListFragment {
                 Event event = events.get(position);
                 Intent intent = new Intent(getActivity(), InviteDetailActivity.class);
                 intent.putExtra("eventId", event.getObjectId());
-                intent.putExtra("eventTitle", event.getTitle());
-                startActivity(intent);
+                getActivity().startActivityForResult(intent, Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE);
+            }
+        });
+    }
+
+    public void removeEventFromList(String eventId) {
+        // Define the class we would like to query
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+
+        // Define our query conditions
+        query.whereEqualTo("objectId", eventId);
+        query.include("host");
+
+        query.getFirstInBackground(new GetCallback<Event>() {
+            @Override
+            public void done(Event event, ParseException e) {
+                eventAdapter.remove(event);
+                Log.d("DEBUG", "back to main");
+                Log.d("DEBUG", event.getTitle().toString());
             }
         });
     }
