@@ -40,11 +40,13 @@ import com.sms.partyview.R;
 import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
+import com.sms.partyview.models.UserMarker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -56,10 +58,13 @@ public class EventMapFragment extends Fragment implements LocationListener,
         GooglePlayServicesClient.OnConnectionFailedListener {
 
     private ArrayList<Marker> markers;
+    private HashMap<String, Marker> userMarkersMap = new HashMap<String, Marker>();
     private SupportMapFragment mapFragment;
     private GoogleMap map;
     private ArrayList<Attendee> attendees;
     private EventMapFragmentListener mListener;
+    private HashMap<Marker, UserMarker> mMarkersHashMap;
+    private ArrayList<UserMarker> mMyMarkersArray = new ArrayList<UserMarker>();
 
     /*
      * Constants for location update parameters
@@ -202,6 +207,17 @@ public class EventMapFragment extends Fragment implements LocationListener,
             if (mapFragment != null) {
                 // The Map is verified. It is now safe to manipulate the map.
                 map = mapFragment.getMap();
+                if (map != null) {
+                    map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
+                    {
+                        @Override
+                        public boolean onMarkerClick(com.google.android.gms.maps.model.Marker marker)
+                        {
+                            marker.showInfoWindow();
+                            return true;
+                        }
+                    });
+                }
                 addUsersToMap(attendees);
             }
         }
@@ -210,14 +226,16 @@ public class EventMapFragment extends Fragment implements LocationListener,
     private void addUsersToMap(List<Attendee> attendees) {
         if (map != null) {
             for (Attendee attendee : attendees) {
-                //if (attendee.getLatitude() != 0 || attendee.getLongitude() != 0) {
-                    Marker marker = map.addMarker(new MarkerOptions()
-                            .position(new LatLng(attendee.getLatitude(),
-                                    attendee.getLongitude()))
-                            .title(attendee.getUsername()));
+                Marker marker = map.addMarker(new MarkerOptions()
+                        .position(new LatLng(attendee.getLatitude(),
+                                attendee.getLongitude()))
+                        .title(attendee.getUsername()));
+                if (attendee.getLatitude() == 0 && attendee.getLongitude() == 0) {
+                    marker.setVisible(false);
+                }
 
-                    markers.add(marker);
-             //   }
+                userMarkersMap.put(attendee.getUsername(), marker);
+                markers.add(marker);
             }
             if (attendees.size() > 0) {
                 updateCameraView();
@@ -269,12 +287,9 @@ public class EventMapFragment extends Fragment implements LocationListener,
     }
 
     public void updateUserMarker(Location location) {
-        for (Marker marker : markers) {
-            if (marker.getTitle().equals(ParseUser.getCurrentUser().getUsername())) {
-                marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
-                break;
-            }
-        }
+        Marker marker = userMarkersMap.get(ParseUser.getCurrentUser().getUsername());
+        marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+        userMarkersMap.put(ParseUser.getCurrentUser().getUsername(), marker);
     }
 
     public void updateUserLocation(final ParseGeoPoint location) {
@@ -395,12 +410,12 @@ public class EventMapFragment extends Fragment implements LocationListener,
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        for (Marker marker : markers) {
-                                            if (marker.getTitle().equals(username)) {
-                                                marker.setPosition(new LatLng(latitude, longitude));
-                                                break;
-                                            }
+                                        Marker marker = userMarkersMap.get(username);
+                                        marker.setPosition(new LatLng(latitude, longitude));
+                                        if (!marker.isVisible()) {
+                                            marker.setVisible(true);
                                         }
+                                        userMarkersMap.put(username, marker);
                                         updateCameraView();
                                     }
 
