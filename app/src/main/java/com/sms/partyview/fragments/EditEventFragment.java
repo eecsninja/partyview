@@ -77,16 +77,14 @@ public abstract class EditEventFragment extends Fragment
     protected EditText mEtDescription;
     protected Button mBtnSubmit;
     protected MultiAutoCompleteTextView mAutoTvInvites;
-    private LocalDateTime mNow;
-    private LocalDateTime mNowPlusOne;
-    private CalendarDatePickerDialog mStartDatePicker;
-    private CalendarDatePickerDialog mEndDatePicker;
-    private RadialTimePickerDialog mStartTimePicker;
-    private RadialTimePickerDialog mEndTimePicker;
     private MutableDateTime mStartDateTime;
     private MutableDateTime mEndDateTime;
 
     private EventSaverInterface mEventSaver;
+
+    private String picker;
+    private String TAG_START_PICKER = "start";
+    private String TAG_END_PICKER = "end";
 
     @Override
     public void onAttach(Activity activity) {
@@ -117,10 +115,24 @@ public abstract class EditEventFragment extends Fragment
     }
 
     private void setUpViews(View view) {
+        initializedDateTime();
         findViews(view);
         populateViews();
         setUpClickListeners();
-        setUpPickerListeners();
+    }
+
+    private void initializedDateTime() {
+        // get current time
+        LocalDateTime start = DateTime.now().toLocalDateTime().hourOfDay().roundCeilingCopy();
+        LocalDateTime end = start.plusHours(1);
+
+        mStartDateTime = new MutableDateTime(start.getYear(), start.getMonthOfYear(),
+                start.getDayOfMonth(), start.getHourOfDay(),
+                start.getMinuteOfHour(), 0, 0);
+
+        mEndDateTime = new MutableDateTime(end.getYear(), end.getMonthOfYear(),
+                end.getDayOfMonth(), end.getHourOfDay(),
+                end.getMinuteOfHour(), 0, 0);
     }
 
     private void setUpClickListeners() {
@@ -136,103 +148,12 @@ public abstract class EditEventFragment extends Fragment
         mTvEndTime.setOnClickListener(this);
     }
 
-    private void setUpPickerListeners() {
-        initializePickers();
-
-        // DatePicker uses (0-11) for month, so have to add one back
-        mStartDatePicker.setOnDateSetListener(new CalendarDatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int year,
-                    int monthOfYear,
-                    int dayOfMonth) {
-
-                mStartDateTime.set(DateTimeFieldType.year(), year);
-                mStartDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear + 1);
-                mStartDateTime.set(DateTimeFieldType.dayOfMonth(), dayOfMonth);
-
-                mTvStartDate.setText(mStartDateTime.toString(DISPLAY_DATE_FORMATTER));
-            }
-        });
-
-        mStartTimePicker.setOnTimeSetListener(new RadialTimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay,
-                    int minute) {
-                mStartDateTime.set(DateTimeFieldType.hourOfDay(), hourOfDay);
-                mStartDateTime.set(DateTimeFieldType.minuteOfHour(), minute);
-
-                mTvStartTime.setText(mStartDateTime.toString(DISPLAY_TIME_FORMATTER));
-            }
-        });
-
-        //TODO: add error handling for when users chose an end datetime earlier than start
-        mEndDatePicker.setOnDateSetListener(new CalendarDatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int year,
-                    int monthOfYear,
-                    int dayOfMonth) {
-
-                mEndDateTime.set(DateTimeFieldType.year(), year);
-                mEndDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear + 1);
-                mEndDateTime.set(DateTimeFieldType.dayOfMonth(), dayOfMonth);
-
-                mTvEndDate.setText(mEndDateTime.toString(DISPLAY_DATE_FORMATTER));
-            }
-        });
-
-        mEndTimePicker.setOnTimeSetListener(new RadialTimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(RadialPickerLayout radialPickerLayout, int hourOfDay,
-                    int minute) {
-                mEndDateTime.set(DateTimeFieldType.hourOfDay(), hourOfDay);
-                mEndDateTime.set(DateTimeFieldType.minuteOfHour(), minute);
-
-                mTvEndTime.setText(mEndDateTime.toString(DISPLAY_TIME_FORMATTER));
-            }
-        });
-    }
-
-    private void initializePickers() {
-        // start date time setup
-        Log.d("DEBUG", "mnow: " + mNow.toString());
-
-        // The month was set (0-11) for compatibility with {@link java.util.Calendar}.
-        mStartDatePicker = CalendarDatePickerDialog
-                .newInstance(this, mNow.getYear(), mNow.getMonthOfYear() - 1,
-                        mNow.getDayOfMonth());
-
-        mStartTimePicker = RadialTimePickerDialog
-                .newInstance(this, mNow.getHourOfDay(), mNow.getMinuteOfHour(),
-                        DateFormat.is24HourFormat(getActivity()));
-
-        mStartDateTime = new MutableDateTime(mNow.getYear(), mNow.getMonthOfYear(),
-                mNow.getDayOfMonth(), mNow.getHourOfDay(),
-                mNow.getMinuteOfHour(), 0, 0);
-
-        // end date time setup
-        mEndDatePicker = CalendarDatePickerDialog
-                .newInstance(this, mNowPlusOne.getYear(), mNowPlusOne.getMonthOfYear() - 1,
-                        mNowPlusOne.getDayOfMonth());
-
-        mEndTimePicker = RadialTimePickerDialog
-                .newInstance(this, mNowPlusOne.getHourOfDay(), mNowPlusOne.getMinuteOfHour(),
-                        DateFormat.is24HourFormat(getActivity()));
-
-        mEndDateTime = new MutableDateTime(mNowPlusOne.getYear(), mNowPlusOne.getMonthOfYear(),
-                mNowPlusOne.getDayOfMonth(), mNowPlusOne.getHourOfDay(),
-                mNowPlusOne.getMinuteOfHour(), 0, 0);
-    }
-
     private void populateViews() {
-        // get current time
-        mNow = DateTime.now().toLocalDateTime().hourOfDay().roundCeilingCopy();
-        mNowPlusOne = mNow.plusHours(1);
+        mTvStartDate.setText(mStartDateTime.toString(DISPLAY_DATE_FORMATTER));
+        mTvStartTime.setText(mStartDateTime.toString(DISPLAY_TIME_FORMATTER));
 
-        mTvStartDate.setText(mNow.toString(DISPLAY_DATE_FORMATTER));
-        mTvStartTime.setText(mNow.toString(DISPLAY_TIME_FORMATTER));
-
-        mTvEndDate.setText(mNowPlusOne.toString(DISPLAY_DATE_FORMATTER));
-        mTvEndTime.setText(mNowPlusOne.toString(DISPLAY_TIME_FORMATTER));
+        mTvEndDate.setText(mEndDateTime.toString(DISPLAY_DATE_FORMATTER));
+        mTvEndTime.setText(mEndDateTime.toString(DISPLAY_TIME_FORMATTER));
     }
 
     private void findViews(View view) {
@@ -352,40 +273,89 @@ public abstract class EditEventFragment extends Fragment
     }
 
     @Override
-    public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int i, int i2,
-            int i3) {
+    public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog,
+            int year,
+            int monthOfYear,
+            int dayOfMonth) {
+        if(picker.equals(TAG_START_PICKER)) {
+            mStartDateTime.set(DateTimeFieldType.year(), year);
+            mStartDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear + 1);
+            mStartDateTime.set(DateTimeFieldType.dayOfMonth(), dayOfMonth);
 
+            mTvStartDate.setText(mStartDateTime.toString(DISPLAY_DATE_FORMATTER));
+        } else if (picker.equals(TAG_END_PICKER)) {
+            mEndDateTime.set(DateTimeFieldType.year(), year);
+            mEndDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear + 1);
+            mEndDateTime.set(DateTimeFieldType.dayOfMonth(), dayOfMonth);
+
+            mTvEndDate.setText(mEndDateTime.toString(DISPLAY_DATE_FORMATTER));
+        } else {
+            Log.d(TAG, "SOMETHING IS WRONG");
+        }
     }
 
     @Override
-    public void onTimeSet(RadialPickerLayout radialPickerLayout, int i, int i2) {
+    public void onTimeSet(RadialPickerLayout radialPickerLayout,
+            int hourOfDay,
+            int minute) {
+        if(picker.equals(TAG_START_PICKER)) {
+            mStartDateTime.set(DateTimeFieldType.hourOfDay(), hourOfDay);
+            mStartDateTime.set(DateTimeFieldType.minuteOfHour(), minute);
 
+            mTvStartTime.setText(mStartDateTime.toString(DISPLAY_TIME_FORMATTER));
+        } else if (picker.equals(TAG_END_PICKER)) {
+            mEndDateTime.set(DateTimeFieldType.hourOfDay(), hourOfDay);
+            mEndDateTime.set(DateTimeFieldType.minuteOfHour(), minute);
+
+            mTvEndTime.setText(mEndDateTime.toString(DISPLAY_TIME_FORMATTER));
+        } else {
+            Log.d(TAG, "SOMETHING IS WRONG");
+        }
     }
 
     @Override
     public void onClick(View v) {
-        showPicker(v);
-    }
-
-    private void showPicker(View view) {
-        FragmentManager fm = getActivity().getSupportFragmentManager();
-
-        switch (view.getId()) {
+        switch (v.getId()) {
             case R.id.tvStartDate:
-                mStartDatePicker.show(fm, FRAG_TAG_DATE_PICKER);
-                break;
-            case R.id.tvStartTime:
-                mStartTimePicker.show(fm, FRAG_TAG_TIME_PICKER);
+                picker = TAG_START_PICKER;
+                showDatePicker(mStartDateTime);
                 break;
             case R.id.tvEndDate:
-                mEndDatePicker.show(fm, FRAG_TAG_DATE_PICKER);
+                picker = TAG_END_PICKER;
+                showDatePicker(mEndDateTime);
+                break;
+            case R.id.tvStartTime:
+                picker = TAG_START_PICKER;
+                showTimePicker(mStartDateTime);
                 break;
             case R.id.tvEndTime:
-                mEndTimePicker.show(fm, FRAG_TAG_TIME_PICKER);
+                picker = TAG_END_PICKER;
+                showTimePicker(mEndDateTime);
                 break;
             default:
-                Log.d("DEBUG", "SOMETHING IS WRONG");
+                Log.d(TAG, "SOMETHING IS WRONG");
         }
+    }
+
+    private void showDatePicker(MutableDateTime dateTime)
+    {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+
+        // The month was set (0-11) for compatibility with {@link java.util.Calendar}.
+        CalendarDatePickerDialog datePicker = CalendarDatePickerDialog
+                .newInstance(this, dateTime.getYear(), dateTime.getMonthOfYear() - 1,
+                        dateTime.getDayOfMonth());
+        datePicker.show(fm, FRAG_TAG_DATE_PICKER);
+    }
+
+    private void showTimePicker(MutableDateTime dateTime)
+    {
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        RadialTimePickerDialog timePicker = RadialTimePickerDialog
+                .newInstance(this, dateTime.getHourOfDay(), dateTime.getMinuteOfHour(),
+                        DateFormat.is24HourFormat(getActivity()));
+
+        timePicker.show(fm, FRAG_TAG_TIME_PICKER);
     }
 
     private void populateUserNames() {
