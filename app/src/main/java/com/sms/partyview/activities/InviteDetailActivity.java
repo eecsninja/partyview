@@ -9,14 +9,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
+import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class InviteDetailActivity extends Activity {
@@ -26,6 +31,7 @@ public class InviteDetailActivity extends Activity {
     private TextView mTvEnd;
     private TextView mTvLocation;
     private TextView mTvDescription;
+    private TextView mTvAttendeeList;
     private Button mBtnAccept;
     private Button mBtnReject;
 
@@ -61,6 +67,7 @@ public class InviteDetailActivity extends Activity {
         mTvLocation = (TextView) findViewById(R.id.tvLocation);
         mBtnAccept = (Button) findViewById(R.id.btnAcceptInvite);
         mBtnReject = (Button) findViewById(R.id.btnRejectInvite);
+        mTvAttendeeList = (TextView) findViewById(R.id.tvAttendeeList);
     }
 
     public void retrieveEvent() {
@@ -75,10 +82,39 @@ public class InviteDetailActivity extends Activity {
             @Override
             public void done(Event event, ParseException e) {
                 mEvent = event;
+                retrieveEventUsers();
                 populateEventInfo();
             }
         });
 
+    }
+
+    private void retrieveEventUsers() {
+        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("objectId", eventId);
+
+        // Define the class we would like to query
+        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
+        query.whereMatchesQuery("event", eventQuery);
+        query.include("user");
+
+        query.findInBackground(new FindCallback<EventUser>() {
+            @Override
+            public void done(List<EventUser> users, ParseException e) {
+                String eventUsers = "";
+                for (EventUser eventUser : users) {
+                    if (eventUser != null) {
+                        if (eventUsers.equals("")) {
+                            eventUsers += eventUser.getUser().getUsername();
+                        } else {
+                            eventUsers += ", " + eventUser.getUser().getUsername();
+                        }
+                    }
+                }
+                mTvAttendeeList.setText(eventUsers);
+
+            }
+        });
     }
 
     public void populateEventInfo () {
