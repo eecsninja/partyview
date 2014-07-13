@@ -270,9 +270,10 @@ public class EventMapFragment extends Fragment implements LocationListener,
             if (attendees.size() > 0) {
                 updateCameraView();
             }
+            map.setInfoWindowAdapter(new MarkerInfoWindowAdapter());
         }
 
-        map.setInfoWindowAdapter(new MarkerInfoWindowAdapter());
+
     }
 
     private void updateCameraView() {
