@@ -73,7 +73,7 @@ public class EditEventFragment extends Fragment
     protected EditText mEtAddress;
     protected EditText mEtDescription;
     protected Button mBtnSubmit;
-    private MultiAutoCompleteTextView mAutoTvInvites;
+    protected MultiAutoCompleteTextView mAutoTvInvites;
     private LocalDateTime mNow;
     private LocalDateTime mNowPlusOne;
     private CalendarDatePickerDialog mStartDatePicker;
