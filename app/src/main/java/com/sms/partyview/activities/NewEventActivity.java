@@ -23,15 +23,18 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 import java.util.List;
 
 public class NewEventActivity extends FragmentActivity implements EventSaverInterface {
+
+    private static final String TAG = NewEventActivity.class.getSimpleName() + "_DEBUG";
     protected EditEventFragment mEditEventFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(getClass().getSimpleName() + "_DEBUG", "create activity");
+        Log.d(NewEventActivity.class.getSimpleName() + "_DEBUG", "create activity");
 
         super.onCreate(savedInstanceState);
 
@@ -68,12 +71,24 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
         new GetGeoPointTask(this) {
             @Override
             protected void onPostExecute(ParseGeoPoint parseGeoPoint) {
-                // TODO: What is the proper behavior when this is null?
-                // I'm creating an empty ParseGeoPoint object for now.
+                // network error
                 if (parseGeoPoint == null) {
-                    parseGeoPoint = new ParseGeoPoint();
+                    hideProgressBar();
+                    Log.d("DEBUG", "geoPoint is null");
+                    showToast(getString(R.string.error_network_error_retrieving_location));
+
+                    // TODO: set focus on address field
+                    return;
+                } else if (parseGeoPoint.getLatitude() == 0.0 && parseGeoPoint.getLongitude() == 0.0) {
+                    hideProgressBar();
+                    Log.d(TAG, "No address found");
+                    showToast(getString(R.string.error_invalid_location));
+
+                    // TODO: set focus on address field
+                    return;
+                } else {
+                    event.setLocation(parseGeoPoint);
                 }
-                event.setLocation(parseGeoPoint);
 
                 //TODO: discuss with team on best way to save:
                 //      saveInBackground
@@ -104,6 +119,7 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
                     }
                 });
             }
+
         }.execute(event.getAddress());
     }
 
@@ -150,6 +166,11 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
             push.setMessage("You have an event invite!");
             push.sendInBackground();
         }
+    }
+
+    private void showToast(String toastText) {
+        Toast.makeText(
+                this, toastText, Toast.LENGTH_SHORT).show();
     }
 
 }

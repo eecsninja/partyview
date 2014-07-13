@@ -22,6 +22,7 @@ import java.util.List;
  */
 public class GetGeoPointTask extends AsyncTask<String, Void, ParseGeoPoint> {
 
+    private static final String TAG = "GetGeoPointTask_DEBUG";
     Context mContext;
 
     public GetGeoPointTask(Context context) {
@@ -47,13 +48,8 @@ public class GetGeoPointTask extends AsyncTask<String, Void, ParseGeoPoint> {
         try {
             addresses = geocoder.getFromLocationName(locationNames[0], 1);
         } catch (IOException e1) {
-            Log.e(mContext.getClass().getSimpleName(), "IO Exception in getFromLocationName()");
+            Log.d(TAG, "IO Exception in getFromLocationName()");
             e1.printStackTrace();
-            return null;
-        } catch (IllegalArgumentException e2) {
-            String errorString = "null arguments passed to address service";
-            Log.e(mContext.getClass().getSimpleName(), errorString);
-            e2.printStackTrace();
             return null;
         }
 
@@ -63,8 +59,8 @@ public class GetGeoPointTask extends AsyncTask<String, Void, ParseGeoPoint> {
             Address address = addresses.get(0);
             return new ParseGeoPoint(address.getLatitude(), address.getLongitude());
         } else {
-            Log.e(mContext.getClass().getSimpleName(), "No address found");
-            return null;
+            Log.d(TAG, "No address found");
+            return new ParseGeoPoint();
         }
     }
 }

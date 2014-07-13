@@ -64,7 +64,7 @@
 
     <!--for event creation validation-->
     <string name="error_intro">"Please "</string>
-    <string name="error_invalid_location">This address is invalid</string>
+
     <string name="error_invalid_invitees_plural_end">" are not valid users"</string>
     <string name="error_invalid_invitees_singular_end">" is not a valid user"</string>
     <string name="error_field_required">This field is required</string>
@@ -74,5 +74,7 @@
     <string name="error_blank_title">enter a title</string>
     <string name="error_blank_invitees">invite at least one person</string>
     <string name="error_invalid_invitees_begin">"fix invitees. "</string>
+    <string name="error_invalid_location">Please enter a valid address.</string>
+    <string name="error_network_error_retrieving_location">Network error retrieve location.  Please try again.</string>
 
 </resources>
