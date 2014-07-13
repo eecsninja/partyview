@@ -25,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -106,6 +107,8 @@ public class EventMapFragment extends Fragment implements LocationListener,
 
     private Pubnub pubnub;
 
+    private LatLng eventLocation;
+
     public static final String PUBLISH_KEY = "pub-c-adf5251f-8c96-477d-95fd-ab1907f93905";
     public static final String SUBSCRIBE_KEY = "sub-c-2f5285ae-08b6-11e4-9ae5-02ee2ddab7fe";
 
@@ -113,12 +116,15 @@ public class EventMapFragment extends Fragment implements LocationListener,
         public void onViewCreated();
     }
 
-    public static EventMapFragment newInstance(ArrayList<Attendee> attendees, String currentEventUserObjId, String eventId) {
+    public static EventMapFragment newInstance(ArrayList<Attendee> attendees, String currentEventUserObjId, String eventId,
+                                               double latitude, double longitude) {
         EventMapFragment fragment = new EventMapFragment();
         Bundle args = new Bundle();
         args.putParcelableArrayList("attendees", attendees);
         args.putString("currentEventUserObjId", currentEventUserObjId);
         args.putString("eventId", eventId);
+        args.putDouble("latitdue", latitude);
+        args.putDouble("longitude", longitude);
         fragment.setArguments(args);
         return fragment;
     }
@@ -135,6 +141,12 @@ public class EventMapFragment extends Fragment implements LocationListener,
         attendees = getArguments().getParcelableArrayList("attendees");
         currentEventUserObjId = getArguments().getString("currentEventUserObjId");
         eventId = getArguments().getString("eventId");
+
+        double latitude = getArguments().getDouble("latitude");
+        double longitude = getArguments().getDouble("longitude");
+        if (latitude != 0 && longitude != 0) {
+            eventLocation = new LatLng(latitude, longitude);
+        }
 
         markers = new ArrayList<Marker>();
 
@@ -221,6 +233,9 @@ public class EventMapFragment extends Fragment implements LocationListener,
                             return true;
                         }
                     });
+                    if (eventLocation != null) {
+                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(eventLocation, 7));
+                    }
                 }
                 addUsersToMap(attendees);
             }
@@ -263,13 +278,20 @@ public class EventMapFragment extends Fragment implements LocationListener,
     private void updateCameraView() {
         //Calculate the markers to get their position
         LatLngBounds.Builder b = new LatLngBounds.Builder();
+
+        boolean userHasLocation = false;
         for (Marker m : markers) {
-            b.include(m.getPosition());
+            if (m.getPosition().latitude != 0 || m.getPosition().longitude != 0) {
+                b.include(m.getPosition());
+                userHasLocation = true;
+            }
         }
-        LatLngBounds bounds = b.build();
-        //Change the padding as per needed
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50, 50, 0);
-        map.animateCamera(cu);
+        if (userHasLocation) {
+            LatLngBounds bounds = b.build();
+            //Change the padding as per needed
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50, 50, 0);
+            map.animateCamera(cu);
+        }
     }
 
     public void setOnMapClick(GoogleMap.OnMapClickListener mapClickListener) {
