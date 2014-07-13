@@ -1,5 +1,6 @@
 package com.sms.partyview.fragments;
 
+import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.activities.EventDetailActivity;
 import com.sms.partyview.adapters.HomeScreenEventAdapter;
@@ -80,6 +81,8 @@ public abstract class EventListFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), EventDetailActivity.class);
                 intent.putExtra(EventDetailActivity.EVENT_ID_INTENT_KEY, event.getObjectId());
                 intent.putExtra(EventDetailActivity.EVENT_TITLE_INTENT_KEY, event.getTitle());
+                intent.putExtra(EventDetailActivity.CURRENT_USER_IS_HOST_INTENT_KEY,
+                                event.getHost() == ParseUser.getCurrentUser());
                 startActivity(intent);
             }
         });
