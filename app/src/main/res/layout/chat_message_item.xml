@@ -17,7 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/tvUsernameChat"
-        android:layout_alignBaseline="@+id/tvUsernameChat"/>
+        android:layout_alignBaseline="@+id/tvUsernameChat"
+        android:singleLine="false"/>
     <TextView
         android:id="@+id/tvTimestamp"
         android:layout_width="wrap_content"
@@ -25,6 +26,7 @@
         android:textStyle="italic"
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/tvMessage"
-        android:gravity="right"/>
+        android:gravity="right"
+        android:layout_weight=".1"/>
 
 </RelativeLayout>

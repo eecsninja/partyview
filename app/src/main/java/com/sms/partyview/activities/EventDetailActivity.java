@@ -16,6 +16,7 @@ import com.sms.partyview.fragments.EventMapFragment;
 import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
+import com.sms.partyview.models.LocalEvent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     private AttendanceStatus status;
     private String eventTitle;
     private EventUser currentEventUser;
+    private LocalEvent tempEvent;
 
     private TextView tvEventName;
     private TextView tvEventOrganizer;
@@ -58,6 +60,8 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     public static final String EVENT_ID_INTENT_KEY = "eventId";
     public static final String EVENT_TITLE_INTENT_KEY = "eventTitle";
     public static final String CURRENT_USER_IS_HOST_INTENT_KEY = "currentUserIsHost";
+    public static final String EVENT_INTENT_KEY = "event";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,12 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         eventUsers = new ArrayList<EventUser>();
         attendees = new ArrayList<Attendee>();
 
+        tempEvent = (LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY);
+
         setupViews();
+        if (tempEvent != null) {
+            populateEventInfo();
+        }
 
         retrieveEvent();
     }
@@ -96,7 +105,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
                 mEvent = event;
                 Log.d("DEBUG", "in detailed view");
                 Log.d("DEBUG", mEvent.getTitle().toString());
-                populateEventInfo();
+
                 retrieveEventUsers();
             }
         });
@@ -144,12 +153,11 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     }
 
     public void populateEventInfo() {
-        tvEventName.setText(tvEventName.getText() + ": " + mEvent.getTitle());
-        tvEventDescription.setText(tvEventDescription.getText() + ": " + mEvent.getDescription());
-        tvEventTime.setText(tvEventTime.getText() + ": " + mEvent.getStartDate());
+        tvEventName.setText(tvEventName.getText() + ": " + tempEvent.getTitle());
+        tvEventDescription.setText(tvEventDescription.getText() + ": " + tempEvent.getDescription());
+        tvEventTime.setText(tvEventTime.getText() + ": " + tempEvent.getStartDate());
         tvEventOrganizer
-                .setText(tvEventOrganizer.getText() + ": " + mEvent.getHost()
-                        .getUsername());
+                .setText(tvEventOrganizer.getText() + ": " + tempEvent.getHost());
     }
 
     private void retrieveEventUsers() {

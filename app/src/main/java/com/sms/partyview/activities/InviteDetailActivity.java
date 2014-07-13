@@ -9,6 +9,7 @@ import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
+import com.sms.partyview.models.LocalEvent;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,12 +39,14 @@ public class InviteDetailActivity extends Activity {
     private Event mEvent;
     private EventUser currentUser;
     private String eventTitle;
+    private LocalEvent tempEvent;
 
     // For passing in intent data.
     // TODO: These are also in class EventDetailActivity. Find some way to
     // put them in a common place.
     public static final String EVENT_ID_INTENT_KEY = "eventId";
     public static final String EVENT_TITLE_INTENT_KEY = "eventTitle";
+    public static final String EVENT_INTENT_KEY = "event";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,11 @@ public class InviteDetailActivity extends Activity {
         }
 
         setupViews();
+
+        tempEvent = (LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY);
+        if (tempEvent != null) {
+            populateEventInfo();
+        }
 
         retrieveEvent();
 
@@ -88,7 +96,7 @@ public class InviteDetailActivity extends Activity {
             public void done(Event event, ParseException e) {
                 mEvent = event;
                 retrieveEventUsers();
-                populateEventInfo();
+               // populateEventInfo();
             }
         });
 
@@ -123,11 +131,11 @@ public class InviteDetailActivity extends Activity {
     }
 
     public void populateEventInfo () {
-        mTvTitle.setText(mEvent.getTitle());
-        mTvLocation.setText(mEvent.getAddress());
-        mTvDescription.setText(mEvent.getDescription());
-        mTvStart.setText(mEvent.getStartDate().toString());
-        mTvEnd.setText(mEvent.getEndDate().toString());
+        mTvTitle.setText(tempEvent.getTitle());
+        mTvLocation.setText(tempEvent.getAddress());
+        mTvDescription.setText(tempEvent.getDescription());
+        mTvStart.setText(tempEvent.getStartDate().toString());
+        mTvEnd.setText(tempEvent.getEndDate().toString());
     }
 
     private void retrieveEventUser() {

@@ -108,6 +108,8 @@ public class EventMapFragment extends Fragment implements LocationListener,
     public static final String PUBLISH_KEY = "pub-c-adf5251f-8c96-477d-95fd-ab1907f93905";
     public static final String SUBSCRIBE_KEY = "sub-c-2f5285ae-08b6-11e4-9ae5-02ee2ddab7fe";
 
+
+    private float currentZoom;
     public interface EventMapFragmentListener {
         public void onViewCreated();
     }
@@ -287,6 +289,7 @@ public class EventMapFragment extends Fragment implements LocationListener,
             LatLngBounds bounds = b.build();
             //Change the padding as per needed
             CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50, 50, 0);
+
             map.animateCamera(cu);
         }
     }
@@ -460,7 +463,7 @@ public class EventMapFragment extends Fragment implements LocationListener,
                                         UserMarker userMarker = mMarkersHashMap.get(marker);
                                         userMarker.setmLastUpdate(new Date());
 
-                                        updateCameraView();
+                                       // updateCameraView();
                                     }
 
                                 });

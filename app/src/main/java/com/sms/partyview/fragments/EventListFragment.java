@@ -5,6 +5,7 @@ import com.sms.partyview.R;
 import com.sms.partyview.activities.EventDetailActivity;
 import com.sms.partyview.adapters.HomeScreenEventAdapter;
 import com.sms.partyview.models.Event;
+import com.sms.partyview.models.LocalEvent;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -62,6 +63,7 @@ public abstract class EventListFragment extends Fragment {
         populateEventList();
 
         // Add item click listener.
+
         setUpDisplayDetailedView();
 
         // Return it.
@@ -83,6 +85,7 @@ public abstract class EventListFragment extends Fragment {
                 intent.putExtra(EventDetailActivity.EVENT_TITLE_INTENT_KEY, event.getTitle());
                 intent.putExtra(EventDetailActivity.CURRENT_USER_IS_HOST_INTENT_KEY,
                                 event.getHost() == ParseUser.getCurrentUser());
+                intent.putExtra(EventDetailActivity.EVENT_INTENT_KEY, new LocalEvent(event));
                 startActivity(intent);
             }
         });

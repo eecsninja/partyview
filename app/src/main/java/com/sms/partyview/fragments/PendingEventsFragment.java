@@ -10,6 +10,7 @@ import com.sms.partyview.activities.InviteDetailActivity;
 import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
+import com.sms.partyview.models.LocalEvent;
 
 import android.content.Intent;
 import android.util.Log;
@@ -70,6 +71,7 @@ public class PendingEventsFragment extends EventListFragment {
                 Intent intent = new Intent(getActivity(), InviteDetailActivity.class);
                 intent.putExtra(InviteDetailActivity.EVENT_ID_INTENT_KEY, event.getObjectId());
                 intent.putExtra(InviteDetailActivity.EVENT_TITLE_INTENT_KEY, event.getTitle());
+                intent.putExtra(InviteDetailActivity.EVENT_INTENT_KEY, new LocalEvent(event));
                 getActivity().startActivityForResult(intent, Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE);
             }
         });
