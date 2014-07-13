@@ -463,6 +463,8 @@ public class EventMapFragment extends Fragment implements LocationListener,
                                         UserMarker userMarker = mMarkersHashMap.get(marker);
                                         userMarker.setmLastUpdate(new Date());
 
+                                        mMarkersHashMap.put(marker, userMarker);
+
                                        // updateCameraView();
                                     }
 
