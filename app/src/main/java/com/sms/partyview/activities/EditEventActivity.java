@@ -85,6 +85,10 @@ public class EditEventActivity extends NewEventActivity {
 
     protected void loadEventForEditing(Event event) {
         mEvent = event;
-        mEditEventFragment.loadEvent(event);
+        if (mEditEventFragment instanceof UpdateEventFragment) {
+            ((UpdateEventFragment) mEditEventFragment).loadEvent(event);
+        } else {
+            throw new ClassCastException("Fragment must be of class UpdateEventFragment.");
+        }
     }
 }

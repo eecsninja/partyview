@@ -86,7 +86,7 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
                     showToast(getString(R.string.error_invalid_location));
 
                     // TODO: set focus on address field
-                    return;
+                    //return;
                 } else {
                     event.setLocation(parseGeoPoint);
                 }

@@ -51,9 +51,9 @@ public class EditEventFragment extends Fragment
 
     private static final String FRAG_TAG_DATE_PICKER = "datePickerDialogFragment";
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
-    private static final DateTimeFormatter DISPLAY_DATE_FORMATTER = DateTimeFormat
+    protected static final DateTimeFormatter DISPLAY_DATE_FORMATTER = DateTimeFormat
             .forPattern("E, MMM d");
-    private static final DateTimeFormatter DISPLAY_TIME_FORMATTER = DateTimeFormat
+    protected static final DateTimeFormatter DISPLAY_TIME_FORMATTER = DateTimeFormat
             .forPattern("h:mm a");
 
     private static final Splitter INVITEES_SPLITTER = Splitter.on(',').omitEmptyStrings()
@@ -65,13 +65,13 @@ public class EditEventFragment extends Fragment
     private Map<String, ParseUser> mUserNameToUser = new HashMap<String, ParseUser>();
 
     private ArrayAdapter<String> mAdapterInvitesAutoComplete;
-    private TextView mTvStartDate;
-    private TextView mTvStartTime;
-    private TextView mTvEndDate;
-    private TextView mTvEndTime;
-    private EditText mEtTitle;
-    private EditText mEtAddress;
-    private EditText mEtDescription;
+    protected TextView mTvStartDate;
+    protected TextView mTvStartTime;
+    protected TextView mTvEndDate;
+    protected TextView mTvEndTime;
+    protected EditText mEtTitle;
+    protected EditText mEtAddress;
+    protected EditText mEtDescription;
     protected Button mBtnSubmit;
     private MultiAutoCompleteTextView mAutoTvInvites;
     private LocalDateTime mNow;
@@ -414,20 +414,5 @@ public class EditEventFragment extends Fragment
         }
 
         return attendeeList;
-    }
-
-    // Loads an event for editing. Fills the fields with the event parameters.
-    public void loadEvent(Event event) {
-        mEtTitle.setText(event.getTitle());
-        mEtAddress.setText(event.getAddress());
-        mEtDescription.setText(event.getDescription());
-
-        DateTime startDate = new DateTime(event.getStartDate());
-        mTvStartDate.setText(DISPLAY_DATE_FORMATTER.print(startDate));
-        mTvStartTime.setText(DISPLAY_TIME_FORMATTER.print(startDate));
-
-        DateTime endDate = new DateTime(event.getEndDate());
-        mTvEndDate.setText(DISPLAY_DATE_FORMATTER.print(endDate));
-        mTvEndTime.setText(DISPLAY_TIME_FORMATTER.print(endDate));
     }
 }
