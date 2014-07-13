@@ -16,8 +16,11 @@ import com.sms.partyview.models.Event;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
+import org.joda.time.Days;
 import org.joda.time.LocalDateTime;
 import org.joda.time.MutableDateTime;
+import org.joda.time.Period;
+import org.joda.time.ReadablePeriod;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -142,11 +145,35 @@ public class EditEventFragment extends Fragment
                     int monthOfYear,
                     int dayOfMonth) {
 
+                if (mStartDateTime.getYear() == year &&
+                        mStartDateTime.getMonthOfYear() == monthOfYear &&
+                        mStartDateTime.getDayOfMonth() == dayOfMonth) {
+                    return;
+                }
+
+                MutableDateTime oldStartDateTime = new MutableDateTime(mStartDateTime);
+
                 mStartDateTime.set(DateTimeFieldType.year(), year);
                 mStartDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear + 1);
                 mStartDateTime.set(DateTimeFieldType.dayOfMonth(), dayOfMonth);
 
                 mTvStartDate.setText(mStartDateTime.toString(DISPLAY_DATE_FORMATTER));
+
+                // move end date to keep duration the same
+                int daysDifference = Days.daysBetween(oldStartDateTime, mStartDateTime).getDays();
+                Period period = new Period(oldStartDateTime, mStartDateTime);
+
+                if(mStartDateTime.isAfter(oldStartDateTime)) {
+                    mEndDateTime.addDays(daysDifference);
+
+                } else {
+                    mEndDateTime.add(period, -1);
+                }
+
+                mEndDatePicker.onDayOfMonthSelected(
+                        mEndDateTime.getYear(),
+                        mEndDateTime.getMonthOfYear(),
+                        mEndDateTime.getDayOfMonth());
             }
         });
 
@@ -161,12 +188,17 @@ public class EditEventFragment extends Fragment
             }
         });
 
-        //TODO: add error handling for when users chose an end datetime earlier than start
         mEndDatePicker.setOnDateSetListener(new CalendarDatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(CalendarDatePickerDialog calendarDatePickerDialog, int year,
                     int monthOfYear,
                     int dayOfMonth) {
+
+                if (mEndDateTime.getYear() == year &&
+                        mEndDateTime.getMonthOfYear() == monthOfYear &&
+                        mEndDateTime.getDayOfMonth() == dayOfMonth) {
+                    return;
+                }
 
                 mEndDateTime.set(DateTimeFieldType.year(), year);
                 mEndDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear + 1);
