@@ -6,8 +6,10 @@ import com.google.common.base.Splitter;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
@@ -59,6 +61,7 @@ public abstract class EditEventFragment extends Fragment
     private static final Splitter INVITEES_SPLITTER = Splitter.on(',').omitEmptyStrings()
             .trimResults();
     private static final Joiner JOINER = Joiner.on(',');
+    public static final String TAG = EditEventFragment.class.getSimpleName() + "_DEBUG";
 
     // TODO(My): find a more efficient way to retrieve and store this data
     private List<String> mUserNames = new ArrayList<String>();
@@ -101,7 +104,8 @@ public abstract class EditEventFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getUserNames();
+        populateUserNames();
+        cacheAppUsers();
     }
 
     @Override
@@ -384,7 +388,7 @@ public abstract class EditEventFragment extends Fragment
         }
     }
 
-    private void getUserNames() {
+    private void populateUserNames() {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
         query.fromLocalDatastore();
@@ -418,5 +422,29 @@ public abstract class EditEventFragment extends Fragment
         }
 
         return attendeeList;
+    }
+
+    private void cacheAppUsers() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+
+        // Query for new results from the network.
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(final List<ParseUser> users, ParseException e) {
+
+                Log.d(TAG, "got user info");
+                Log.d(TAG, users.toString());
+
+                // Remove the previously cached results.
+                ParseObject.unpinAllInBackground("users", new DeleteCallback() {
+                    public void done(ParseException e) {
+                        // Cache the new results.
+                        ParseObject.pinAllInBackground("users", users);
+                        Log.d(TAG, "pin all user info");
+
+                        populateUserNames();
+                    }
+                });
+            }
+        });
     }
 }

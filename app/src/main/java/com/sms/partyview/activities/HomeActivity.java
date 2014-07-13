@@ -150,8 +150,6 @@ public class HomeActivity
     }
 
     private void displayNewEventActivity() {
-        cacheAppUsers();
-
         Intent i = new Intent(this, NewEventActivity.class);
         startActivityForResult(i, Utils.NEW_EVENT_REQUEST_CODE);
     }
@@ -165,28 +163,5 @@ public class HomeActivity
         }
         installation.put(INSTALLATION_USER_NAME_KEY, currentUserName);
         installation.saveInBackground();
-    }
-
-    private void cacheAppUsers() {
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-
-        // Query for new results from the network.
-        query.findInBackground(new FindCallback<ParseUser>() {
-            public void done(final List<ParseUser> users, ParseException e) {
-
-                Log.d(HomeActivity.class.getSimpleName() + "_DEBUG", "got user info");
-                Log.d(HomeActivity.class.getSimpleName() + "_DEBUG", users.toString());
-
-                // Remove the previously cached results.
-                ParseObject.unpinAllInBackground("users", new DeleteCallback() {
-                    public void done(ParseException e) {
-                        // Cache the new results.
-                        ParseObject.pinAllInBackground("users", users);
-                        Log.d(HomeActivity.class.getSimpleName() + "_DEBUG", "pin all user info");
-
-                    }
-                });
-            }
-        });
     }
 }
