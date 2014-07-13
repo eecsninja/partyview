@@ -42,7 +42,10 @@ public class AcceptedEventsFragment extends EventListFragment {
 
                 List<Event> events = new ArrayList<Event>();
                 for (EventUser eventUser : eventUsers) {
-                    events.add(eventUser.getEvent());
+                    // TODO: fix query to not return declined events
+                    if(eventUser.getStatus() != AttendanceStatus.DECLINED) {
+                        events.add(eventUser.getEvent());
+                    }
                 }
                 eventAdapter.addAll(events);
                 }
