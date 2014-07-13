@@ -20,6 +20,7 @@ import java.util.List;
  * Created by sque on 7/12/14.
  */
 public class UpdateEventFragment extends EditEventFragment {
+    protected Event mEvent = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +32,8 @@ public class UpdateEventFragment extends EditEventFragment {
 
     // Loads an event for editing. Fills the fields with the event parameters.
     public void loadEvent(Event event) {
+        mEvent = event;
+
         mEtTitle.setText(event.getTitle());
         mEtAddress.setText(event.getAddress());
         mEtDescription.setText(event.getDescription());
@@ -80,5 +83,14 @@ public class UpdateEventFragment extends EditEventFragment {
                 mAutoTvInvites.setText(inviteeString);
             }
         });
+    }
+
+    @Override
+    public Event getEventFromInputData() {
+        // Load input field data into the existing event object.
+        if (mEvent != null) {
+            readEventInfoFromInputFields(mEvent);
+        }
+        return mEvent;
     }
 }

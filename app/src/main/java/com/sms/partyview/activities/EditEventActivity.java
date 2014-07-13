@@ -40,7 +40,9 @@ public class EditEventActivity extends NewEventActivity {
 
     @Override
     public void saveNewEvent(final Event event, final String invitesString) {
-        // TODO: Save the updated event.
+        // Saving an existing Parse object will update it in the remote database.
+        // TODO: Pass the updated event back to the parent activity.
+        super.saveNewEvent(event, invitesString);
     }
 
     // Create fragment for editing an existing event.

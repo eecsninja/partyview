@@ -44,7 +44,7 @@ import java.util.Map;
 
 import static android.text.TextUtils.isEmpty;
 
-public class EditEventFragment extends Fragment
+public abstract class EditEventFragment extends Fragment
         implements CalendarDatePickerDialog.OnDateSetListener,
         RadialTimePickerDialog.OnTimeSetListener,
         TextView.OnClickListener {
@@ -330,17 +330,21 @@ public class EditEventFragment extends Fragment
             return;
         }
 
-        final Event event = new Event();
+        final Event event = getEventFromInputData();
+        mEventSaver.saveNewEvent(event, mAutoTvInvites.getText().toString());
+    }
 
+    // Returns an event object containing field data.
+    public abstract Event getEventFromInputData();
+
+    // Reads input fields and populates an event object with the fields' contents.
+    protected void readEventInfoFromInputFields(Event event) {
         event.setTitle(mEtTitle.getText().toString());
         event.setDescription(mEtDescription.getText().toString());
         event.setStartDate(mStartDateTime.toDate());
         event.setEndDate(mEndDateTime.toDate());
         event.setHost(ParseUser.getCurrentUser());
         event.setAddress(mEtAddress.getText().toString());
-
-        final String invitesString = mAutoTvInvites.getText().toString();
-        mEventSaver.saveNewEvent(event, invitesString);
     }
 
     @Override

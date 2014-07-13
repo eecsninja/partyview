@@ -1,5 +1,7 @@
 package com.sms.partyview.fragments;
 
+import com.sms.partyview.models.Event;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,5 +18,13 @@ public class CreateEventFragment extends EditEventFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         mBtnSubmit.setText("Create Event");
         return view;
+    }
+
+    @Override
+    public Event getEventFromInputData() {
+        // Create a new event object.
+        Event event = new Event();
+        readEventInfoFromInputFields(event);
+        return event;
     }
 }
