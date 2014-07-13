@@ -3,7 +3,6 @@ package com.sms.partyview.models;
 import com.parse.ParseClassName;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
 

@@ -1,7 +1,5 @@
 package com.sms.partyview.fragments;
 
-import com.sms.partyview.R;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

@@ -1,5 +1,15 @@
 package com.sms.partyview.activities;
 
+import com.parse.FindCallback;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.sms.partyview.AttendanceStatus;
+import com.sms.partyview.R;
+import com.sms.partyview.models.Event;
+import com.sms.partyview.models.EventUser;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,18 +19,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.sms.partyview.AttendanceStatus;
-import com.sms.partyview.R;
-import com.sms.partyview.models.Attendee;
-import com.sms.partyview.models.Event;
-import com.sms.partyview.models.EventUser;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
