@@ -72,7 +72,7 @@ public class EditEventFragment extends Fragment
     private EditText mEtTitle;
     private EditText mEtAddress;
     private EditText mEtDescription;
-    private Button mBtnCreate;
+    protected Button mBtnSubmit;
     private MultiAutoCompleteTextView mAutoTvInvites;
     private LocalDateTime mNow;
     private LocalDateTime mNowPlusOne;
@@ -120,7 +120,7 @@ public class EditEventFragment extends Fragment
     }
 
     private void setUpClickListeners() {
-        mBtnCreate.setOnClickListener(new View.OnClickListener() {
+        mBtnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 createEvent();
@@ -239,7 +239,7 @@ public class EditEventFragment extends Fragment
         mEtTitle = (EditText) view.findViewById(R.id.etEventName);
         mEtAddress = (EditText) view.findViewById(R.id.etEventLocation);
         mEtDescription = (EditText) view.findViewById(R.id.etEventDescription);
-        mBtnCreate = (Button) view.findViewById(R.id.btnCreateEvent);
+        mBtnSubmit = (Button) view.findViewById(R.id.btnSubmitEvent);
         mAutoTvInvites = (MultiAutoCompleteTextView) view.findViewById(R.id.autoTvInvites);
 
         // set up autocomplete for invites

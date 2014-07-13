@@ -38,7 +38,7 @@
     <string name="label_event_description">Description:</string>
     <string name="label_event_invites">Invites:</string>
     <string name="hint_event_date">07/05/2014</string>
-    <string name="btn_label_create_event">Create Event</string>
+    <string name="btn_label_submit_event">Submit Event</string>
     <string name="label_event_time">Time:</string>
     <string name="hint_event_time">10:30 am</string>
     <string name="join_event">Join</string>

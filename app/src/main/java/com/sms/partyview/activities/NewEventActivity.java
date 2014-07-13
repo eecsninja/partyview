@@ -9,6 +9,7 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sms.partyview.AttendanceStatus;
 import com.sms.partyview.R;
+import com.sms.partyview.fragments.CreateEventFragment;
 import com.sms.partyview.fragments.EditEventFragment;
 import com.sms.partyview.helpers.EventSaverInterface;
 import com.sms.partyview.helpers.GetGeoPointTask;
@@ -45,7 +46,7 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
 
         // Display the edit event fragment.
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        mEditEventFragment = new EditEventFragment();
+        mEditEventFragment = createFragment();
         ft.replace(R.id.flNewEventContainer, mEditEventFragment);
         ft.commit();
     }
@@ -142,6 +143,11 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
                 ParseUser.getCurrentUser(),
                 event
         ).saveInBackground();
+    }
+
+    // Create fragment for editing a new event.
+    protected EditEventFragment createFragment() {
+        return new CreateEventFragment();
     }
 
     // Should be called manually when an async task has started

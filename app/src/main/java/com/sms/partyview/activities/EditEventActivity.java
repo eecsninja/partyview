@@ -5,6 +5,8 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.AttendanceStatus;
+import com.sms.partyview.fragments.EditEventFragment;
+import com.sms.partyview.fragments.UpdateEventFragment;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
@@ -44,6 +46,12 @@ public class EditEventActivity extends NewEventActivity {
     @Override
     public void saveNewEvent(final Event event, final String invitesString) {
         // TODO: Save the updated event.
+    }
+
+    // Create fragment for editing an existing event.
+    @Override
+    protected EditEventFragment createFragment() {
+        return new UpdateEventFragment();
     }
 
     protected void getEventById(String eventId) {
