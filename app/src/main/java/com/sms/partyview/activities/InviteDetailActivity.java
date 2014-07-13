@@ -38,14 +38,20 @@ public class InviteDetailActivity extends Activity {
     private EventUser currentUser;
     private String eventTitle;
 
+    // For passing in intent data.
+    // TODO: These are also in class EventDetailActivity. Find some way to
+    // put them in a common place.
+    public static final String EVENT_ID_INTENT_KEY = "eventId";
+    public static final String EVENT_TITLE_INTENT_KEY = "eventTitle";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_detail);
 
-        eventId = getIntent().getStringExtra("eventId");
+        eventId = getIntent().getStringExtra(EVENT_ID_INTENT_KEY);
 
-        eventTitle = getIntent().getStringExtra("eventTitle");
+        eventTitle = getIntent().getStringExtra(EVENT_TITLE_INTENT_KEY);
         if (!eventTitle.isEmpty()) {
             getActionBar().setTitle(getString(R.string.title_activity_invite_detail) + " " +  eventTitle);
         }

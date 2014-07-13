@@ -55,6 +55,10 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
 
     private final int EDIT_EVENT_REQUEST = 1;
 
+    // For passing in intent data.
+    public static final String EVENT_ID_INTENT_KEY = "eventId";
+    public static final String EVENT_TITLE_INTENT_KEY = "eventTitle";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +67,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         markers = new ArrayList<Marker>();
         status = AttendanceStatus.ACCEPTED;
 
-        eventTitle = getIntent().getStringExtra("eventTitle");
+        eventTitle = getIntent().getStringExtra(EVENT_TITLE_INTENT_KEY);
         if (!eventTitle.isEmpty()) {
             getActionBar().setTitle(eventTitle);
         }
@@ -77,7 +81,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     }
 
     private void retrieveEvent() {
-        eventId = getIntent().getStringExtra("eventId");
+        eventId = getIntent().getStringExtra(EVENT_ID_INTENT_KEY);
 
         // Define the class we would like to query
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
