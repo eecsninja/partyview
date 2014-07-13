@@ -45,6 +45,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     private TextView tvEventDescription;
     private TextView tvEventTime;
     private Button btnJoinLeave;
+    private MenuItem miEditEvent;
 
     private EventMapFragment eventMapFragment;
     private List<EventUser> eventUsers;
@@ -89,6 +90,13 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
             @Override
             public void done(Event event, ParseException e) {
                 mEvent = event;
+                // Show the "Edit Event" menu option if the current user is
+                // the host of the event.
+                // TODO: There's a lag in the icon showing up. Find a way to
+                // determine earlier whether the current user is host.
+                if (event.getHost() == ParseUser.getCurrentUser()) {
+                    miEditEvent.setVisible(true);
+                }
                 Log.d("DEBUG", "in detailed view");
                 Log.d("DEBUG", mEvent.getTitle().toString());
                 populateEventInfo();
@@ -101,6 +109,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.event_detail, menu);
+        miEditEvent = menu.findItem(R.id.action_edit_event);
         return true;
     }
 
