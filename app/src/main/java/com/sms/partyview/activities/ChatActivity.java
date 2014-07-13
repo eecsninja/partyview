@@ -19,13 +19,11 @@ import com.pubnub.api.PubnubError;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.ChatFragment;
 
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.ocpsoft.prettytime.PrettyTime;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 public class ChatActivity extends FragmentActivity implements ChatFragment.OnFragmentInteractionListener {
     public static final String PUBLISH_KEY = "pub-c-adf5251f-8c96-477d-95fd-ab1907f93905";
@@ -38,6 +36,9 @@ public class ChatActivity extends FragmentActivity implements ChatFragment.OnFra
     private String eventId;
 
     private ChatFragment chatFragment;
+
+    protected static final DateTimeFormatter DISPLAY_TIME_FORMATTER = DateTimeFormat
+            .forPattern("h:mm a");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,8 +118,8 @@ public class ChatActivity extends FragmentActivity implements ChatFragment.OnFra
             message.put("username", ParseUser.getCurrentUser().getUsername());
             message.put("message", chatMessage);
 
-            PrettyTime pt = new PrettyTime();
-            message.put("timestamp", pt.format(new Date()));
+            MutableDateTime time = new MutableDateTime();
+            message.put("timestamp", time.toString(DISPLAY_TIME_FORMATTER));
 
             dataToPublish.put("chat", message);
             pubnub.publish(eventId, dataToPublish, callback);
