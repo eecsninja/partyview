@@ -70,11 +70,12 @@
     <string name="error_field_required">This field is required</string>
     <string name="error_blank_location">enter a location</string>
     <string name="error_join">", and "</string>
-    <string name="error_end">.</string>
+    <string name="error_end">". "</string>
     <string name="error_blank_title">enter a title</string>
     <string name="error_blank_invitees">invite at least one person</string>
     <string name="error_invalid_invitees_begin">"fix invitees. "</string>
     <string name="error_invalid_location">Please enter a valid address.</string>
     <string name="error_network_error_retrieving_location">Network error retrieve location.  Please try again.</string>
+    <string name="error_invalid_date">The end date must be after the start date.</string>
 
 </resources>

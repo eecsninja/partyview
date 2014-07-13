@@ -318,6 +318,11 @@ public class EditEventFragment extends Fragment
 
         validationErrorMessage.append(getResources().getString(R.string.error_end));
 
+        if (mEndDateTime.isBefore(mStartDateTime)) {
+            validationError = true;
+            validationErrorMessage.append(getResources().getString(R.string.error_invalid_date));
+        }
+
         // If there is a validation error, display the error
         if (validationError) {
             Toast.makeText(getActivity(), validationErrorMessage.toString(), Toast.LENGTH_LONG)
