@@ -3,8 +3,6 @@ package com.sms.partyview.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.sms.partyview.AttendanceStatus;
-
 import java.util.Date;
 
 /**

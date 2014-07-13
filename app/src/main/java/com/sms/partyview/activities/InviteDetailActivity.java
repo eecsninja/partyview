@@ -5,7 +5,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.sms.partyview.AttendanceStatus;
+import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;

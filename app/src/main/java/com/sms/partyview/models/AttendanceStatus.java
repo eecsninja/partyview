@@ -1,4 +1,4 @@
-package com.sms.partyview;
+package com.sms.partyview.models;
 
 /**
  * Created by sandra on 7/7/14.
