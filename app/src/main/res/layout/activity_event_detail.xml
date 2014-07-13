@@ -46,13 +46,33 @@
             android:text="@string/event_desc_title"
             android:padding="2dp"/>
     </LinearLayout>
-    <Button
-        android:id="@+id/btnJoinLeave"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:padding="5dp"
-        android:onClick="onJoinLeave"/>
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btnJoinLeave"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:padding="5dp"
+            android:onClick="onJoinLeave"
+            android:layout_weight=".33"/>
+        <Button
+            android:id="@+id/btnViewAttendees"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/attendees_title"
+            android:onClick="onViewAttendees"
+            android:layout_weight=".33"/>
+        <Button
+            android:id="@+id/btnChat"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/join_chat"
+            android:onClick="onJoinChat"
+            android:layout_weight=".33"/>
+    </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,10 +86,5 @@
         android:layout_height="225dp"
         android:layout_gravity="center"
         android:padding="5dp"/>
-    <Button
-        android:id="@+id/btnViewAttendees"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/view_attendees"
-        android:onClick="onViewAttendees"/>
+
 </LinearLayout>

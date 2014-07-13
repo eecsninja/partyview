@@ -114,6 +114,10 @@
             android:name=".activities.InviteDetailActivity"
             android:label="@string/title_activity_invite_detail" >
         </activity>
+        <activity
+            android:name=".activities.ChatActivity"
+            android:label="@string/title_activity_chat" >
+        </activity>
     </application>
 
 </manifest>

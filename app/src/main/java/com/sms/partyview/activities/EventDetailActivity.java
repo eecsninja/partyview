@@ -265,4 +265,10 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         intent.putExtra(EditEventActivity.EVENT_ID_INTENT_KEY, mEvent.getObjectId());
         startActivityForResult(intent, EDIT_EVENT_REQUEST);
     }
+
+    public void onJoinChat(View v) {
+        Intent intent = new Intent(this, ChatActivity.class);
+        intent.putExtra(EditEventActivity.EVENT_ID_INTENT_KEY, mEvent.getObjectId());
+        startActivity(intent);
+    }
 }
