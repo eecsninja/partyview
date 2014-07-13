@@ -239,12 +239,13 @@ public class EventMapFragment extends Fragment implements LocationListener,
 
                 MarkerOptions markerOption = new MarkerOptions().position(new LatLng(attendee.getLatitude(), attendee.getLongitude()));
                 //  markerOption.icon(BitmapDescriptorFactory.fromResource(R.drawable.));
+                if (attendee.getLatitude() == 0 && attendee.getLongitude() == 0) {
+                    markerOption.visible(false);
+                }
 
                 Marker marker = map.addMarker(markerOption);
                 mMarkersHashMap.put(marker, userMarker);
-                if (attendee.getLatitude() == 0 && attendee.getLongitude() == 0) {
-                    marker.setVisible(false);
-                }
+
 
                 userMarkersMap.put(attendee.getUsername(), marker);
 
@@ -436,6 +437,10 @@ public class EventMapFragment extends Fragment implements LocationListener,
                                             marker.setVisible(true);
                                         }
                                         userMarkersMap.put(username, marker);
+
+                                        UserMarker userMarker = mMarkersHashMap.get(marker);
+                                        userMarker.setmLastUpdate(new Date());
+
                                         updateCameraView();
                                     }
 

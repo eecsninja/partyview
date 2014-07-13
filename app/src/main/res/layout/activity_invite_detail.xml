@@ -90,17 +90,26 @@
             android:layout_height="wrap_content" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnAcceptInvite"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/accept_invite"
-        android:onClick="onAcceptInvite"/>
-    <Button
-        android:id="@+id/btnRejectInvite"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/reject_invite"
-        android:onClick="onRejectInvite"/>
+        android:layout_height="fill_parent">
+        <Button
+            android:id="@+id/btnAcceptInvite"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/accept_invite"
+            android:onClick="onAcceptInvite"
+            android:layout_weight=".5"/>
+        <Button
+            android:id="@+id/btnRejectInvite"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reject_invite"
+            android:onClick="onRejectInvite"
+            android:layout_weight=".5"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>
