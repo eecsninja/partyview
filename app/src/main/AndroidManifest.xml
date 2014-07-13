@@ -76,7 +76,14 @@
         </activity>
         <activity
             android:name=".activities.EditEventActivity"
-            android:label="@string/title_activity_edit_event" >
+            android:label="@string/title_activity_edit_event"
+            android:parentActivityName=".activities.EventDetailActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <!-- need this to implement home as back button -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".activities.EventDetailActivity" />
         </activity>
 
         <meta-data
@@ -84,7 +91,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDdCnd6o3LZ_TXf6NasayAyGaLAwmIOtR8" />
+            android:value="AIzaSyDA7uC9seko40SmU5a-twCNO7Y3qVljDWg" />
 
         <activity
             android:name=".activities.FullMapActivity"
@@ -112,7 +119,14 @@
 
         <activity
             android:name=".activities.InviteDetailActivity"
-            android:label="@string/title_activity_invite_detail" >
+            android:label="@string/title_activity_invite_detail"
+            android:parentActivityName=".activities.HomeActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <!-- need this to implement home as back button -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".activities.HomeActivity" />
         </activity>
         <activity
             android:name=".activities.ChatActivity"
