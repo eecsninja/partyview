@@ -1,5 +1,6 @@
 package com.sms.partyview.activities;
 
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseInstallation;
@@ -127,22 +128,40 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
     public static void generateEventUsers(List<ParseUser> attendeeList, Event event) {
         // create an EventUser object for host and everyone in invites
         for (ParseUser user : attendeeList) {
-
-            new EventUser(
-                    AttendanceStatus.INVITED,
-                    new ParseGeoPoint(),
-                    user,
-                    event
-            ).saveInBackground();
+            createUserEventIfNoneExists(AttendanceStatus.INVITED, user, event);
         }
 
         // host's invitation status should default to accepted
-        new EventUser(
-                AttendanceStatus.ACCEPTED,
-                new ParseGeoPoint(),
-                ParseUser.getCurrentUser(),
-                event
-        ).saveInBackground();
+        createUserEventIfNoneExists(AttendanceStatus.ACCEPTED, ParseUser.getCurrentUser(), event);
+    }
+
+    // Creates an EventUser object if there's no existing object with the user-event pair.
+    protected static void createUserEventIfNoneExists(
+            final AttendanceStatus status, final ParseUser user, final Event event) {
+        // Search for EventUsers with the given user and event.
+        ParseQuery userQuery = ParseQuery.getQuery(ParseUser.class);
+        userQuery.whereEqualTo("objectId", user.getObjectId());
+        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereEqualTo("objectId", event.getObjectId());
+
+        ParseQuery<EventUser> query = new ParseQuery(EventUser.class);
+        query.whereMatchesQuery("user", userQuery);
+        query.whereMatchesQuery("event", eventQuery);
+        query.findInBackground(new FindCallback<EventUser>() {
+            @Override
+            public void done(List<EventUser> eventUsers, ParseException e) {
+                if (e != null) {
+                    System.err.println(e.getMessage());
+                    return;
+                }
+                System.out.println("Found " + eventUsers.size() + " EventUsers");
+                if (!eventUsers.isEmpty()) {
+                    return;
+                }
+                // If there was no EventUser found, create one.
+                new EventUser(status, new ParseGeoPoint(), user, event).saveInBackground();
+            }
+        });
     }
 
     // Create fragment for editing a new event.
