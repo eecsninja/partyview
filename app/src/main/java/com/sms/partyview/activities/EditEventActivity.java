@@ -53,6 +53,7 @@ public class EditEventActivity extends NewEventActivity {
         // Query for the event with the given ID.
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
         query.whereEqualTo("objectId", eventId);
+        query.include("host");
 
         query.findInBackground(
             new FindCallback<Event>() {
