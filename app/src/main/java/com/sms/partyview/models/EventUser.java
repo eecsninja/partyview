@@ -47,7 +47,6 @@ public class EventUser extends ParseObject {
 
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.whereEqualTo("status", AttendanceStatus.INVITED.toString());
-        query.addAscendingOrder("date");
         query.include("event.host");
 
         return query;
