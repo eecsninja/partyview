@@ -8,12 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.sms.partyview.R;
+import com.sms.partyview.fragments.ChatFragment;
 import com.sms.partyview.fragments.EventMapFragment;
 import com.sms.partyview.models.Attendee;
 
 import java.util.ArrayList;
 
-public class FullMapActivity extends FragmentActivity implements EventMapFragment.EventMapFragmentListener {
+public class FullMapActivity extends FragmentActivity implements EventMapFragment.EventMapFragmentListener,
+        ChatFragment.OnFragmentInteractionListener{
 
     private EventMapFragment eventMapFragment;
     private ArrayList<Attendee> attendees;
@@ -21,6 +23,7 @@ public class FullMapActivity extends FragmentActivity implements EventMapFragmen
     private String eventId;
     private Double latitude;
     private Double longitude;
+    private ChatFragment chatFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class FullMapActivity extends FragmentActivity implements EventMapFragmen
         latitude = getIntent().getDoubleExtra("latitude", 0);
         longitude = getIntent().getDoubleExtra("longitude", 0);
         setupMapFragment();
+        setupChatFragment();
     }
 
 
@@ -64,6 +68,15 @@ public class FullMapActivity extends FragmentActivity implements EventMapFragmen
         // Replace the content of the container
         eventMapFragment = EventMapFragment.newInstance(attendees, currentEventUserObjId, eventId, latitude, longitude);
         fts.replace(R.id.flFullMapContainer, eventMapFragment);
+        fts.commit();
+    }
+
+    public void setupChatFragment() {
+        // Create the transaction
+        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+        // Replace the content of the container
+        chatFragment = ChatFragment.newInstance(eventId);
+        fts.replace(R.id.flChatContainer2, chatFragment);
         fts.commit();
     }
 

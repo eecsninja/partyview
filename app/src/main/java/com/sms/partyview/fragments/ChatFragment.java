@@ -8,12 +8,15 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.parse.ParseUser;
 import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
 import com.pubnub.api.PubnubError;
@@ -25,6 +28,9 @@ import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.ChatMessage;
 import com.sms.partyview.models.EventUser;
 
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,7 +53,13 @@ public class ChatFragment extends Fragment {
 
     private String eventId;
 
+    private EditText etMessage;
+
     private OnFragmentInteractionListener mListener;
+
+
+    protected static final DateTimeFormatter DISPLAY_TIME_FORMATTER = DateTimeFormat
+            .forPattern("h:mm a");
 
     public static ChatFragment newInstance(String eventId) {
         ChatFragment fragment = new ChatFragment();
@@ -83,6 +95,19 @@ public class ChatFragment extends Fragment {
         messagesView = (ListView) view.findViewById(R.id.lvChat);
         messagesView.setAdapter(messageAdapter);
 
+        etMessage = (EditText) view.findViewById(R.id.etSendMessage);
+        etMessage.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    publishUserMessage(etMessage.getText().toString());
+                    etMessage.setText("");
+                }
+                return false;
+            }
+        });
+
         // Return it.
         return view;
     }
@@ -105,6 +130,11 @@ public class ChatFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
+    }
+
+    public void onSendMessage(View v) {
+        publishUserMessage(etMessage.getText().toString());
+        etMessage.setText("");
     }
 
 
@@ -168,6 +198,33 @@ public class ChatFragment extends Fragment {
             );
         } catch (PubnubException e) {
             Log.d("PUBNUB",e.toString());
+        }
+    }
+
+    public void publishUserMessage(String chatMessage) {
+
+        Callback callback = new Callback() {
+            public void successCallback(String channel, Object response) {
+                Log.d("PUBNUB",response.toString());
+            }
+            public void errorCallback(String channel, PubnubError error) {
+                Log.d("PUBNUB",error.toString());
+            }
+        };
+
+        try {
+            JSONObject dataToPublish = new JSONObject();
+            JSONObject message = new JSONObject();
+            message.put("username", ParseUser.getCurrentUser().getUsername());
+            message.put("message", chatMessage);
+
+            MutableDateTime time = new MutableDateTime();
+            message.put("timestamp", time.toString(DISPLAY_TIME_FORMATTER));
+
+            dataToPublish.put("chat", message);
+            pubnub.publish(eventId, dataToPublish, callback);
+        } catch (JSONException jsonException) {
+
         }
     }
 

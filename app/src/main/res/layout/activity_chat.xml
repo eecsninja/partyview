@@ -11,28 +11,27 @@
     <FrameLayout
         android:id="@+id/flChatContainer"
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"></FrameLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="fill_parent"></FrameLayout>
+    <!--<LinearLayout-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-        <EditText
-            android:id="@+id/etSendMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:hint="@string/send_message_hint"
-            />
-        <Button
-            android:id="@+id/btnSendMessage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/send_message"
-            android:onClick="onSendMessage"/>
+        <!--<EditText-->
+            <!--android:id="@+id/etSendMessage"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:singleLine="true"-->
+            <!--android:hint="@string/send_message_hint"-->
+            <!--/>-->
+        <!--<Button-->
+            <!--android:id="@+id/btnSendMessage"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/send_message"-->
+            <!--android:onClick="onSendMessage"/>-->
 
-    </LinearLayout>
+    <!--</LinearLayout>-->
 
 
 

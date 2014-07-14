@@ -1,29 +1,17 @@
 package com.sms.partyview.activities;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import com.parse.ParseUser;
-import com.pubnub.api.Callback;
 import com.pubnub.api.Pubnub;
-import com.pubnub.api.PubnubError;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.ChatFragment;
 
-import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class ChatActivity extends FragmentActivity implements ChatFragment.OnFragmentInteractionListener {
     public static final String PUBLISH_KEY = "pub-c-adf5251f-8c96-477d-95fd-ab1907f93905";
@@ -45,22 +33,8 @@ public class ChatActivity extends FragmentActivity implements ChatFragment.OnFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        etMessage = (EditText) findViewById(R.id.etSendMessage);
-        etMessage.setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
-                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    publishUserMessage(etMessage.getText().toString());
-                    etMessage.setText("");
-                }
-                return false;
-            }
-        });
-
         eventId = getIntent().getStringExtra("eventId");
         setupChatFragment();
-
 
         pubnub = new Pubnub(PUBLISH_KEY, SUBSCRIBE_KEY);
     }
@@ -92,39 +66,5 @@ public class ChatActivity extends FragmentActivity implements ChatFragment.OnFra
         chatFragment = ChatFragment.newInstance(eventId);
         fts.replace(R.id.flChatContainer, chatFragment);
         fts.commit();
-    }
-
-
-
-    public void onSendMessage(View v) {
-        publishUserMessage(etMessage.getText().toString());
-        etMessage.setText("");
-    }
-
-    public void publishUserMessage(String chatMessage) {
-
-        Callback callback = new Callback() {
-            public void successCallback(String channel, Object response) {
-                Log.d("PUBNUB",response.toString());
-            }
-            public void errorCallback(String channel, PubnubError error) {
-                Log.d("PUBNUB",error.toString());
-            }
-        };
-
-        try {
-            JSONObject dataToPublish = new JSONObject();
-            JSONObject message = new JSONObject();
-            message.put("username", ParseUser.getCurrentUser().getUsername());
-            message.put("message", chatMessage);
-
-            MutableDateTime time = new MutableDateTime();
-            message.put("timestamp", time.toString(DISPLAY_TIME_FORMATTER));
-
-            dataToPublish.put("chat", message);
-            pubnub.publish(eventId, dataToPublish, callback);
-        } catch (JSONException jsonException) {
-
-        }
     }
 }

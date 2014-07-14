@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:padding="10dp">
+    android:padding="2dp">
 
     <TextView
         android:id="@+id/tvUsernameChat"
@@ -11,14 +11,16 @@
         android:textStyle="bold"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="5dp"/>
+        android:layout_marginRight="5dp"
+        android:textSize="12sp"/>
     <TextView
         android:id="@+id/tvMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/tvUsernameChat"
         android:layout_alignBaseline="@+id/tvUsernameChat"
-        android:singleLine="false"/>
+        android:singleLine="false"
+        android:textSize="12sp"/>
     <TextView
         android:id="@+id/tvTimestamp"
         android:layout_width="wrap_content"
@@ -27,6 +29,7 @@
         android:layout_alignParentRight="true"
         android:layout_toRightOf="@+id/tvMessage"
         android:gravity="right"
-        android:layout_weight=".1"/>
+        android:layout_weight=".1"
+        android:textSize="12sp"/>
 
 </RelativeLayout>
