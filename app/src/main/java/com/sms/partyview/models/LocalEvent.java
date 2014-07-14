@@ -2,6 +2,9 @@ package com.sms.partyview.models;
 
 import com.parse.ParseGeoPoint;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -31,6 +34,40 @@ public class LocalEvent implements Serializable {
         }
         this.hostName = event.getHost().getUsername();
         this.objectId = event.getObjectId();
+    }
+
+    public LocalEvent(JSONObject json) {
+        try {
+            title = json.getString("title");
+            startDate = new Date(json.getLong("startDate"));
+            endDate = new Date(json.getLong("endDate"));
+            description = json.getString("description");
+            address = json.getString("address");
+            latitude = json.getDouble("latitude");
+            longitude = json.getDouble("longitude");
+            hostName = json.getString("hostName");
+            objectId = json.getString("objectId");
+        } catch (JSONException e) {
+            System.err.println("LocalEvent(): " + e.getMessage());
+        }
+    }
+
+    public JSONObject toJSONObject() {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("title", title);
+            json.put("startDate", startDate.getTime());
+            json.put("endDate", endDate.getTime());
+            json.put("description", description);
+            json.put("address", address);
+            json.put("latitude", latitude);
+            json.put("longitude", longitude);
+            json.put("hostName", hostName);
+            json.put("objectId", objectId);
+        } catch (JSONException e) {
+            System.err.println("LocalEvent.toJSONObject(): " + e.getMessage());
+        }
+        return json;
     }
 
     public String getTitle() {
