@@ -36,6 +36,17 @@ public class Event extends ParseObject {
         setHost(host);
     }
 
+    // Update the Parse Event object from a LocalEvent object.
+    public void update(LocalEvent event) {
+        setTitle(event.getTitle());
+        setStartDate(event.getStartDate());
+        setEndDate(event.getEndDate());
+        setDescription(event.getDescription());
+        setAddress(event.getAddress());
+        setLocation(new ParseGeoPoint(event.getLatitude(), event.getLongitude()));
+        // Host should remain the same.
+    }
+
     public String getTitle() {
         return getString("title");
     }
