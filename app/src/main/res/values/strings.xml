@@ -88,5 +88,6 @@
     <string name="label_change_password">Change password</string>
     <string name="label_verify_password">Verify password</string>
     <string name="password_changed">Successfully change password</string>
+    <string name="action_sign_out">Sign Out</string>
 
 </resources>

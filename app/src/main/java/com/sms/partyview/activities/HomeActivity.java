@@ -75,9 +75,19 @@ public class HomeActivity
             case R.id.action_settings:
                 displaySettingDialog();
                 return true;
+            case R.id.action_sign_out:
+                signOutUser();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void signOutUser() {
+        ParseUser.getCurrentUser().logOut();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

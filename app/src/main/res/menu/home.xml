@@ -14,4 +14,11 @@
           android:showAsAction="ifRoom|withText"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content" />
+
+    <item android:id="@+id/action_sign_out"
+          android:icon="@drawable/ic_action_sign_out"
+          android:title="@string/action_sign_out"
+          android:showAsAction="never"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content" />
 </menu>
