@@ -17,6 +17,7 @@ public class LocalEvent implements Serializable {
     Double latitude;
     Double longitude;
     String hostName;
+    String objectId;
 
     public LocalEvent(Event event) {
         this.title = event.getTitle();
@@ -29,6 +30,7 @@ public class LocalEvent implements Serializable {
             this.longitude = event.getLocation().getLongitude();
         }
         this.hostName = event.getHost().getUsername();
+        this.objectId = event.getObjectId();
     }
 
     public String getTitle() {
@@ -95,4 +97,8 @@ public class LocalEvent implements Serializable {
     public void setHost(String host) {
         this.hostName = host;
     }
+
+    public String getObjectId() { return objectId; }
+
+    public void setObjectId(String objectId) { this.objectId = objectId; }
 }
