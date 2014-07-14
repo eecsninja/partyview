@@ -36,7 +36,6 @@ import java.util.List;
 public class EventDetailActivity extends FragmentActivity implements EventMapFragment.EventMapFragmentListener {
 
     private Event mEvent;
-    private String eventId;
     private AttendanceStatus status;
     private EventUser currentEventUser;
     private LocalEvent tempEvent;
@@ -58,7 +57,6 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     private final int EDIT_EVENT_REQUEST = 1;
 
     // For passing in intent data.
-    public static final String EVENT_ID_INTENT_KEY = "eventId";
     public static final String EVENT_INTENT_KEY = "event";
     public static final String UDPATED_EVENT_INTENT_KEY = "updatedEvent";
     public static final String EVENT_LIST_INDEX_KEY = "eventListIndex";
@@ -98,13 +96,11 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     }
 
     private void retrieveEvent() {
-        eventId = getIntent().getStringExtra(EVENT_ID_INTENT_KEY);
-
         // Define the class we would like to query
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
 
         // Define our query conditions
-        query.whereEqualTo("objectId", eventId);
+        query.whereEqualTo("objectId", tempEvent.getObjectId());
         query.include("host");
 
         query.getFirstInBackground(new GetCallback<Event>() {
@@ -153,8 +149,11 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         // Create the transaction
         FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
         // Replace the content of the container
-        eventMapFragment = EventMapFragment.newInstance(attendees, currentEventUser.getObjectId(),
-                eventId, mEvent.getLocation().getLatitude(),mEvent.getLocation().getLongitude());
+        eventMapFragment = EventMapFragment.newInstance(
+                attendees,
+                currentEventUser.getObjectId(),
+                tempEvent.getObjectId(),
+                mEvent.getLocation().getLatitude(),mEvent.getLocation().getLongitude());
         fts.replace(R.id.flMapContainer, eventMapFragment);
         fts.commit();
     }
@@ -177,7 +176,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
 
     private void retrieveEventUsers() {
         ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
-        eventQuery.whereEqualTo("objectId", eventId);
+        eventQuery.whereEqualTo("objectId", tempEvent.getObjectId());
 
         // Define the class we would like to query
         ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
@@ -272,7 +271,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
                         Intent mapIntent = new Intent(EventDetailActivity.this, FullMapActivity.class);
                         mapIntent.putParcelableArrayListExtra("attendees", attendees);
                         mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
-                        mapIntent.putExtra("eventId", eventId);
+                        mapIntent.putExtra("eventId", mEvent.getObjectId());
                         mapIntent.putExtra("latitude", mEvent.getLocation().getLatitude());
                         mapIntent.putExtra("longitude", mEvent.getLocation().getLongitude());
                         startActivity(mapIntent);
@@ -320,7 +319,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
 
     public void onJoinChat(MenuItem mi) {
         Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra(EditEventActivity.EVENT_ID_INTENT_KEY, mEvent.getObjectId());
+        intent.putExtra(EditEventActivity.EVENT_ID_INTENT_KEY, tempEvent.getObjectId());
         startActivity(intent);
     }
 }
