@@ -50,11 +50,8 @@ public class AcceptedEventsFragment extends EventListFragment {
 
     public void addNewEventToList(String eventId, final String attendanceStatus) {
         // Define the class we would like to query
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+        ParseQuery<Event> query = Event.getQueryForEventWithId(eventId);
 
-        // Define our query conditions
-        query.whereEqualTo("objectId", eventId);
-        query.include("host");
 
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override

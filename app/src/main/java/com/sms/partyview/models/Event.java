@@ -3,6 +3,7 @@ package com.sms.partyview.models;
 import com.parse.ParseClassName;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Date;
@@ -101,5 +102,16 @@ public class Event extends ParseObject {
 
     public ParseUser getHost() {
         return getParseUser("host");
+    }
+
+    public static ParseQuery<Event> getQueryForEventWithId(String eventId) {
+        // Define the class we would like to query
+        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
+
+        // Define our query conditions
+        query.whereEqualTo("objectId", eventId);
+        query.include("host");
+
+        return query;
     }
 }
