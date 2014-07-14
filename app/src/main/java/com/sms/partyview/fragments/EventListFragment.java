@@ -88,9 +88,6 @@ public abstract class EventListFragment extends Fragment {
                 Log.d("DEBUG", "calling act: " + getActivity().toString());
                 Intent intent = new Intent(getActivity(), EventDetailActivity.class);
                 intent.putExtra(EventDetailActivity.EVENT_ID_INTENT_KEY, event.getObjectId());
-                intent.putExtra(EventDetailActivity.EVENT_TITLE_INTENT_KEY, event.getTitle());
-                intent.putExtra(EventDetailActivity.CURRENT_USER_IS_HOST_INTENT_KEY,
-                                event.getHost() == ParseUser.getCurrentUser());
                 intent.putExtra(EventDetailActivity.EVENT_INTENT_KEY, new LocalEvent(event));
                 intent.putExtra(EventDetailActivity.EVENT_LIST_INDEX_KEY, position);
 

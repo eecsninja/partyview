@@ -60,8 +60,6 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
 
     // For passing in intent data.
     public static final String EVENT_ID_INTENT_KEY = "eventId";
-    public static final String EVENT_TITLE_INTENT_KEY = "eventTitle";
-    public static final String CURRENT_USER_IS_HOST_INTENT_KEY = "currentUserIsHost";
     public static final String EVENT_INTENT_KEY = "event";
     public static final String UDPATED_EVENT_INTENT_KEY = "updatedEvent";
     public static final String EVENT_LIST_INDEX_KEY = "eventListIndex";
@@ -75,17 +73,16 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         markers = new ArrayList<Marker>();
         status = AttendanceStatus.ACCEPTED;
 
-        eventTitle = getIntent().getStringExtra(EVENT_TITLE_INTENT_KEY);
-        if (!eventTitle.isEmpty()) {
-            getActionBar().setTitle(eventTitle);
-        }
-
         eventUsers = new ArrayList<EventUser>();
         attendees = new ArrayList<Attendee>();
 
         status = AttendanceStatus.valueOf(getIntent().getStringExtra("eventStatus"));
 
         tempEvent = (LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY);
+        eventTitle = tempEvent.getTitle();
+        if (!eventTitle.isEmpty()) {
+            getActionBar().setTitle(eventTitle);
+        }
         mEventListIndex = getIntent().getIntExtra(EVENT_LIST_INDEX_KEY, 0);
 
         setupViews();
@@ -124,8 +121,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         getMenuInflater().inflate(R.menu.event_detail, menu);
         // Show the edit menu item if the current user is the host.
         menu.findItem(R.id.action_edit_event)
-                .setVisible(getIntent()
-                        .getBooleanExtra(CURRENT_USER_IS_HOST_INTENT_KEY, false));
+                .setVisible(tempEvent.getHost().equals(ParseUser.getCurrentUser().getUsername()));
         return true;
     }
 
