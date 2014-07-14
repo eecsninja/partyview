@@ -79,6 +79,8 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         eventUsers = new ArrayList<EventUser>();
         attendees = new ArrayList<Attendee>();
 
+        status = AttendanceStatus.valueOf(getIntent().getStringExtra("eventStatus"));
+
         tempEvent = (LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY);
 
         setupViews();
@@ -158,6 +160,11 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         tvEventTime.setText(tvEventTime.getText() + ": " + tempEvent.getStartDate());
         tvEventOrganizer
                 .setText(tvEventOrganizer.getText() + ": " + tempEvent.getHost());
+        if (status.equals(AttendanceStatus.PRESENT)) {
+            btnJoinLeave.setText(getString(R.string.leave_event));
+        } else if (status.equals(AttendanceStatus.ACCEPTED)) {
+            btnJoinLeave.setText(getString(R.string.join_event));
+        }
     }
 
     private void retrieveEventUsers() {

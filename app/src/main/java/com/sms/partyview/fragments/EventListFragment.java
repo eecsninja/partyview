@@ -19,7 +19,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A fragment representing a list of events.
@@ -33,6 +35,8 @@ public abstract class EventListFragment extends Fragment {
     protected ListView eventsView;
 
     protected ArrayList<Event> preOnCreateEvents = new ArrayList<Event>();
+
+    protected Map<String, String> statusMap = new HashMap<String, String>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,10 @@ public abstract class EventListFragment extends Fragment {
                 intent.putExtra(EventDetailActivity.CURRENT_USER_IS_HOST_INTENT_KEY,
                                 event.getHost() == ParseUser.getCurrentUser());
                 intent.putExtra(EventDetailActivity.EVENT_INTENT_KEY, new LocalEvent(event));
+
+                if (statusMap.get(event.getObjectId()) != null) {
+                    intent.putExtra("eventStatus", statusMap.get(event.getObjectId()));
+                }
                 startActivity(intent);
             }
         });

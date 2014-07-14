@@ -46,6 +46,7 @@ public class AcceptedEventsFragment extends EventListFragment {
                     if(eventUser.getStatus() != AttendanceStatus.DECLINED) {
                         events.add(eventUser.getEvent());
                     }
+                    statusMap.put(eventUser.getEvent().getObjectId(), eventUser.getStatus().toString());
                 }
                 eventAdapter.addAll(events);
                 }
