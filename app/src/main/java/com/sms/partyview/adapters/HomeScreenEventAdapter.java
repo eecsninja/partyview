@@ -17,12 +17,12 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import static com.sms.partyview.helpers.Utils.*;
+
 /**
  * Created by sque on 7/4/14.
  */
 public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
-
-    private static final DateFormat DF = new SimpleDateFormat("MM/dd/yyyy HH:mm");
 
     public HomeScreenEventAdapter(Context context, List<Event> event_list) {
         super(context, 0, event_list);
@@ -49,8 +49,8 @@ public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
         Event event = getItem(position);
         titleField.setText(event.getTitle());
 
-        Date date = event.getStartDate();
-        timeField.setText(DF.format(date));
+        DateTime date = new DateTime(event.getStartDate());
+        timeField.setText(DISPLAY_DATE_TIME_FORMATTER.print(date));
         // TODO: should show a display name.
 
         hostNameField.setText("Hosted by: " + event.getHost().getUsername());

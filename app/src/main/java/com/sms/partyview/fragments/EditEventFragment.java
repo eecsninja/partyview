@@ -46,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 
 import static android.text.TextUtils.isEmpty;
+import static com.sms.partyview.helpers.Utils.*;
 
 public abstract class EditEventFragment extends Fragment
         implements CalendarDatePickerDialog.OnDateSetListener,
@@ -54,10 +55,6 @@ public abstract class EditEventFragment extends Fragment
 
     private static final String FRAG_TAG_DATE_PICKER = "datePickerDialogFragment";
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
-    protected static final DateTimeFormatter DISPLAY_DATE_FORMATTER = DateTimeFormat
-            .forPattern("E, MMM d");
-    protected static final DateTimeFormatter DISPLAY_TIME_FORMATTER = DateTimeFormat
-            .forPattern("h:mm a");
 
     private static final Splitter INVITEES_SPLITTER = Splitter.on(',').omitEmptyStrings()
             .trimResults();

@@ -4,6 +4,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
@@ -15,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import static com.sms.partyview.helpers.Utils.*;
 
 /**
  * Created by sque on 7/12/14.
