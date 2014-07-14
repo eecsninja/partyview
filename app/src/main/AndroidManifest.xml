@@ -95,7 +95,14 @@
 
         <activity
             android:name=".activities.FullMapActivity"
-            android:label="@string/title_activity_full_map" >
+            android:label="@string/title_activity_full_map" 
+            android:parentActivityName=".activities.EventDetailActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <!-- need this to implement home as back button -->
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value=".activities.EventDetailActivity" />
         </activity>
 
         <service android:name="com.parse.PushService" />
