@@ -38,6 +38,9 @@ public class HomeActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        getActionBar().setTitle(
+                getString(R.string.title_activity_home) +
+                          " (" + ParseUser.getCurrentUser().getUsername() + ")");
 
         setupTabs();
     }
