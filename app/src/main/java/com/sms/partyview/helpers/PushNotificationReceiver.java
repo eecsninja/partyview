@@ -54,7 +54,8 @@ public class PushNotificationReceiver extends BroadcastReceiver {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle(notificationMsg);
+                        .setContentTitle("Event notification")
+                        .setContentText(notificationMsg);
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
