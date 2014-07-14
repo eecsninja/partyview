@@ -65,10 +65,15 @@ public class AcceptedEventsFragment extends EventListFragment {
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override
             public void done(Event event, ParseException e) {
-                statusMap.put(event.getObjectId(), attendanceStatus);
-                eventAdapter.add(event);
-                Log.d("DEBUG", "back to main");
-                Log.d("DEBUG", event.getTitle().toString());
+                if (e != null) {
+                    statusMap.put(event.getObjectId(), attendanceStatus);
+                    eventAdapter.add(event);
+                    Log.d("DEBUG", "back to main");
+                    Log.d("DEBUG", event.getTitle().toString());
+                } else {
+                    System.err.println(
+                            "AcceptedEventsFragment.addNewEventToList: " + e.getMessage());
+                }
             }
         });
     }
