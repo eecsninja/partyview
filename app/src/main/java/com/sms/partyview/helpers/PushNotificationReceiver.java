@@ -2,6 +2,7 @@ package com.sms.partyview.helpers;
 
 import com.parse.ParseUser;
 import com.sms.partyview.R;
+import com.sms.partyview.models.LocalEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,19 +32,18 @@ public class PushNotificationReceiver extends BroadcastReceiver {
             return;
         }
         JSONObject json = null;
-        String eventId = null;
-        String eventHostName = null;
-        String eventTitle = null;
+        LocalEvent event = null;
         boolean isNewEvent = false;
         try {
             json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
-            eventId = json.getString("eventId");
-            eventHostName = json.getString("eventHostName");
-            eventTitle = json.getString("eventTitle");
+            event = new LocalEvent(json.getJSONObject("event"));
             isNewEvent = json.getBoolean("isNewEvent");
         } catch (JSONException e) {
             System.err.println(e.getMessage());
         }
+        String eventId = event.getObjectId();
+        String eventHostName = event.getHost();
+        String eventTitle = event.getTitle();
 
         // Build a local notification.
         String notificationMsg =

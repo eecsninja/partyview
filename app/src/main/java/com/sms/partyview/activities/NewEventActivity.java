@@ -16,6 +16,7 @@ import com.sms.partyview.helpers.EventSaverInterface;
 import com.sms.partyview.helpers.GetGeoPointTask;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
+import com.sms.partyview.models.LocalEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -205,9 +206,7 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
         JSONObject json = new JSONObject();
         try {
             json.put("action", "com.sms.partyview.EVENT_NOTIFICATION");
-            json.put("eventId", event.getObjectId());
-            json.put("eventHostName", event.getHost().getUsername());
-            json.put("eventTitle", event.getTitle());
+            json.put("event", new LocalEvent(event).toJSONObject());
             json.put("isNewEvent", true);
         } catch (JSONException e) {
             System.out.println(e.getMessage());
