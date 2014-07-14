@@ -8,6 +8,7 @@ import com.sms.partyview.adapters.MyPagerAdapter;
 import com.sms.partyview.fragments.AcceptedEventsFragment;
 import com.sms.partyview.fragments.EventListFragment;
 import com.sms.partyview.fragments.PendingEventsFragment;
+import com.sms.partyview.fragments.ProfileSettingDialog;
 import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.models.LocalEvent;
@@ -60,6 +61,9 @@ public class HomeActivity
         switch (item.getItemId()) {
             case R.id.action_new_event:
                 displayNewEventActivity();
+                return true;
+            case R.id.action_settings:
+                displaySettingDialog();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -157,5 +161,10 @@ public class HomeActivity
         }
         installation.put(INSTALLATION_USER_NAME_KEY, currentUserName);
         installation.saveInBackground();
+    }
+
+    public void displaySettingDialog() {
+        ProfileSettingDialog profileSettingDialog = ProfileSettingDialog.newInstance();
+        profileSettingDialog.show(getFragmentManager(), "fragment_profile_setting");
     }
 }
