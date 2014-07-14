@@ -54,7 +54,7 @@ public class PushNotificationReceiver extends BroadcastReceiver {
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_launcher)
-                        .setContentTitle("Event notification")
+                        .setContentTitle(isNewEvent ? "New event invite" : "Event update")
                         .setContentText(notificationMsg);
 
         NotificationManager notificationManager =
