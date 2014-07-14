@@ -33,15 +33,7 @@ public class PendingEventsFragment extends EventListFragment {
     @Override
     protected void populateEventList() {
         // Define the class we would like to query
-        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
-
-        // Define our query conditions
-
-        // get list of events where user
-        query.whereEqualTo("user", ParseUser.getCurrentUser());
-        query.whereEqualTo("status", AttendanceStatus.INVITED.toString());
-        query.addAscendingOrder("date");
-        query.include("event.host");
+        ParseQuery<EventUser> query = EventUser.getQueryForPendingEvents();
 
         query.findInBackground(
                 new FindCallback<EventUser>() {

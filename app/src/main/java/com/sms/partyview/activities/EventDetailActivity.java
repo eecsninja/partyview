@@ -96,12 +96,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     }
 
     private void retrieveEvent() {
-        // Define the class we would like to query
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-
-        // Define our query conditions
-        query.whereEqualTo("objectId", tempEvent.getObjectId());
-        query.include("host");
+        ParseQuery<Event> query = Event.getQueryForEventWithId(tempEvent.getObjectId());
 
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override
