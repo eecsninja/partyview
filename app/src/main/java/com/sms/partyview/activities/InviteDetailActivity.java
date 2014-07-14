@@ -193,7 +193,7 @@ public class InviteDetailActivity extends Activity {
                     // return to list of events
                     Intent data = new Intent();
                     data.putExtra("eventId", eventId);
-                    data.putExtra("response", "accepted");
+                    data.putExtra("response", AttendanceStatus.ACCEPTED.toString());
                     setResult(RESULT_OK, data);
 
                     finish();

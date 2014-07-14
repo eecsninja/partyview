@@ -14,6 +14,7 @@ import com.sms.partyview.fragments.AcceptedEventsFragment;
 import com.sms.partyview.fragments.EventListFragment;
 import com.sms.partyview.fragments.PendingEventsFragment;
 import com.sms.partyview.helpers.Utils;
+import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.models.LocalEvent;
 
 import android.app.NotificationManager;
@@ -76,7 +77,7 @@ public class HomeActivity
             String eventId = data.getStringExtra("eventId");
 
             AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager.getItem(0);
-            fragment.addNewEventToList(eventId);
+            fragment.addNewEventToList(eventId, AttendanceStatus.ACCEPTED.toString());
 
             // go back to accepted events page
             mAdapterViewPager.getItem(0);
@@ -97,7 +98,7 @@ public class HomeActivity
                 // go back to accepted events page
                 AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager
                         .getItem(0);
-                fragment.addNewEventToList(eventId);
+                fragment.addNewEventToList(eventId, response);
 
                 mAdapterViewPager.getItem(0);
                 mAdapterViewPager.notifyDataSetChanged();

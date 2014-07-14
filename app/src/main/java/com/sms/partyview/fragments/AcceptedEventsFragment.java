@@ -54,7 +54,7 @@ public class AcceptedEventsFragment extends EventListFragment {
         );
     }
 
-    public void addNewEventToList(String eventId) {
+    public void addNewEventToList(String eventId, final String attendanceStatus) {
         // Define the class we would like to query
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
 
@@ -65,6 +65,7 @@ public class AcceptedEventsFragment extends EventListFragment {
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override
             public void done(Event event, ParseException e) {
+                statusMap.put(event.getObjectId(), attendanceStatus);
                 eventAdapter.add(event);
                 Log.d("DEBUG", "back to main");
                 Log.d("DEBUG", event.getTitle().toString());
