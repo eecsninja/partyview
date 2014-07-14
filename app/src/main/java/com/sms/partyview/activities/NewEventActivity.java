@@ -17,6 +17,9 @@ import com.sms.partyview.helpers.GetGeoPointTask;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -192,14 +195,24 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
 
             ParsePush push = new ParsePush();
             push.setQuery(query);
-            push.setMessage(getNotificationMessage(event));
+            push.setData(getNotificationData(event));
             push.sendInBackground();
         }
     }
 
     // Constructs a notification message for the given event.
-    protected String getNotificationMessage(Event event) {
-        return event.getHost().getUsername() + " has invited you to " + event.getTitle();
+    protected JSONObject getNotificationData(Event event) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("action", "com.sms.partyview.EVENT_NOTIFICATION");
+            json.put("eventId", event.getObjectId());
+            json.put("eventHostName", event.getHost().getUsername());
+            json.put("eventTitle", event.getTitle());
+            json.put("isNewEvent", true);
+        } catch (JSONException e) {
+            System.out.println(e.getMessage());
+        }
+        return json;
     }
 
     private void showToast(String toastText) {

@@ -8,6 +8,9 @@ import com.sms.partyview.fragments.UpdateEventFragment;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.LocalEvent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -124,7 +127,13 @@ public class EditEventActivity extends NewEventActivity {
     }
 
     @Override
-    protected String getNotificationMessage(Event event) {
-        return event.getHost().getUsername() + " has updated the event " + event.getTitle();
+    protected JSONObject getNotificationData(Event event) {
+        JSONObject json = super.getNotificationData(event);
+        try {
+            json.put("isNewEvent", false);
+        } catch (JSONException e) {
+            System.err.println(e.getMessage());
+        }
+        return json;
     }
 }
