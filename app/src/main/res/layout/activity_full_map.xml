@@ -9,4 +9,5 @@
     android:id="@+id/flFullMapContainer"
     tools:context="com.sms.partyview.activities.FullMapActivity">
 
+
 </FrameLayout>

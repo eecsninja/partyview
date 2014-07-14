@@ -9,4 +9,16 @@
           android:layout_height="wrap_content"
           android:onClick="editEvent"
           android:visible="false" />
+    <item android:id="@+id/action_view_attendees"
+        android:icon="@drawable/ic_action_view_attendees"
+        android:title="@string/view_attendees"
+        android:showAsAction="ifRoom|withText"
+        android:onClick="onViewAttendees"
+        android:visible="true"/>
+    <item android:id="@+id/action_chat"
+        android:icon="@drawable/ic_action_chat"
+        android:title="@string/join_chat"
+        android:showAsAction="ifRoom|withText"
+        android:onClick="onJoinChat"
+        android:visible="true"/>
 </menu>

@@ -195,7 +195,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         });
     }
 
-    public void onViewAttendees(View v) {
+    public void onViewAttendees(MenuItem mi) {
         AttendeeListDialogFragment.show(this, getString(R.string.attendees_title), attendees);
     }
 
@@ -281,7 +281,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         startActivityForResult(intent, EDIT_EVENT_REQUEST);
     }
 
-    public void onJoinChat(View v) {
+    public void onJoinChat(MenuItem mi) {
         Intent intent = new Intent(this, ChatActivity.class);
         intent.putExtra(EditEventActivity.EVENT_ID_INTENT_KEY, mEvent.getObjectId());
         startActivity(intent);

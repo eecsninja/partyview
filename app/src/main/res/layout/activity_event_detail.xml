@@ -55,23 +55,23 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text=""
-            android:padding="5dp"
+            android:padding="1dp"
             android:onClick="onJoinLeave"
-            android:layout_weight=".33"/>
-        <Button
-            android:id="@+id/btnViewAttendees"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/attendees_title"
-            android:onClick="onViewAttendees"
-            android:layout_weight=".33"/>
-        <Button
-            android:id="@+id/btnChat"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/join_chat"
-            android:onClick="onJoinChat"
-            android:layout_weight=".33"/>
+            android:textSize="12sp"/>
+        <!--<Button-->
+            <!--android:id="@+id/btnViewAttendees"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/attendees_title"-->
+            <!--android:onClick="onViewAttendees"-->
+            <!--android:layout_weight=".5"/>-->
+        <!--<Button-->
+            <!--android:id="@+id/btnChat"-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="@string/join_chat"-->
+            <!--android:onClick="onJoinChat"-->
+            <!--android:layout_weight=".5"/>-->
     </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
