@@ -86,9 +86,14 @@ public class PendingEventsFragment extends EventListFragment {
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override
             public void done(Event event, ParseException e) {
-                eventAdapter.remove(event);
-                Log.d("DEBUG", "back to main");
-                Log.d("DEBUG", event.getTitle().toString());
+                if (e == null) {
+                    eventAdapter.remove(event);
+                    Log.d("DEBUG", "back to main");
+                    Log.d("DEBUG", event.getTitle().toString());
+                } else {
+                    System.err.println("PendingEventsFragment.removeEventFromList: " +
+                            e.getMessage());
+                }
             }
         });
     }

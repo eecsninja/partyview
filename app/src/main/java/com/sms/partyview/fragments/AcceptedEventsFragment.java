@@ -65,7 +65,7 @@ public class AcceptedEventsFragment extends EventListFragment {
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override
             public void done(Event event, ParseException e) {
-                if (e != null) {
+                if (e == null) {
                     statusMap.put(event.getObjectId(), attendanceStatus);
                     eventAdapter.add(event);
                     Log.d("DEBUG", "back to main");
