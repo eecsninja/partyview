@@ -38,7 +38,6 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     private Event mEvent;
     private String eventId;
     private AttendanceStatus status;
-    private String eventTitle;
     private EventUser currentEventUser;
     private LocalEvent tempEvent;
     private boolean mEventWasUpdated = false;
@@ -78,19 +77,24 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
 
         status = AttendanceStatus.valueOf(getIntent().getStringExtra("eventStatus"));
 
-        tempEvent = (LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY);
-        eventTitle = tempEvent.getTitle();
-        if (!eventTitle.isEmpty()) {
-            getActionBar().setTitle(eventTitle);
-        }
         mEventListIndex = getIntent().getIntExtra(EVENT_LIST_INDEX_KEY, 0);
 
         setupViews();
+        saveAndDisplayEvent((LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY));
+
+        retrieveEvent();
+    }
+
+    // Displays an event in the activity's UI.
+    private void saveAndDisplayEvent(LocalEvent event) {
+        tempEvent = event;
+        if (tempEvent.getTitle().isEmpty()) {
+            return;
+        }
+        getActionBar().setTitle(tempEvent.getTitle());
         if (tempEvent != null) {
             populateEventInfo();
         }
-
-        retrieveEvent();
     }
 
     private void retrieveEvent() {
@@ -293,8 +297,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
             LocalEvent updatedEvent =
                     (LocalEvent) data.getSerializableExtra(EditEventActivity.EVENT_UPDATED_KEY);
             if (updatedEvent != null) {
-                tempEvent = updatedEvent;
-                populateEventInfo();
+                saveAndDisplayEvent(updatedEvent);
                 mEventWasUpdated = true;
             }
         }
