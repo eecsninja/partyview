@@ -26,14 +26,8 @@ public class AcceptedEventsFragment extends EventListFragment {
 
     @Override
     protected void populateEventList() {
-        // Define the class we would like to query
-        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
-
-        query.whereEqualTo("user", ParseUser.getCurrentUser());
-        query.whereNotEqualTo("status", AttendanceStatus.DECLINED.toString());
-        query.whereNotEqualTo("status", AttendanceStatus.INVITED.toString());
-        query.addAscendingOrder("date");
-        query.include("event.host");
+        // Query for new results from the network.
+        ParseQuery<EventUser> query = EventUser.getQueryForAcceptedEvents();
 
         query.findInBackground(
             new FindCallback<EventUser>() {

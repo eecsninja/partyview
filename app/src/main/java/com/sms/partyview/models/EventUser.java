@@ -3,6 +3,7 @@ package com.sms.partyview.models;
 import com.parse.ParseClassName;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 /**
@@ -26,6 +27,18 @@ public class EventUser extends ParseObject {
         setLocation(location);
         setUser(user);
         setEvent(event);
+    }
+
+    public static ParseQuery<EventUser> getQueryForAcceptedEvents() {
+        // Define the class we would like to query
+        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
+
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.whereNotEqualTo("status", AttendanceStatus.DECLINED.toString());
+        query.whereNotEqualTo("status", AttendanceStatus.INVITED.toString());
+        query.include("event.host");
+
+        return query;
     }
 
     public ParseUser getUser() {
