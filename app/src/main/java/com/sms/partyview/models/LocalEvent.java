@@ -1,7 +1,5 @@
 package com.sms.partyview.models;
 
-import com.parse.ParseGeoPoint;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

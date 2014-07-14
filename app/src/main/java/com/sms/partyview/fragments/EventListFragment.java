@@ -1,6 +1,5 @@
 package com.sms.partyview.fragments;
 
-import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.activities.EventDetailActivity;
 import com.sms.partyview.adapters.HomeScreenEventAdapter;
