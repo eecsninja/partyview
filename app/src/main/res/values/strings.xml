@@ -80,5 +80,6 @@
     <string name="error_network_error_retrieving_location">Network error retrieve location.  Please try again.</string>
     <string name="error_invalid_date">The end date must be after the start date.</string>
     <string name="title_activity_chat">ChatActivity</string>
+    <string name="reset_password">Forgot password</string>
 
 </resources>
