@@ -35,17 +35,13 @@ public class InviteDetailActivity extends Activity {
     private Button mBtnAccept;
     private Button mBtnReject;
 
-    private String eventId;
     private Event mEvent;
     private EventUser currentUser;
-    private String eventTitle;
     private LocalEvent tempEvent;
 
     // For passing in intent data.
     // TODO: These are also in class EventDetailActivity. Find some way to
     // put them in a common place.
-    public static final String EVENT_ID_INTENT_KEY = "eventId";
-    public static final String EVENT_TITLE_INTENT_KEY = "eventTitle";
     public static final String EVENT_INTENT_KEY = "event";
 
     @Override
@@ -53,18 +49,18 @@ public class InviteDetailActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite_detail);
 
-        eventId = getIntent().getStringExtra(EVENT_ID_INTENT_KEY);
-
-        eventTitle = getIntent().getStringExtra(EVENT_TITLE_INTENT_KEY);
-        if (!eventTitle.isEmpty()) {
-            getActionBar().setTitle(getString(R.string.title_activity_invite_detail) + " " +  eventTitle);
-        }
-
         setupViews();
 
+        // TODO: This code is quite similar to the stuff in EventDetailActivity.
+        // They should be related classes.
         tempEvent = (LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY);
         if (tempEvent != null) {
             populateEventInfo();
+            if (!tempEvent.getTitle().isEmpty()) {
+                getActionBar().setTitle(
+                        getString(R.string.title_activity_invite_detail) + " " +
+                                  tempEvent.getTitle());
+            }
         }
 
         retrieveEvent();
@@ -88,7 +84,7 @@ public class InviteDetailActivity extends Activity {
         ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
 
         // Define our query conditions
-        query.whereEqualTo("objectId", eventId);
+        query.whereEqualTo("objectId", tempEvent.getObjectId());
         query.include("host");
 
         query.getFirstInBackground(new GetCallback<Event>() {
@@ -104,7 +100,7 @@ public class InviteDetailActivity extends Activity {
 
     private void retrieveEventUsers() {
         ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
-        eventQuery.whereEqualTo("objectId", eventId);
+        eventQuery.whereEqualTo("objectId", tempEvent.getObjectId());
 
         // Define the class we would like to query
         ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
@@ -140,7 +136,7 @@ public class InviteDetailActivity extends Activity {
 
     private void retrieveEventUser() {
         ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
-        eventQuery.whereEqualTo("objectId", eventId);
+        eventQuery.whereEqualTo("objectId", tempEvent.getObjectId());
 
         ParseQuery userQuery = ParseQuery.getQuery(ParseUser.class);
         userQuery.whereEqualTo("objectId", ParseUser.getCurrentUser().getObjectId());
@@ -192,7 +188,7 @@ public class InviteDetailActivity extends Activity {
 
                     // return to list of events
                     Intent data = new Intent();
-                    data.putExtra("eventId", eventId);
+                    data.putExtra("eventId", tempEvent.getObjectId());
                     data.putExtra("response", AttendanceStatus.ACCEPTED.toString());
                     setResult(RESULT_OK, data);
 
@@ -214,7 +210,7 @@ public class InviteDetailActivity extends Activity {
 
                     // return to list of events
                     Intent data = new Intent();
-                    data.putExtra("eventId", eventId);
+                    data.putExtra("eventId", tempEvent.getObjectId());
                     data.putExtra("response", "rejected");
                     setResult(RESULT_OK, data);
 
