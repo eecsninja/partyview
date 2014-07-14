@@ -2,12 +2,14 @@ package com.sms.partyview.helpers;
 
 import com.parse.ParseUser;
 import com.sms.partyview.R;
+import com.sms.partyview.activities.InviteDetailActivity;
 import com.sms.partyview.models.LocalEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -45,7 +47,10 @@ public class PushNotificationReceiver extends BroadcastReceiver {
         String eventHostName = event.getHost();
         String eventTitle = event.getTitle();
 
-        // Build a local notification.
+        // Create an intent to launch an activity.
+        PendingIntent pendingIntent = createPendingIntent(context, event);
+
+        // Build a local notification and attach intent to it.
         String notificationMsg =
                 eventHostName +
                 (isNewEvent ? " has invited you to " : " has updated ") +
@@ -55,10 +60,24 @@ public class PushNotificationReceiver extends BroadcastReceiver {
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_launcher)
                         .setContentTitle(isNewEvent ? "New event invite" : "Event update")
-                        .setContentText(notificationMsg);
+                        .setContentText(notificationMsg)
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true);
 
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
+    }
+
+    // Builds an intent to launch an activity to view the event.
+    protected PendingIntent createPendingIntent(Context context, LocalEvent event) {
+        int requestId = (int) System.currentTimeMillis();
+        int flags = PendingIntent.FLAG_CANCEL_CURRENT;
+        // TODO: InviteDetailActivity doesn't make sense if it is already accepted.
+        // Find a way to properly handle that case.
+        Intent intent = new Intent(context, InviteDetailActivity.class);
+        intent.putExtra(InviteDetailActivity.EVENT_INTENT_KEY, event);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, requestId, intent, flags);
+        return pendingIntent;
     }
 }
