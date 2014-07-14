@@ -14,6 +14,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.helpers.EventSaverInterface;
+import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.Event;
 
 import org.joda.time.DateTime;
@@ -395,10 +396,8 @@ public abstract class EditEventFragment extends Fragment
     }
 
     private void cacheAppUsers() {
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
 
-        // Query for new results from the network.
-        query.findInBackground(new FindCallback<ParseUser>() {
+        FindCallback<ParseUser> callback = new FindCallback<ParseUser>() {
             public void done(final List<ParseUser> users, ParseException e) {
 
                 Log.d(TAG, "got user info");
@@ -415,6 +414,8 @@ public abstract class EditEventFragment extends Fragment
                     }
                 });
             }
-        });
+        };
+
+        Utils.cacheAppUsers(callback);
     }
 }

@@ -1,7 +1,12 @@
 package com.sms.partyview.activities;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.MyPagerAdapter;
@@ -31,6 +36,7 @@ public class HomeActivity
 
     // Key used to store the user name in the installation info.
     public static final String INSTALLATION_USER_NAME_KEY = "username";
+    private static final String TAG = HomeActivity.class.getSimpleName() + "_DEBUG";
     private FragmentPagerAdapter mAdapterViewPager;
     private PagerSlidingTabStrip mTabs;
     private ViewPager vpPager;
@@ -39,9 +45,13 @@ public class HomeActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        cacheAppUsers();
+
         getActionBar().setTitle(
                 getString(R.string.title_activity_home) +
-                          " (" + ParseUser.getCurrentUser().getUsername() + ")");
+                        " (" + ParseUser.getCurrentUser().getUsername() + ")"
+        );
 
         setupTabs();
     }
@@ -166,5 +176,26 @@ public class HomeActivity
     public void displaySettingDialog() {
         ProfileSettingDialog profileSettingDialog = ProfileSettingDialog.newInstance();
         profileSettingDialog.show(getFragmentManager(), "fragment_profile_setting");
+    }
+
+    private void cacheAppUsers() {
+        FindCallback<ParseUser> callback = new FindCallback<ParseUser>() {
+            public void done(final List<ParseUser> users, ParseException e) {
+
+                Log.d(TAG, "got user info");
+                Log.d(TAG, users.toString());
+
+                // Remove the previously cached results.
+                ParseObject.unpinAllInBackground("users", new DeleteCallback() {
+                    public void done(ParseException e) {
+                        // Cache the new results.
+                        ParseObject.pinAllInBackground("users", users);
+                        Log.d(TAG, "pin all user info");
+                    }
+                });
+            }
+        };
+
+        Utils.cacheAppUsers(callback);
     }
 }
