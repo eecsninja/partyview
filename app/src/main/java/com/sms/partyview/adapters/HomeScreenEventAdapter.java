@@ -2,6 +2,7 @@ package com.sms.partyview.adapters;
 
 import com.sms.partyview.R;
 import com.sms.partyview.models.Event;
+import com.sms.partyview.models.LocalEvent;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -60,7 +61,16 @@ public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
     @Override
     public void add(Event object) {
         super.add(object);
-        // Sort by date.
+        sortByDate();
+    }
+
+    public void update(int index, LocalEvent event) {
+        super.getItem(index).update(event);
+        sortByDate();
+        notifyDataSetChanged();
+    }
+
+    protected void sortByDate() {
         // TODO: This might become deprecated if a local database is implemented.
         sort(new Comparator<Event>() {
             @Override

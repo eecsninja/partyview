@@ -109,7 +109,7 @@ public abstract class EventListFragment extends Fragment {
             System.err.println("Updated event does not match original event!");
             return;
         }
-        eventAdapter.getItem(index).update(event);
+        eventAdapter.update(index, event);
     }
 
     protected abstract void populateEventList();
