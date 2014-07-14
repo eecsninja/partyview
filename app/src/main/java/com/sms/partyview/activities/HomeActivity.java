@@ -94,7 +94,7 @@ public class HomeActivity
             String eventId = data.getStringExtra("eventId");
             String response = data.getStringExtra("response");
 
-            if (response.equals("accepted")) {
+            if (response.equalsIgnoreCase(AttendanceStatus.ACCEPTED.toString())) {
                 // remove from pending events
                 PendingEventsFragment pendingFragment = (PendingEventsFragment) mAdapterViewPager
                         .getItem(1);
