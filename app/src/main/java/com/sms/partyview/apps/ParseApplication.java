@@ -28,11 +28,5 @@ public class ParseApplication extends Application {
         // Add your initialization code here
         Parse.initialize(this, "B29aQbOLKvph6s5n6kyt03lO2Spku4IotpCXVzJq",
                 "eLqJBEWNzRrFso9Dj0AWzcocRRDaplnlDVGPAUvU");
-
-        // Enable receiving of Parse Push notifications. For now, it launches
-        // the HomeActivity, but that is not always the best behavior.
-        // TODO: Find a way to launch a different activity based on the push
-        // content.
-        PushService.setDefaultPushCallback(this, HomeActivity.class);
     }
 }

@@ -47,26 +47,6 @@ public class HomeActivity
         setContentView(R.layout.activity_home);
 
         setupTabs();
-
-        // Create notification with current user info.
-        // TODO: This is just a template for other notifications. Remove it
-        // when no longer needed.
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_notification)
-                        .setContentTitle("Successfully logged in");
-        ParseUser user = ParseUser.getCurrentUser();
-        try {
-            notificationBuilder.
-                    setContentText("Signed in as " + user.getUsername());
-        } catch (NullPointerException e) {
-            System.err.println(e.getMessage());
-        }
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notificationBuilder.build());
-
-        storeInstallationInfo();
     }
 
     @Override
