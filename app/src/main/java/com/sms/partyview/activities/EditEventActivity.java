@@ -75,9 +75,7 @@ public class EditEventActivity extends NewEventActivity {
 
     protected void getEventById(String eventId) {
         // Query for the event with the given ID.
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-        query.whereEqualTo("objectId", eventId);
-        query.include("host");
+        ParseQuery<Event> query = Event.getQueryForEventWithId(eventId);
 
         query.findInBackground(
                 new FindCallback<Event>() {
