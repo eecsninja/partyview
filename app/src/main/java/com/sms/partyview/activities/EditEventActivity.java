@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class EditEventActivity extends NewEventActivity {
     // For passing in an Event ID.
     public static final String EVENT_ID_INTENT_KEY = "eventId";
     public static final String EVENT_UPDATED_KEY = "eventUpdated";
+    private static final String TAG = EditEventActivity.class.getSimpleName() + "_DEBUG";
 
     // The event to edit.
     protected Event mEvent = null;
@@ -34,7 +36,7 @@ public class EditEventActivity extends NewEventActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(getClass().getSimpleName() + "_DEBUG", "create activity");
+        Log.d(TAG, "create activity");
 
         // An event ID must be provided.
         if (!getIntent().hasExtra(EVENT_ID_INTENT_KEY)) {
