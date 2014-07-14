@@ -11,8 +11,10 @@ import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.MyPagerAdapter;
 import com.sms.partyview.fragments.AcceptedEventsFragment;
+import com.sms.partyview.fragments.EventListFragment;
 import com.sms.partyview.fragments.PendingEventsFragment;
 import com.sms.partyview.helpers.Utils;
+import com.sms.partyview.models.LocalEvent;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -104,7 +106,8 @@ public class HomeActivity
 
             if (response.equals("accepted")) {
                 // remove from pending events
-                PendingEventsFragment pendingFragment = (PendingEventsFragment) mAdapterViewPager.getItem(1);
+                PendingEventsFragment pendingFragment = (PendingEventsFragment) mAdapterViewPager
+                        .getItem(1);
                 pendingFragment.removeEventFromList(eventId);
                 mAdapterViewPager.getItem(1);
                 mAdapterViewPager.notifyDataSetChanged();
@@ -112,7 +115,8 @@ public class HomeActivity
                 vpPager.setCurrentItem(0);
 
                 // go back to accepted events page
-                AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager.getItem(0);
+                AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager
+                        .getItem(0);
                 fragment.addNewEventToList(eventId);
 
                 mAdapterViewPager.getItem(0);
@@ -127,6 +131,20 @@ public class HomeActivity
                 mAdapterViewPager.notifyDataSetChanged();
                 vpPager.setCurrentItem(1);
             }
+        } else if (requestCode == EventListFragment.EVENT_DETAIL_REQUEST &&
+                   resultCode == RESULT_OK) {
+            LocalEvent event =
+                    (LocalEvent) data.getSerializableExtra(
+                            EventDetailActivity.UDPATED_EVENT_INTENT_KEY);
+            Log.d("DEBUG", "returned local event: " + event);
+            if (event == null) {
+                return;
+            }
+            // Replace the existing event if it was updated.
+            int index = data.getIntExtra(EventDetailActivity.EVENT_LIST_INDEX_KEY, 0);
+            EventListFragment fragment =
+                    (EventListFragment) mAdapterViewPager.getItem(vpPager.getCurrentItem());
+            fragment.updateEvent(index, event);
         }
     }
 

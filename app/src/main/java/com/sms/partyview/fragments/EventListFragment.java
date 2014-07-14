@@ -38,6 +38,8 @@ public abstract class EventListFragment extends Fragment {
 
     protected Map<String, String> statusMap = new HashMap<String, String>();
 
+    public static final int EVENT_DETAIL_REQUEST = 123;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,13 +92,27 @@ public abstract class EventListFragment extends Fragment {
                 intent.putExtra(EventDetailActivity.CURRENT_USER_IS_HOST_INTENT_KEY,
                                 event.getHost() == ParseUser.getCurrentUser());
                 intent.putExtra(EventDetailActivity.EVENT_INTENT_KEY, new LocalEvent(event));
+                intent.putExtra(EventDetailActivity.EVENT_LIST_INDEX_KEY, position);
 
                 if (statusMap.get(event.getObjectId()) != null) {
                     intent.putExtra("eventStatus", statusMap.get(event.getObjectId()));
                 }
-                startActivity(intent);
+                getActivity().startActivityForResult(intent, EVENT_DETAIL_REQUEST);
             }
         });
+    }
+
+    public void updateEvent(int index, LocalEvent event) {
+        // Make sure index is valid.
+        if (index >= events.size()) {
+            throw new ArrayIndexOutOfBoundsException("Event list index is too large: " + index);
+        }
+        // Make sure the new event is an updated version of the current event
+        if (!events.get(index).getObjectId().equals(event.getObjectId())) {
+            System.err.println("Updated event does not match original event!");
+            return;
+        }
+        eventAdapter.getItem(index).update(event);
     }
 
     protected abstract void populateEventList();

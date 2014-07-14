@@ -106,14 +106,7 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
                             generateEventUsers(attendeeList, event);
                             notifyInvitees(attendeeList);
 
-                            Intent data = new Intent();
-                            data.putExtra("eventId", event.getObjectId());
-                            setResult(RESULT_OK, data);
-
-                            Log.d("DEBUG", "saved event");
-                            Log.d("DEBUG", event.getObjectId().toString());
-
-                            finish();
+                            finishWithEvent(event);
                         } else {
                             Log.d("DEBUG", "exception creating event");
                             Log.d("DEBUG", e.toString());
@@ -154,7 +147,6 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
                     System.err.println(e.getMessage());
                     return;
                 }
-                System.out.println("Found " + eventUsers.size() + " EventUsers");
                 if (!eventUsers.isEmpty()) {
                     return;
                 }
@@ -167,6 +159,18 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
     // Create fragment for editing a new event.
     protected EditEventFragment createFragment() {
         return new CreateEventFragment();
+    }
+
+    // Finish this activity, returning the relevant event-related data
+    // as part of an intent.
+    protected void finishWithEvent(Event event) {
+        Intent data = new Intent();
+        data.putExtra("eventId", event.getObjectId());
+        setResult(RESULT_OK, data);
+
+        Log.d("DEBUG", "saved event");
+        Log.d("DEBUG", event.getObjectId().toString());
+        finish();
     }
 
     // Should be called manually when an async task has started

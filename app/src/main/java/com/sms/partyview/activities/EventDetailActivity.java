@@ -41,6 +41,8 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     private String eventTitle;
     private EventUser currentEventUser;
     private LocalEvent tempEvent;
+    private boolean mEventWasUpdated = false;
+    private int mEventListIndex;
 
     private TextView tvEventName;
     private TextView tvEventOrganizer;
@@ -61,6 +63,8 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     public static final String EVENT_TITLE_INTENT_KEY = "eventTitle";
     public static final String CURRENT_USER_IS_HOST_INTENT_KEY = "currentUserIsHost";
     public static final String EVENT_INTENT_KEY = "event";
+    public static final String UDPATED_EVENT_INTENT_KEY = "updatedEvent";
+    public static final String EVENT_LIST_INDEX_KEY = "eventListIndex";
 
 
     @Override
@@ -82,6 +86,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         status = AttendanceStatus.valueOf(getIntent().getStringExtra("eventStatus"));
 
         tempEvent = (LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY);
+        mEventListIndex = getIntent().getIntExtra(EVENT_LIST_INDEX_KEY, 0);
 
         setupViews();
         if (tempEvent != null) {
@@ -155,11 +160,14 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     }
 
     public void populateEventInfo() {
-        tvEventName.setText(tvEventName.getText() + ": " + tempEvent.getTitle());
-        tvEventDescription.setText(tvEventDescription.getText() + ": " + tempEvent.getDescription());
-        tvEventTime.setText(tvEventTime.getText() + ": " + tempEvent.getStartDate());
-        tvEventOrganizer
-                .setText(tvEventOrganizer.getText() + ": " + tempEvent.getHost());
+        tvEventName.setText(
+                getString(R.string.event_name_title) + ": " + tempEvent.getTitle());
+        tvEventDescription.setText(
+                getString(R.string.event_desc_title) + ": " + tempEvent.getDescription());
+        tvEventTime.setText(
+                getString(R.string.event_time_title) + ": " + tempEvent.getStartDate());
+        tvEventOrganizer.setText(
+                getString(R.string.event_organizer_title) + ": " + tempEvent.getHost());
         if (status.equals(AttendanceStatus.PRESENT)) {
             btnJoinLeave.setText(getString(R.string.leave_event));
         } else if (status.equals(AttendanceStatus.ACCEPTED)) {
@@ -279,6 +287,36 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         Intent intent = new Intent(this, EditEventActivity.class);
         intent.putExtra(EditEventActivity.EVENT_ID_INTENT_KEY, mEvent.getObjectId());
         startActivityForResult(intent, EDIT_EVENT_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == EDIT_EVENT_REQUEST && resultCode == RESULT_OK) {
+            // If the event was (most likely) updated, load the event again.
+            // Also, flag it as updated.
+            LocalEvent updatedEvent =
+                    (LocalEvent) data.getSerializableExtra(EditEventActivity.EVENT_UPDATED_KEY);
+            if (updatedEvent != null) {
+                tempEvent = updatedEvent;
+                populateEventInfo();
+                mEventWasUpdated = true;
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        // Finish the activity, passing back data about whether the
+        // event was updated.
+        Intent data = new Intent();
+        Log.d("DEBUG", "Event was updated? " + mEventWasUpdated);
+        if (mEventWasUpdated) {
+            data.putExtra(UDPATED_EVENT_INTENT_KEY, tempEvent);
+        }
+        data.putExtra(EVENT_LIST_INDEX_KEY, mEventListIndex);
+        Log.d("DEBUG", "Updated list index: " + mEventListIndex);
+        setResult(RESULT_OK, data);
+        finish();
     }
 
     public void onJoinChat(MenuItem mi) {

@@ -6,6 +6,7 @@ import com.parse.ParseQuery;
 import com.sms.partyview.fragments.EditEventFragment;
 import com.sms.partyview.fragments.UpdateEventFragment;
 import com.sms.partyview.models.Event;
+import com.sms.partyview.models.LocalEvent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import java.util.List;
 public class EditEventActivity extends NewEventActivity {
     // For passing in an Event ID.
     public static final String EVENT_ID_INTENT_KEY = "eventId";
+    public static final String EVENT_UPDATED_KEY = "eventUpdated";
 
     // The event to edit.
     protected Event mEvent = null;
@@ -77,6 +79,15 @@ public class EditEventActivity extends NewEventActivity {
                 }
             }
         );
+    }
+
+    @Override
+    protected void finishWithEvent(Event event) {
+        Intent data = new Intent();
+        // Assume the event was updated, even if there were no changes.
+        data.putExtra(EVENT_UPDATED_KEY, new LocalEvent(event));
+        setResult(RESULT_OK, data);
+        finish();
     }
 
     protected void showToastAndFinish(String toastText) {
