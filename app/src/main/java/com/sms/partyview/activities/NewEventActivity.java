@@ -104,7 +104,7 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
                             List<ParseUser> attendeeList =
                                     mEditEventFragment.getAttendeeList(invitesString);
                             generateEventUsers(attendeeList, event);
-                            notifyInvitees(attendeeList);
+                            notifyInvitees(attendeeList, event);
 
                             finishWithEvent(event);
                         } else {
@@ -183,7 +183,7 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
         this.setProgressBarIndeterminateVisibility(false);
     }
 
-    protected void notifyInvitees(List<ParseUser> invitees) {
+    protected void notifyInvitees(List<ParseUser> invitees, Event event) {
         // TODO: Is there a way to send as a single query?
         for (ParseUser invitee : invitees) {
             ParseQuery query = ParseInstallation.getQuery();
@@ -192,9 +192,14 @@ public class NewEventActivity extends FragmentActivity implements EventSaverInte
 
             ParsePush push = new ParsePush();
             push.setQuery(query);
-            push.setMessage("You have an event invite!");
+            push.setMessage(getNotificationMessage(event));
             push.sendInBackground();
         }
+    }
+
+    // Constructs a notification message for the given event.
+    protected String getNotificationMessage(Event event) {
+        return event.getHost().getUsername() + " has invited you to " + event.getTitle();
     }
 
     private void showToast(String toastText) {

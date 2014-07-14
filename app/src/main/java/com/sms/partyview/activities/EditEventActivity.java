@@ -105,4 +105,9 @@ public class EditEventActivity extends NewEventActivity {
             throw new ClassCastException("Fragment must be of class UpdateEventFragment.");
         }
     }
+
+    @Override
+    protected String getNotificationMessage(Event event) {
+        return event.getHost().getUsername() + " has updated the event " + event.getTitle();
+    }
 }
