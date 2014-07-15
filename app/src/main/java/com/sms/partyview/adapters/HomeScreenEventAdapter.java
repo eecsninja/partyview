@@ -13,10 +13,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-import static com.sms.partyview.helpers.Utils.*;
+import static com.sms.partyview.helpers.Utils.DISPLAY_DATE_TIME_FORMATTER;
 
 /**
  * Created by sque on 7/4/14.
@@ -61,6 +62,13 @@ public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
     public void add(Event object) {
         super.add(object);
         sortByDate();
+    }
+
+    @Override
+    public void addAll(Collection<? extends Event> collection) {
+        super.addAll(collection);
+        sortByDate();
+        notifyDataSetChanged();
     }
 
     public void update(int index, LocalEvent event) {
