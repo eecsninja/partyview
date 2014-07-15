@@ -1,4 +1,4 @@
-partyview2
+Groupies
 ==========
 
 ![Creating an Event] 
