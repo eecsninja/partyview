@@ -43,7 +43,7 @@ public class EditEventActivity extends FragmentActivity implements EventSaverInt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(EditEventActivity.class.getSimpleName() + "_DEBUG", "create activity");
+        Log.d(TAG, "create activity");
 
         super.onCreate(savedInstanceState);
 
