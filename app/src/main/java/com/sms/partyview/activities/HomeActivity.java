@@ -6,7 +6,6 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.MyPagerAdapter;
