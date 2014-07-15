@@ -1,6 +1,14 @@
 Groupies
 ==========
 
+## Creating a new user account ##
+![Creating a new user account]
+(gifs/SignUpDemo.gif)
+
+## Viewing event/invite list and details ##
+![Viewing event list and event details; editing events]
+(gifs/EventListDemo.gif)
+
 ## Creating an Event ##
 ![Creating an Event] 
 (gifs/CreatingEvent.gif)
