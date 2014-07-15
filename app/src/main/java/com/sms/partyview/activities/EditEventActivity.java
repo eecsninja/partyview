@@ -207,12 +207,15 @@ abstract public class EditEventActivity extends FragmentActivity implements Even
         try {
             json.put("action", "com.sms.partyview.EVENT_NOTIFICATION");
             json.put("event", new LocalEvent(event).toJSONObject());
-            json.put("isNewEvent", true);
+            json.put("isNewEvent", isNewEvent());
         } catch (JSONException e) {
             System.out.println(e.getMessage());
         }
         return json;
     }
+
+    // Indicates whether this activity is creating a new event.
+    protected abstract boolean isNewEvent();
 
     private void showToast(String toastText) {
         Toast.makeText(

@@ -6,10 +6,6 @@ import com.parse.ParseQuery;
 import com.sms.partyview.fragments.EditEventFragment;
 import com.sms.partyview.fragments.UpdateEventFragment;
 import com.sms.partyview.models.Event;
-import com.sms.partyview.models.LocalEvent;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -65,6 +61,12 @@ public class UpdateEventActivity extends EditEventActivity {
         return new UpdateEventFragment();
     }
 
+    // Does not create a new event.
+    @Override
+    protected boolean isNewEvent() {
+        return false;
+    }
+
     protected void getEventById(String eventId) {
         // Query for the event with the given ID.
         ParseQuery<Event> query = Event.getQueryForEventWithId(eventId);
@@ -104,16 +106,5 @@ public class UpdateEventActivity extends EditEventActivity {
         } else {
             throw new ClassCastException("Fragment must be of class UpdateEventFragment.");
         }
-    }
-
-    @Override
-    protected JSONObject getNotificationData(Event event) {
-        JSONObject json = super.getNotificationData(event);
-        try {
-            json.put("isNewEvent", false);
-        } catch (JSONException e) {
-            System.err.println(e.getMessage());
-        }
-        return json;
     }
 }
