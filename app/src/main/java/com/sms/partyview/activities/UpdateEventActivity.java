@@ -10,7 +10,6 @@ import com.sms.partyview.models.Event;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.List;
@@ -38,21 +37,6 @@ public class UpdateEventActivity extends EditEventActivity {
 
         String eventId = getIntent().getStringExtra(EVENT_ID_INTENT_KEY);
         getEventById(eventId);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     // Create fragment for editing an existing event.
