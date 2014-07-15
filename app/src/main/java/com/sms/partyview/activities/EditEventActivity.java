@@ -50,7 +50,7 @@ public class EditEventActivity extends FragmentActivity implements EventSaverInt
         // MUST request the feature before setting content view
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
-        setContentView(R.layout.activity_new_event);
+        setContentView(R.layout.activity_edit_event);
 
         // Display the edit event fragment.
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
