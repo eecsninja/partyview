@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -121,7 +122,7 @@ public class EventMapFragment extends Fragment implements LocationListener,
         args.putParcelableArrayList("attendees", attendees);
         args.putString("currentEventUserObjId", currentEventUserObjId);
         args.putString("eventId", eventId);
-        args.putDouble("latitdue", latitude);
+        args.putDouble("latitude", latitude);
         args.putDouble("longitude", longitude);
         fragment.setArguments(args);
         return fragment;
@@ -142,7 +143,7 @@ public class EventMapFragment extends Fragment implements LocationListener,
 
         double latitude = getArguments().getDouble("latitude");
         double longitude = getArguments().getDouble("longitude");
-        if (latitude != 0 && longitude != 0) {
+        if (latitude != 0 || longitude != 0) {
             eventLocation = new LatLng(latitude, longitude);
         }
 
@@ -232,7 +233,9 @@ public class EventMapFragment extends Fragment implements LocationListener,
                         }
                     });
                     if (eventLocation != null) {
-                        map.moveCamera(CameraUpdateFactory.newLatLngZoom(eventLocation, 7));
+                       // map.moveCamera(CameraUpdateFactory.newLatLngZoom(eventLocation, 14));
+                        CameraPosition cp = new CameraPosition(eventLocation, 14, 0, 0);
+                        map.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
                     }
                 }
                 addUsersToMap(attendees);
@@ -288,9 +291,12 @@ public class EventMapFragment extends Fragment implements LocationListener,
         if (userHasLocation) {
             LatLngBounds bounds = b.build();
             //Change the padding as per needed
-            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50, 50, 0);
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, 50, 50, 5);
+            //CameraUpdateFactory.
+
 
             map.animateCamera(cu);
+            map.animateCamera(CameraUpdateFactory.zoomTo(14f));
         }
     }
 

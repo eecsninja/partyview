@@ -148,7 +148,8 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
                 attendees,
                 currentEventUser.getObjectId(),
                 tempEvent.getObjectId(),
-                mEvent.getLocation().getLatitude(),mEvent.getLocation().getLongitude());
+                mEvent.getLocation().getLatitude(),
+                mEvent.getLocation().getLongitude());
         fts.replace(R.id.flMapContainer, eventMapFragment);
         fts.commit();
     }
