@@ -3,12 +3,12 @@ Groupies
 
 Creating an Event
 ![Creating an Event] 
-(CreatingEvent.gif)
+(gifs/CreatingEvent.gif)
 
 Accepting and Rejecting Invites
 ![Accepting and rejecting invites] 
-(AcceptAndRejectInvites.gif)
+(gifs/AcceptAndRejectInvites.gif)
 
 Event Detail - Map View and Chat
 ![Event Detail] 
-(EventDetail.gif)
+(gifs/EventDetail.gif)
