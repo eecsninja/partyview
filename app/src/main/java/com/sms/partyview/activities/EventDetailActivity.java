@@ -279,8 +279,8 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
     }
 
     public void editEvent(MenuItem menuItem) {
-        Intent intent = new Intent(this, EditEventActivity.class);
-        intent.putExtra(EditEventActivity.EVENT_ID_INTENT_KEY, mEvent.getObjectId());
+        Intent intent = new Intent(this, UpdateEventActivity.class);
+        intent.putExtra(UpdateEventActivity.EVENT_ID_INTENT_KEY, mEvent.getObjectId());
         startActivityForResult(intent, EDIT_EVENT_REQUEST);
     }
 
@@ -290,7 +290,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
             // If the event was (most likely) updated, load the event again.
             // Also, flag it as updated.
             LocalEvent updatedEvent =
-                    (LocalEvent) data.getSerializableExtra(EditEventActivity.EVENT_UPDATED_KEY);
+                    (LocalEvent) data.getSerializableExtra(UpdateEventActivity.EVENT_UPDATED_KEY);
             if (updatedEvent != null) {
                 saveAndDisplayEvent(updatedEvent);
                 mEventWasUpdated = true;
@@ -315,7 +315,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
 
     public void onJoinChat(MenuItem mi) {
         Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra(EditEventActivity.EVENT_ID_INTENT_KEY, tempEvent.getObjectId());
+        intent.putExtra(UpdateEventActivity.EVENT_ID_INTENT_KEY, tempEvent.getObjectId());
         startActivity(intent);
     }
 }

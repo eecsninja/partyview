@@ -76,8 +76,8 @@
                 android:value=".activities.HomeActivity" />
         </activity>
         <activity
-            android:name=".activities.EditEventActivity"
-            android:label="@string/title_activity_edit_event"
+            android:name=".activities.UpdateEventActivity"
+            android:label="@string/title_activity_update_event"
             android:parentActivityName=".activities.EventDetailActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
