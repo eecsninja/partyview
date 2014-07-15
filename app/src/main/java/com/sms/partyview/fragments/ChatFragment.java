@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class ChatFragment extends Fragment {
     private List<ChatMessage> messages;
     private ChatMessageAdapter messageAdapter;
     private ListView messagesView;
+    private Button btnSendMessage;
 
     public static final String PUBLISH_KEY = "pub-c-adf5251f-8c96-477d-95fd-ab1907f93905";
     public static final String SUBSCRIBE_KEY = "sub-c-2f5285ae-08b6-11e4-9ae5-02ee2ddab7fe";
@@ -108,6 +110,14 @@ public class ChatFragment extends Fragment {
             }
         });
 
+        btnSendMessage = (Button) view.findViewById(R.id.btnSendChatMessage);
+        btnSendMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onSendChatMessage(view);
+            }
+        });
+
         // Return it.
         return view;
     }
@@ -132,7 +142,7 @@ public class ChatFragment extends Fragment {
     public interface OnFragmentInteractionListener {
     }
 
-    public void onSendMessage(View v) {
+    public void onSendChatMessage(View v) {
         publishUserMessage(etMessage.getText().toString());
         etMessage.setText("");
     }
