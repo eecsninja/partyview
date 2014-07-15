@@ -9,7 +9,6 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.sms.partyview.R;
-import com.sms.partyview.fragments.CreateEventFragment;
 import com.sms.partyview.fragments.EditEventFragment;
 import com.sms.partyview.helpers.EventSaverInterface;
 import com.sms.partyview.helpers.GetGeoPointTask;
@@ -36,7 +35,7 @@ import java.util.List;
 /**
  * Created by sque on 7/12/14.
  */
-public class EditEventActivity extends FragmentActivity implements EventSaverInterface {
+abstract public class EditEventActivity extends FragmentActivity implements EventSaverInterface {
     private static final String TAG = EditEventActivity.class.getSimpleName() + "_DEBUG";
     protected EditEventFragment mEditEventFragment;
 
@@ -162,10 +161,8 @@ public class EditEventActivity extends FragmentActivity implements EventSaverInt
         });
     }
 
-    // Create fragment for editing a new event.
-    protected EditEventFragment createFragment() {
-        return new CreateEventFragment();
-    }
+    // Create fragment for the current activity.
+    abstract protected EditEventFragment createFragment();
 
     // Finish this activity, returning the relevant event-related data
     // as part of an intent.
