@@ -25,7 +25,6 @@ import java.util.List;
 public class UpdateEventActivity extends EditEventActivity {
     // For passing in an Event ID.
     public static final String EVENT_ID_INTENT_KEY = "eventId";
-    public static final String EVENT_UPDATED_KEY = "eventUpdated";
     private static final String TAG = UpdateEventActivity.class.getSimpleName() + "_DEBUG";
 
     // The event to edit.
@@ -90,15 +89,6 @@ public class UpdateEventActivity extends EditEventActivity {
                     }
                 }
         );
-    }
-
-    @Override
-    protected void finishWithEvent(Event event) {
-        Intent data = new Intent();
-        // Assume the event was updated, even if there were no changes.
-        data.putExtra(EVENT_UPDATED_KEY, new LocalEvent(event));
-        setResult(RESULT_OK, data);
-        finish();
     }
 
     protected void showToastAndFinish(String toastText) {

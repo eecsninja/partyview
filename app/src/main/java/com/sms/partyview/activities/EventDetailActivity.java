@@ -290,7 +290,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
             // If the event was (most likely) updated, load the event again.
             // Also, flag it as updated.
             LocalEvent updatedEvent =
-                    (LocalEvent) data.getSerializableExtra(UpdateEventActivity.EVENT_UPDATED_KEY);
+                    (LocalEvent) data.getSerializableExtra(UpdateEventActivity.SAVED_EVENT_KEY);
             if (updatedEvent != null) {
                 saveAndDisplayEvent(updatedEvent);
                 mEventWasUpdated = true;

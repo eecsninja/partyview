@@ -93,10 +93,11 @@ public class HomeActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == Utils.NEW_EVENT_REQUEST_CODE) && (resultCode == RESULT_OK)) {
-            String eventId = data.getStringExtra("eventId");
+            LocalEvent event =
+                    (LocalEvent) data.getSerializableExtra(EditEventActivity.SAVED_EVENT_KEY);
 
             AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager.getItem(0);
-            fragment.addNewEventToList(eventId, AttendanceStatus.ACCEPTED.toString());
+            fragment.addNewEventToList(event.getObjectId(), AttendanceStatus.ACCEPTED.toString());
 
             // go back to accepted events page
             mAdapterViewPager.getItem(0);

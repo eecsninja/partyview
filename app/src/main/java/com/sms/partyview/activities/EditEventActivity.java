@@ -37,6 +37,7 @@ import java.util.List;
  */
 abstract public class EditEventActivity extends FragmentActivity implements EventSaverInterface {
     private static final String TAG = EditEventActivity.class.getSimpleName() + "_DEBUG";
+    public static final String SAVED_EVENT_KEY = "savedEvent";
     protected EditEventFragment mEditEventFragment;
 
     @Override
@@ -168,7 +169,7 @@ abstract public class EditEventActivity extends FragmentActivity implements Even
     // as part of an intent.
     protected void finishWithEvent(Event event) {
         Intent data = new Intent();
-        data.putExtra("eventId", event.getObjectId());
+        data.putExtra(SAVED_EVENT_KEY, new LocalEvent(event));
         setResult(RESULT_OK, data);
 
         Log.d("DEBUG", "saved event");
