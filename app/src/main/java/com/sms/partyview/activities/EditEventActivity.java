@@ -11,7 +11,6 @@ import com.parse.SaveCallback;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.CreateEventFragment;
 import com.sms.partyview.fragments.EditEventFragment;
-import com.sms.partyview.fragments.UpdateEventFragment;
 import com.sms.partyview.helpers.EventSaverInterface;
 import com.sms.partyview.helpers.GetGeoPointTask;
 import com.sms.partyview.models.AttendanceStatus;
