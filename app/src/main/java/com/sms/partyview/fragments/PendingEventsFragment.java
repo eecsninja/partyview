@@ -68,12 +68,7 @@ public class PendingEventsFragment extends EventListFragment {
     }
 
     public void removeEventFromList(String eventId) {
-        // Define the class we would like to query
-        ParseQuery<Event> query = ParseQuery.getQuery(Event.class);
-
-        // Define our query conditions
-        query.whereEqualTo("objectId", eventId);
-        query.include("host");
+        ParseQuery<Event> query = Event.getQueryForEventWithId(eventId);
 
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override
