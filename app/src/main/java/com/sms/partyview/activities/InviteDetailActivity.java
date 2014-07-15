@@ -36,7 +36,7 @@ public class InviteDetailActivity extends Activity {
     private Button mBtnReject;
 
     private Event mEvent;
-    private EventUser currentUser;
+    private EventUser currentEventUser;
     private LocalEvent tempEvent;
 
     // For passing in intent data.
@@ -65,7 +65,7 @@ public class InviteDetailActivity extends Activity {
 
         retrieveEvent();
 
-        retrieveEventUser();
+        retrieveCurrentEventUser();
     }
 
     public void setupViews() {
@@ -86,14 +86,13 @@ public class InviteDetailActivity extends Activity {
             @Override
             public void done(Event event, ParseException e) {
                 mEvent = event;
-                retrieveEventUsers();
+                retrieveAttendeeList();
                // populateEventInfo();
             }
         });
-
     }
 
-    private void retrieveEventUsers() {
+    private void retrieveAttendeeList() {
         ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("objectId", tempEvent.getObjectId());
 
@@ -129,7 +128,7 @@ public class InviteDetailActivity extends Activity {
         mTvEnd.setText(tempEvent.getEndDate().toString());
     }
 
-    private void retrieveEventUser() {
+    private void retrieveCurrentEventUser() {
         ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("objectId", tempEvent.getObjectId());
 
@@ -143,8 +142,8 @@ public class InviteDetailActivity extends Activity {
 
         query.getFirstInBackground(new GetCallback<EventUser>() {
             @Override
-            public void done(EventUser user, ParseException e) {
-                currentUser = user;
+            public void done(EventUser eventUser, ParseException e) {
+                currentEventUser = eventUser;
             }
         });
     }
@@ -175,7 +174,7 @@ public class InviteDetailActivity extends Activity {
         ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
 
         // Retrieve the object by id
-        query.getInBackground(currentUser.getObjectId(), new GetCallback<EventUser>() {
+        query.getInBackground(currentEventUser.getObjectId(), new GetCallback<EventUser>() {
             public void done(EventUser eventUser, ParseException e) {
                 if (e == null) {
                     eventUser.put("status", AttendanceStatus.ACCEPTED.toString());
@@ -197,7 +196,7 @@ public class InviteDetailActivity extends Activity {
         ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
 
         // Retrieve the object by id
-        query.getInBackground(currentUser.getObjectId(), new GetCallback<EventUser>() {
+        query.getInBackground(currentEventUser.getObjectId(), new GetCallback<EventUser>() {
             public void done(EventUser eventUser, ParseException e) {
                 if (e == null) {
                     eventUser.put("status", AttendanceStatus.DECLINED.toString());

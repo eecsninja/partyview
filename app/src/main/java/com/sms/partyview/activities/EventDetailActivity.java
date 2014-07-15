@@ -105,7 +105,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
                 Log.d("DEBUG", "in detailed view");
                 Log.d("DEBUG", mEvent.getTitle().toString());
 
-                retrieveEventUsers();
+                retrieveAttendeeList();
             }
         });
     }
@@ -169,7 +169,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
         }
     }
 
-    private void retrieveEventUsers() {
+    private void retrieveAttendeeList() {
         ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("objectId", tempEvent.getObjectId());
 
