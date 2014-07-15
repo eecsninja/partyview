@@ -4,6 +4,8 @@ import com.sms.partyview.R;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.LocalEvent;
 
+import org.joda.time.DateTime;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 
 import static com.sms.partyview.helpers.Utils.*;
