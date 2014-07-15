@@ -329,6 +329,7 @@ public class EventMapFragment extends Fragment implements LocationListener,
         updateUserLocation(geoPointFromLocation(location));
         updateUserMarker(location);
         publishUserLocationChange();
+        updateCameraView();
     }
 
     public void updateUserMarker(Location location) {
@@ -453,8 +454,8 @@ public class EventMapFragment extends Fragment implements LocationListener,
                             JSONObject data = (JSONObject) message;
                             final String username = data.getString("username");
                             if (!username.equals(ParseUser.getCurrentUser().getUsername())) {
-                                final double latitude = data.getLong("lat");
-                                final double longitude = data.getLong("long");
+                                final double latitude = data.getDouble("lat");
+                                final double longitude = data.getDouble("long");
                                 Handler handler = new Handler(Looper.getMainLooper());
                                 handler.post(new Runnable() {
                                     @Override
@@ -471,7 +472,14 @@ public class EventMapFragment extends Fragment implements LocationListener,
 
                                         mMarkersHashMap.put(marker, userMarker);
 
-                                       // updateCameraView();
+//                                        Marker marker = userMarkersMap.get(ParseUser.getCurrentUser().getUsername());
+//                                        marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
+//                                        userMarkersMap.put(ParseUser.getCurrentUser().getUsername(), marker);
+//
+//                                        UserMarker userMarker = mMarkersHashMap.get(marker);
+//                                        userMarker.setmLastUpdate(new Date());
+//                                        mMarkersHashMap.put(marker, userMarker);
+                                        updateCameraView();
                                     }
 
                                 });
