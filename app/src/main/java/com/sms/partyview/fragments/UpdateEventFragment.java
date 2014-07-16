@@ -4,7 +4,6 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
@@ -17,12 +16,14 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
-import static com.sms.partyview.helpers.Utils.*;
+import static com.sms.partyview.helpers.Utils.DISPLAY_DATE_FORMATTER;
+import static com.sms.partyview.helpers.Utils.DISPLAY_TIME_FORMATTER;
 
 /**
  * Created by sque on 7/12/14.
  */
 public class UpdateEventFragment extends EditEventFragment {
+
     protected Event mEvent = null;
 
     @Override

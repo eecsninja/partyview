@@ -21,8 +21,6 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.LocalDateTime;
 import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.Period;
 
 import android.app.Activity;
@@ -47,26 +45,21 @@ import java.util.List;
 import java.util.Map;
 
 import static android.text.TextUtils.isEmpty;
-import static com.sms.partyview.helpers.Utils.*;
+import static com.sms.partyview.helpers.Utils.DISPLAY_DATE_FORMATTER;
+import static com.sms.partyview.helpers.Utils.DISPLAY_TIME_FORMATTER;
 
 public abstract class EditEventFragment extends Fragment
         implements CalendarDatePickerDialog.OnDateSetListener,
         RadialTimePickerDialog.OnTimeSetListener,
         TextView.OnClickListener {
 
+    private static final String TAG = EditEventFragment.class.getSimpleName() + "_DEBUG";
     private static final String FRAG_TAG_DATE_PICKER = "datePickerDialogFragment";
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
-
     private static final Splitter INVITEES_SPLITTER = Splitter.on(',').omitEmptyStrings()
             .trimResults();
     private static final Joiner JOINER = Joiner.on(',');
-    public static final String TAG = EditEventFragment.class.getSimpleName() + "_DEBUG";
 
-    // TODO(My): find a more efficient way to retrieve and store this data
-    private List<String> mUserNames = new ArrayList<String>();
-    private Map<String, ParseUser> mUserNameToUser = new HashMap<String, ParseUser>();
-
-    private ArrayAdapter<String> mAdapterInvitesAutoComplete;
     protected TextView mTvStartDate;
     protected TextView mTvStartTime;
     protected TextView mTvEndDate;
@@ -76,6 +69,10 @@ public abstract class EditEventFragment extends Fragment
     protected EditText mEtDescription;
     protected Button mBtnSubmit;
     protected MultiAutoCompleteTextView mAutoTvInvites;
+    // TODO(My): find a more efficient way to retrieve and store this data
+    private List<String> mUserNames = new ArrayList<String>();
+    private Map<String, ParseUser> mUserNameToUser = new HashMap<String, ParseUser>();
+    private ArrayAdapter<String> mAdapterInvitesAutoComplete;
     private MutableDateTime mStartDateTime;
     private MutableDateTime mEndDateTime;
 
@@ -342,8 +339,7 @@ public abstract class EditEventFragment extends Fragment
         }
     }
 
-    private void showDatePicker(MutableDateTime dateTime)
-    {
+    private void showDatePicker(MutableDateTime dateTime) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
 
         // The month was set (0-11) for compatibility with {@link java.util.Calendar}.
@@ -353,8 +349,7 @@ public abstract class EditEventFragment extends Fragment
         datePicker.show(fm, FRAG_TAG_DATE_PICKER);
     }
 
-    private void showTimePicker(MutableDateTime dateTime)
-    {
+    private void showTimePicker(MutableDateTime dateTime) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
         RadialTimePickerDialog timePicker = RadialTimePickerDialog
                 .newInstance(this, dateTime.getHourOfDay(), dateTime.getMinuteOfHour(),
