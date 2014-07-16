@@ -11,7 +11,6 @@ import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.List;
 
@@ -30,21 +28,10 @@ import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 import static com.sms.partyview.models.AttendanceStatus.DECLINED;
 
 
-public class InvitedEventDetailActivity extends Activity {
+public class InvitedEventDetailActivity extends EventDetailActivity {
 
-    private TextView mTvTitle;
-    private TextView mTvHostName;
-    private TextView mTvStartTime;
-    private TextView mTvEndTime;
-    private TextView mTvLocation;
-    private TextView mTvDescription;
-    private TextView mTvAttendeeList;
     private Button mBtnAccept;
     private Button mBtnReject;
-
-    private Event mEvent;
-    private EventUser currentEventUser;
-    private LocalEvent tempEvent;
 
     // For passing in intent data.
     // TODO: These are also in class EventDetailActivity. Find some way to
@@ -54,9 +41,6 @@ public class InvitedEventDetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_detail);
-
-        setupViews();
 
         // TODO: This code is quite similar to the stuff in EventDetailActivity.
         // They should be related classes.
@@ -75,14 +59,9 @@ public class InvitedEventDetailActivity extends Activity {
         retrieveCurrentEventUser();
     }
 
+    @Override
     public void setupViews() {
-        mTvDescription = (TextView) findViewById(R.id.tvEventDescription);
-        mTvTitle = (TextView) findViewById(R.id.tvEventName);
-        mTvHostName = (TextView) findViewById(R.id.tvEventOrganizer);
-        mTvStartTime = (TextView) findViewById(R.id.tvEventStartTime);
-        mTvEndTime = (TextView) findViewById(R.id.tvEventEndTime);
-        mTvLocation = (TextView) findViewById(R.id.tvEventLocation);
-        mTvAttendeeList = (TextView) findViewById(R.id.tvEventAttendeeList);
+        super.setupViews();
 
         // No need to show the "Mini Map" label when there's no map.
         findViewById(R.id.tvMiniMap).setVisibility(View.GONE);
@@ -139,15 +118,6 @@ public class InvitedEventDetailActivity extends Activity {
 
             }
         });
-    }
-
-    public void populateEventInfo () {
-        mTvTitle.setText(tempEvent.getTitle());
-        mTvHostName.setText(tempEvent.getHost());
-        mTvLocation.setText(tempEvent.getAddress());
-        mTvDescription.setText(tempEvent.getDescription());
-        mTvStartTime.setText(tempEvent.getStartDate().toString());
-        mTvEndTime.setText(tempEvent.getEndDate().toString());
     }
 
     private void retrieveCurrentEventUser() {

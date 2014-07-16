@@ -21,7 +21,6 @@ import com.sms.partyview.models.LocalEvent;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
@@ -32,7 +31,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,26 +38,19 @@ import java.util.List;
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 import static com.sms.partyview.models.AttendanceStatus.PRESENT;
 
-public class AcceptedEventDetailActivity extends FragmentActivity implements EventMapFragment.EventMapFragmentListener {
+public class AcceptedEventDetailActivity
+        extends EventDetailActivity
+        implements EventMapFragment.EventMapFragmentListener {
 
     // For passing in intent data.
     public static final String EVENT_INTENT_KEY = "event";
     public static final String UDPATED_EVENT_INTENT_KEY = "updatedEvent";
     public static final String EVENT_LIST_INDEX_KEY = "eventListIndex";
     private static final int EDIT_EVENT_REQUEST = 1;
-    private Event mEvent;
     private AttendanceStatus status;
-    private EventUser currentEventUser;
-    private LocalEvent tempEvent;
     private boolean mEventWasUpdated = false;
     private int mEventListIndex;
-    private TextView mTvTitle;
-    private TextView mTvOrganizer;
-    private TextView mTvDescription;
-    private TextView mTvStartTime;
-    private TextView mTvEndTime;
-    private TextView mTvLocation;
-    private TextView mTvAttendeeList;
+
     private Button btnJoinLeave;
     private EventMapFragment eventMapFragment;
     private List<EventUser> eventUsers;
@@ -69,7 +60,6 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_detail);
 
         markers = new ArrayList<Marker>();
         status = ACCEPTED;
@@ -81,7 +71,6 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
 
         mEventListIndex = getIntent().getIntExtra(EVENT_LIST_INDEX_KEY, 0);
 
-        setupViews();
         saveAndDisplayEvent((LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY));
 
         retrieveEvent();
@@ -136,14 +125,9 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
         }
     }
 
+    @Override
     public void setupViews() {
-        mTvTitle = (TextView) findViewById(R.id.tvEventName);
-        mTvOrganizer = (TextView) findViewById(R.id.tvEventOrganizer);
-        mTvDescription = (TextView) findViewById(R.id.tvEventDescription);
-        mTvStartTime = (TextView) findViewById(R.id.tvEventStartTime);
-        mTvEndTime = (TextView) findViewById(R.id.tvEventEndTime);
-        mTvLocation = (TextView) findViewById(R.id.tvEventLocation);
-        mTvAttendeeList = (TextView) findViewById(R.id.tvEventAttendeeList);
+        super.setupViews();
 
         // Dynamically create button.
         btnJoinLeave = new Button(this);
@@ -180,12 +164,8 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     }
 
     public void populateEventInfo() {
-        mTvTitle.setText(tempEvent.getTitle());
-        mTvOrganizer.setText(tempEvent.getHost());
-        mTvDescription.setText(tempEvent.getDescription());
-        mTvStartTime.setText("" + tempEvent.getStartDate());
-        mTvEndTime.setText("" + tempEvent.getEndDate());
-        mTvLocation.setText(tempEvent.getAddress());
+        super.populateEventInfo();
+        // Show the attendance status on the join/leave button.
         if (status.equals(PRESENT)) {
             btnJoinLeave.setText(getString(R.string.leave_event));
         } else if (status.equals(ACCEPTED)) {
