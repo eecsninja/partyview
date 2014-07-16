@@ -24,7 +24,7 @@ import android.widget.TextView;
 import java.util.List;
 
 
-public class InviteDetailActivity extends Activity {
+public class InvitedEventDetailActivity extends Activity {
 
     private TextView mTvTitle;
     private TextView mTvStart;

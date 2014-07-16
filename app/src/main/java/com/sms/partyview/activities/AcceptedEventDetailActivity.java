@@ -33,7 +33,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventDetailActivity extends FragmentActivity implements EventMapFragment.EventMapFragmentListener {
+public class AcceptedEventDetailActivity extends FragmentActivity implements EventMapFragment.EventMapFragmentListener {
 
     private Event mEvent;
     private AttendanceStatus status;
@@ -264,7 +264,7 @@ public class EventDetailActivity extends FragmentActivity implements EventMapFra
                 @Override
                 public void onMapClick(LatLng latLng) {
                     if (status.equals(AttendanceStatus.PRESENT)) {
-                        Intent mapIntent = new Intent(EventDetailActivity.this, FullMapActivity.class);
+                        Intent mapIntent = new Intent(AcceptedEventDetailActivity.this, FullMapActivity.class);
                         mapIntent.putParcelableArrayListExtra("attendees", attendees);
                         mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
                         mapIntent.putExtra("eventId", mEvent.getObjectId());

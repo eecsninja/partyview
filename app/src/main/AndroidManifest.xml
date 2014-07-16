@@ -58,7 +58,7 @@
             android:label="@string/title_activity_home" >
         </activity>
         <activity
-            android:name=".activities.EventDetailActivity"
+            android:name=".activities.AcceptedEventDetailActivity"
             android:label="@string/event_details_title"
             android:parentActivityName=".activities.HomeActivity" >
 
@@ -83,7 +83,7 @@
         <activity
             android:name=".activities.UpdateEventActivity"
             android:label="@string/title_activity_update_event"
-            android:parentActivityName=".activities.EventDetailActivity"
+            android:parentActivityName=".activities.AcceptedEventDetailActivity"
             android:windowSoftInputMode="adjustPan">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -103,7 +103,7 @@
         <activity
             android:name=".activities.FullMapActivity"
             android:label="@string/title_activity_full_map" 
-            android:parentActivityName=".activities.EventDetailActivity" >
+            android:parentActivityName=".activities.AcceptedEventDetailActivity" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <!-- need this to implement home as back button -->
@@ -138,7 +138,7 @@
         </receiver>
 
         <activity
-            android:name=".activities.InviteDetailActivity"
+            android:name=".activities.InvitedEventDetailActivity"
             android:label="@string/title_activity_invite_detail"
             android:parentActivityName=".activities.HomeActivity" >
 
