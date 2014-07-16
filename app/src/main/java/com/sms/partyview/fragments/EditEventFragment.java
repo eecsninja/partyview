@@ -23,6 +23,7 @@ import org.joda.time.LocalDateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.Period;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -275,12 +276,15 @@ public abstract class EditEventFragment extends Fragment
             int year,
             int monthOfYear,
             int dayOfMonth) {
-        if(picker.equals(TAG_START_PICKER)) {
+        if (picker.equals(TAG_START_PICKER)) {
+            MutableDateTime oldStartDateTime = new MutableDateTime(mStartDateTime);
+
             mStartDateTime.set(DateTimeFieldType.year(), year);
             mStartDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear + 1);
             mStartDateTime.set(DateTimeFieldType.dayOfMonth(), dayOfMonth);
-
             mTvStartDate.setText(mStartDateTime.toString(DISPLAY_DATE_FORMATTER));
+
+            updateEndDate(oldStartDateTime);
         } else if (picker.equals(TAG_END_PICKER)) {
             mEndDateTime.set(DateTimeFieldType.year(), year);
             mEndDateTime.set(DateTimeFieldType.monthOfYear(), monthOfYear + 1);
@@ -296,11 +300,14 @@ public abstract class EditEventFragment extends Fragment
     public void onTimeSet(RadialPickerLayout radialPickerLayout,
             int hourOfDay,
             int minute) {
-        if(picker.equals(TAG_START_PICKER)) {
+        if (picker.equals(TAG_START_PICKER)) {
+            MutableDateTime oldStartDateTime = new MutableDateTime(mStartDateTime);
+
             mStartDateTime.set(DateTimeFieldType.hourOfDay(), hourOfDay);
             mStartDateTime.set(DateTimeFieldType.minuteOfHour(), minute);
-
             mTvStartTime.setText(mStartDateTime.toString(DISPLAY_TIME_FORMATTER));
+
+            updateEndTime(oldStartDateTime);
         } else if (picker.equals(TAG_END_PICKER)) {
             mEndDateTime.set(DateTimeFieldType.hourOfDay(), hourOfDay);
             mEndDateTime.set(DateTimeFieldType.minuteOfHour(), minute);
@@ -414,5 +421,20 @@ public abstract class EditEventFragment extends Fragment
         };
 
         Utils.cacheAppUsers(callback);
+    }
+
+    private void updateEndDate(MutableDateTime oldStartDateTime) {
+        updateEndDateTime(oldStartDateTime);
+        mTvEndDate.setText(mEndDateTime.toString(DISPLAY_DATE_FORMATTER));
+    }
+
+    private void updateEndTime(MutableDateTime oldStartDateTime) {
+        updateEndDateTime(oldStartDateTime);
+        mTvEndTime.setText(mEndDateTime.toString(DISPLAY_TIME_FORMATTER));
+    }
+
+    private void updateEndDateTime(MutableDateTime oldStartDateTime) {
+        Period period = new Period(oldStartDateTime, mStartDateTime);
+        mEndDateTime.add(period);
     }
 }
