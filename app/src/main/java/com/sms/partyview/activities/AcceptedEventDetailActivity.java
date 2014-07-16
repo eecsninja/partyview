@@ -143,6 +143,7 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     }
 
     public void setupViews() {
+        /*
         mTvTitle = (TextView) findViewById(R.id.tvEventName);
         mTvOrganizer = (TextView) findViewById(R.id.tvEventOrganizer);
         mTvDescription = (TextView) findViewById(R.id.tvEventDescription);
@@ -169,6 +170,7 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
         // Add it to the layout section.
         LinearLayout llEventDetailButtons = (LinearLayout) findViewById(R.id.llEventDetailButtons);
         llEventDetailButtons.addView(btnJoinLeave);
+        */
     }
 
     public void setupMapFragment() {
@@ -186,6 +188,7 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     }
 
     public void populateEventInfo() {
+        /*
         mTvTitle.setText(tempEvent.getTitle());
         mTvOrganizer.setText(tempEvent.getHost());
         mTvDescription.setText(tempEvent.getDescription());
@@ -197,6 +200,7 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
         } else if (status.equals(ACCEPTED)) {
             btnJoinLeave.setText(getString(R.string.join_event));
         }
+        */
         retrieveAttendeeList();
     }
 
@@ -220,12 +224,12 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
                         if (eventUser.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
                             currentEventUser = eventUser;
                             status = eventUser.getStatus();
-                            toggleJoinLeave(status);
+                            //toggleJoinLeave(status);
                         }
                         eventUserStrings.add(eventUser.getUser().getUsername());
                     }
                 }
-                mTvAttendeeList.setText(Joiner.on(", ").join(eventUserStrings));
+                //mTvAttendeeList.setText(Joiner.on(", ").join(eventUserStrings));
                 setupMapFragment();
             }
         });
