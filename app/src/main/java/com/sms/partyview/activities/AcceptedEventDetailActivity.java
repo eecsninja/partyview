@@ -42,13 +42,17 @@ import static com.sms.partyview.models.AttendanceStatus.PRESENT;
 
 public class AcceptedEventDetailActivity extends FragmentActivity implements EventMapFragment.EventMapFragmentListener {
 
+    // For passing in intent data.
+    public static final String EVENT_INTENT_KEY = "event";
+    public static final String UDPATED_EVENT_INTENT_KEY = "updatedEvent";
+    public static final String EVENT_LIST_INDEX_KEY = "eventListIndex";
+    private static final int EDIT_EVENT_REQUEST = 1;
     private Event mEvent;
     private AttendanceStatus status;
     private EventUser currentEventUser;
     private LocalEvent tempEvent;
     private boolean mEventWasUpdated = false;
     private int mEventListIndex;
-
     private TextView mTvTitle;
     private TextView mTvOrganizer;
     private TextView mTvDescription;
@@ -57,20 +61,10 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     private TextView mTvLocation;
     private TextView mTvAttendeeList;
     private Button btnJoinLeave;
-
     private EventMapFragment eventMapFragment;
     private List<EventUser> eventUsers;
     private ArrayList<Attendee> attendees;
-
     private List<Marker> markers;
-
-    private final int EDIT_EVENT_REQUEST = 1;
-
-    // For passing in intent data.
-    public static final String EVENT_INTENT_KEY = "event";
-    public static final String UDPATED_EVENT_INTENT_KEY = "updatedEvent";
-    public static final String EVENT_LIST_INDEX_KEY = "eventListIndex";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
