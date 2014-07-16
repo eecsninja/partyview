@@ -33,6 +33,7 @@ import static com.sms.partyview.models.AttendanceStatus.DECLINED;
 public class InvitedEventDetailActivity extends Activity {
 
     private TextView mTvTitle;
+    private TextView mTvHostName;
     private TextView mTvStartTime;
     private TextView mTvEndTime;
     private TextView mTvLocation;
@@ -53,7 +54,7 @@ public class InvitedEventDetailActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_invite_detail);
+        setContentView(R.layout.activity_event_detail);
 
         setupViews();
 
@@ -75,22 +76,26 @@ public class InvitedEventDetailActivity extends Activity {
     }
 
     public void setupViews() {
-        mTvDescription = (TextView) findViewById(R.id.tvDescription);
-        mTvTitle = (TextView) findViewById(R.id.tvInviteTitle);
-        mTvStartTime = (TextView) findViewById(R.id.tvStartTime);
-        mTvEndTime = (TextView) findViewById(R.id.tvEndTime);
-        mTvLocation = (TextView) findViewById(R.id.tvLocation);
-        mTvAttendeeList = (TextView) findViewById(R.id.tvAttendeeList);
+        mTvDescription = (TextView) findViewById(R.id.tvEventDescription);
+        mTvTitle = (TextView) findViewById(R.id.tvEventName);
+        mTvHostName = (TextView) findViewById(R.id.tvEventOrganizer);
+        mTvStartTime = (TextView) findViewById(R.id.tvEventStartTime);
+        mTvEndTime = (TextView) findViewById(R.id.tvEventEndTime);
+        mTvLocation = (TextView) findViewById(R.id.tvEventLocation);
+        mTvAttendeeList = (TextView) findViewById(R.id.tvEventAttendeeList);
+
+        // No need to show the "Mini Map" label when there's no map.
+        findViewById(R.id.tvMiniMap).setVisibility(View.GONE);
 
         // Set up buttons.
-        LinearLayout llInviteDetailButtons =
-                (LinearLayout) findViewById(R.id.llInviteDetailButtons);
+        LinearLayout llEventDetailButtons =
+                (LinearLayout) findViewById(R.id.llEventDetailButtons);
         LayoutInflater inflater =
                 (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout llInviteButtons =
                 (LinearLayout) inflater.inflate(
-                        R.layout.layout_invite_detail_buttons, llInviteDetailButtons, false);
-        llInviteDetailButtons.addView(llInviteButtons);
+                        R.layout.layout_invite_detail_buttons, llEventDetailButtons, false);
+        llEventDetailButtons.addView(llInviteButtons);
         mBtnAccept = (Button) llInviteButtons.findViewById(R.id.btnAcceptInvite);
         mBtnReject = (Button) llInviteButtons.findViewById(R.id.btnRejectInvite);
     }
@@ -138,6 +143,7 @@ public class InvitedEventDetailActivity extends Activity {
 
     public void populateEventInfo () {
         mTvTitle.setText(tempEvent.getTitle());
+        mTvHostName.setText(tempEvent.getHost());
         mTvLocation.setText(tempEvent.getAddress());
         mTvDescription.setText(tempEvent.getDescription());
         mTvStartTime.setText(tempEvent.getStartDate().toString());
