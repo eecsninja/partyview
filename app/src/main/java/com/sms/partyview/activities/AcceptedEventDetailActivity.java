@@ -149,7 +149,7 @@ public class AcceptedEventDetailActivity
         llEventDetailButtons.addView(btnJoinLeave);
     }
 
-    public void setupMapFragment() {
+    private void setupMapFragment() {
         // Create the transaction
         FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
         // Replace the content of the container
