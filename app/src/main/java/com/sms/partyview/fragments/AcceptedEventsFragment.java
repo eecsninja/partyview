@@ -19,6 +19,8 @@ import java.util.List;
  */
 public class AcceptedEventsFragment extends EventListFragment {
 
+    private static final String TAG = AcceptedEventsFragment.class.getSimpleName() + "_DEBUG";
+
     public static AcceptedEventsFragment newInstance() {
         AcceptedEventsFragment fragment = new AcceptedEventsFragment();
         return fragment;
@@ -33,13 +35,9 @@ public class AcceptedEventsFragment extends EventListFragment {
             new FindCallback<EventUser>() {
                 @Override
                 public void done(List<EventUser> eventUsers, ParseException e) {
-
                 List<Event> events = new ArrayList<Event>();
                 for (EventUser eventUser : eventUsers) {
-                    // TODO: fix query to not return declined events
-                    if(eventUser.getStatus() != AttendanceStatus.DECLINED) {
-                        events.add(eventUser.getEvent());
-                    }
+                    events.add(eventUser.getEvent());
                     statusMap.put(eventUser.getEvent().getObjectId(), eventUser.getStatus().toString());
                 }
                 eventAdapter.addAll(events);

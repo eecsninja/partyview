@@ -1,10 +1,15 @@
 package com.sms.partyview.models;
 
+import com.google.common.collect.ImmutableList;
+
 import com.parse.ParseClassName;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
+import static com.sms.partyview.models.AttendanceStatus.PRESENT;
 
 /**
  * Created by sandra on 7/6/14.
@@ -32,10 +37,8 @@ public class EventUser extends ParseObject {
     public static ParseQuery<EventUser> getQueryForAcceptedEvents() {
         // Define the class we would like to query
         ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
-
         query.whereEqualTo("user", ParseUser.getCurrentUser());
-        query.whereNotEqualTo("status", AttendanceStatus.DECLINED.toString());
-        query.whereNotEqualTo("status", AttendanceStatus.INVITED.toString());
+        query.whereContainedIn("status", ImmutableList.of(PRESENT.toString(), ACCEPTED.toString()));
         query.include("event.host");
 
         return query;
