@@ -31,6 +31,9 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
+import static com.sms.partyview.models.AttendanceStatus.INVITED;
+
 /**
  * Created by sque on 7/12/14.
  */
@@ -126,11 +129,11 @@ abstract public class EditEventActivity extends FragmentActivity implements Even
     public static void generateEventUsers(List<ParseUser> attendeeList, Event event) {
         // create an EventUser object for host and everyone in invites
         for (ParseUser user : attendeeList) {
-            createUserEventIfNoneExists(AttendanceStatus.INVITED, user, event);
+            createUserEventIfNoneExists(INVITED, user, event);
         }
 
         // host's invitation status should default to accepted
-        createUserEventIfNoneExists(AttendanceStatus.ACCEPTED, ParseUser.getCurrentUser(), event);
+        createUserEventIfNoneExists(ACCEPTED, ParseUser.getCurrentUser(), event);
     }
 
     // Creates an EventUser object if there's no existing object with the user-event pair.

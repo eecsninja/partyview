@@ -33,6 +33,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
+import static com.sms.partyview.models.AttendanceStatus.PRESENT;
+
 public class AcceptedEventDetailActivity extends FragmentActivity implements EventMapFragment.EventMapFragmentListener {
 
     private Event mEvent;
@@ -68,7 +71,7 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
         setContentView(R.layout.activity_event_detail);
 
         markers = new ArrayList<Marker>();
-        status = AttendanceStatus.ACCEPTED;
+        status = ACCEPTED;
 
         eventUsers = new ArrayList<EventUser>();
         attendees = new ArrayList<Attendee>();
@@ -163,9 +166,9 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
                 getString(R.string.event_time_title) + ": " + tempEvent.getStartDate());
         mTvOrganizer.setText(
                 getString(R.string.event_organizer_title) + ": " + tempEvent.getHost());
-        if (status.equals(AttendanceStatus.PRESENT)) {
+        if (status.equals(PRESENT)) {
             btnJoinLeave.setText(getString(R.string.leave_event));
-        } else if (status.equals(AttendanceStatus.ACCEPTED)) {
+        } else if (status.equals(ACCEPTED)) {
             btnJoinLeave.setText(getString(R.string.join_event));
         }
     }
@@ -205,25 +208,25 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     public void onJoinLeave(View v) {
         String currentState = btnJoinLeave.getText().toString();
         if (currentState.equals(getString(R.string.leave_event))) {
-            toggleJoinLeave(AttendanceStatus.ACCEPTED);
+            toggleJoinLeave(ACCEPTED);
         } else {
-            toggleJoinLeave(AttendanceStatus.PRESENT);
+            toggleJoinLeave(PRESENT);
         }
 
     }
 
     public void toggleJoinLeave(AttendanceStatus status) {
         if (status != null) {
-            if (status.equals(AttendanceStatus.PRESENT)) {
+            if (status.equals(PRESENT)) {
                 btnJoinLeave.setText(getString(R.string.leave_event));
-                this.status = AttendanceStatus.PRESENT;
-            } else if (status.equals(AttendanceStatus.ACCEPTED)) {
+                this.status = PRESENT;
+            } else if (status.equals(ACCEPTED)) {
                 btnJoinLeave.setText(getString(R.string.join_event));
-                this.status = AttendanceStatus.ACCEPTED;
+                this.status = ACCEPTED;
             }
 
             if (eventMapFragment != null) {
-                eventMapFragment.setMarkerVisibility(status.equals(AttendanceStatus.PRESENT));
+                eventMapFragment.setMarkerVisibility(status.equals(PRESENT));
             }
 
             if (currentEventUser != null) {
@@ -263,7 +266,7 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
             eventMapFragment.setOnMapClick(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
-                    if (status.equals(AttendanceStatus.PRESENT)) {
+                    if (status.equals(PRESENT)) {
                         Intent mapIntent = new Intent(AcceptedEventDetailActivity.this, FullMapActivity.class);
                         mapIntent.putParcelableArrayListExtra("attendees", attendees);
                         mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
@@ -274,7 +277,7 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
                     }
                 }
             });
-            eventMapFragment.setMarkerVisibility(status.equals(AttendanceStatus.PRESENT));
+            eventMapFragment.setMarkerVisibility(status.equals(PRESENT));
         }
     }
 

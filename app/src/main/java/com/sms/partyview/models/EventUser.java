@@ -9,6 +9,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
+import static com.sms.partyview.models.AttendanceStatus.INVITED;
 import static com.sms.partyview.models.AttendanceStatus.PRESENT;
 
 /**
@@ -49,7 +50,7 @@ public class EventUser extends ParseObject {
         ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
 
         query.whereEqualTo("user", ParseUser.getCurrentUser());
-        query.whereEqualTo("status", AttendanceStatus.INVITED.toString());
+        query.whereEqualTo("status", INVITED.toString());
         query.include("event.host");
 
         return query;

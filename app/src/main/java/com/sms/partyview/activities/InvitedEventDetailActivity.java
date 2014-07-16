@@ -23,6 +23,9 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
+import static com.sms.partyview.models.AttendanceStatus.DECLINED;
+
 
 public class InvitedEventDetailActivity extends Activity {
 
@@ -177,13 +180,13 @@ public class InvitedEventDetailActivity extends Activity {
         query.getInBackground(currentEventUser.getObjectId(), new GetCallback<EventUser>() {
             public void done(EventUser eventUser, ParseException e) {
                 if (e == null) {
-                    eventUser.put("status", AttendanceStatus.ACCEPTED.toString());
+                    eventUser.put("status", ACCEPTED.toString());
                     eventUser.saveInBackground();
 
                     // return to list of events
                     Intent data = new Intent();
                     data.putExtra("eventId", tempEvent.getObjectId());
-                    data.putExtra("response", AttendanceStatus.ACCEPTED.toString());
+                    data.putExtra("response", ACCEPTED.toString());
                     setResult(RESULT_OK, data);
 
                     finish();
@@ -199,7 +202,7 @@ public class InvitedEventDetailActivity extends Activity {
         query.getInBackground(currentEventUser.getObjectId(), new GetCallback<EventUser>() {
             public void done(EventUser eventUser, ParseException e) {
                 if (e == null) {
-                    eventUser.put("status", AttendanceStatus.DECLINED.toString());
+                    eventUser.put("status", DECLINED.toString());
                     eventUser.saveInBackground();
 
                     // return to list of events

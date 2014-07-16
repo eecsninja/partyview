@@ -14,7 +14,6 @@ import com.sms.partyview.fragments.EventListFragment;
 import com.sms.partyview.fragments.PendingEventsFragment;
 import com.sms.partyview.fragments.ProfileSettingDialog;
 import com.sms.partyview.helpers.Utils;
-import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.models.LocalEvent;
 
 import android.content.Intent;
@@ -29,6 +28,8 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 
 public class HomeActivity
         extends FragmentActivity {
@@ -96,7 +97,7 @@ public class HomeActivity
                     (LocalEvent) data.getSerializableExtra(EditEventActivity.SAVED_EVENT_KEY);
 
             AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager.getItem(0);
-            fragment.addNewEventToList(event.getObjectId(), AttendanceStatus.ACCEPTED.toString());
+            fragment.addNewEventToList(event.getObjectId(), ACCEPTED.toString());
 
             // go back to accepted events page
             vpPager.setCurrentItem(0);
@@ -109,7 +110,7 @@ public class HomeActivity
             pendingFragment.removeEventFromList(eventId);
             mAdapterViewPager.notifyDataSetChanged();
 
-            if (response.equalsIgnoreCase(AttendanceStatus.ACCEPTED.toString())) {
+            if (response.equalsIgnoreCase(ACCEPTED.toString())) {
                 AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager
                         .getItem(0);
                 fragment.addNewEventToList(eventId, response);
