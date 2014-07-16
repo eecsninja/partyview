@@ -258,6 +258,7 @@ public class AcceptedEventDetailActivity
         eventUser.saveInBackground();
     }
 
+    @Override
     public void onViewCreated() {
         if (eventMapFragment != null) {
             eventMapFragment.setOnMapClick(new GoogleMap.OnMapClickListener() {
