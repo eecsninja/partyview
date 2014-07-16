@@ -30,9 +30,6 @@ import static com.sms.partyview.models.AttendanceStatus.DECLINED;
 
 public class InvitedEventDetailActivity extends EventDetailActivity {
 
-    private Button mBtnAccept;
-    private Button mBtnReject;
-
     // For passing in intent data.
     // TODO: These are also in class EventDetailActivity. Find some way to
     // put them in a common place.
@@ -66,7 +63,7 @@ public class InvitedEventDetailActivity extends EventDetailActivity {
         // No need to show the "Mini Map" label when there's no map.
         findViewById(R.id.tvMiniMap).setVisibility(View.GONE);
 
-        // Set up buttons.
+        // Add accept/reject buttons to activity.
         LinearLayout llEventDetailButtons =
                 (LinearLayout) findViewById(R.id.llEventDetailButtons);
         LayoutInflater inflater =
@@ -75,8 +72,6 @@ public class InvitedEventDetailActivity extends EventDetailActivity {
                 (LinearLayout) inflater.inflate(
                         R.layout.layout_invite_detail_buttons, llEventDetailButtons, false);
         llEventDetailButtons.addView(llInviteButtons);
-        mBtnAccept = (Button) llInviteButtons.findViewById(R.id.btnAcceptInvite);
-        mBtnReject = (Button) llInviteButtons.findViewById(R.id.btnRejectInvite);
     }
 
     public void retrieveEvent() {
