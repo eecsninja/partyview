@@ -27,8 +27,8 @@ import java.util.List;
 public class InvitedEventDetailActivity extends Activity {
 
     private TextView mTvTitle;
-    private TextView mTvStart;
-    private TextView mTvEnd;
+    private TextView mTvStartTime;
+    private TextView mTvEndTime;
     private TextView mTvLocation;
     private TextView mTvDescription;
     private TextView mTvAttendeeList;
@@ -71,8 +71,8 @@ public class InvitedEventDetailActivity extends Activity {
     public void setupViews() {
         mTvDescription = (TextView) findViewById(R.id.tvDescription);
         mTvTitle = (TextView) findViewById(R.id.tvInviteTitle);
-        mTvStart = (TextView) findViewById(R.id.tvStartTime);
-        mTvEnd = (TextView) findViewById(R.id.tvEndTime);
+        mTvStartTime = (TextView) findViewById(R.id.tvStartTime);
+        mTvEndTime = (TextView) findViewById(R.id.tvEndTime);
         mTvLocation = (TextView) findViewById(R.id.tvLocation);
         mBtnAccept = (Button) findViewById(R.id.btnAcceptInvite);
         mBtnReject = (Button) findViewById(R.id.btnRejectInvite);
@@ -124,8 +124,8 @@ public class InvitedEventDetailActivity extends Activity {
         mTvTitle.setText(tempEvent.getTitle());
         mTvLocation.setText(tempEvent.getAddress());
         mTvDescription.setText(tempEvent.getDescription());
-        mTvStart.setText(tempEvent.getStartDate().toString());
-        mTvEnd.setText(tempEvent.getEndDate().toString());
+        mTvStartTime.setText(tempEvent.getStartDate().toString());
+        mTvEndTime.setText(tempEvent.getEndDate().toString());
     }
 
     private void retrieveCurrentEventUser() {

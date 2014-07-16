@@ -42,10 +42,10 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     private boolean mEventWasUpdated = false;
     private int mEventListIndex;
 
-    private TextView tvEventName;
-    private TextView tvEventOrganizer;
-    private TextView tvEventDescription;
-    private TextView tvEventTime;
+    private TextView mTvTitle;
+    private TextView mTvOrganizer;
+    private TextView mTvDescription;
+    private TextView mTvStartTime;
     private Button btnJoinLeave;
 
     private EventMapFragment eventMapFragment;
@@ -133,10 +133,10 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     }
 
     public void setupViews() {
-        tvEventName = (TextView) findViewById(R.id.tvEventNameTitle);
-        tvEventOrganizer = (TextView) findViewById(R.id.tvEventOrganizerTitle);
-        tvEventDescription = (TextView) findViewById(R.id.tvEventDescTitle);
-        tvEventTime = (TextView) findViewById(R.id.tvEventTimeTitle);
+        mTvTitle = (TextView) findViewById(R.id.tvEventNameTitle);
+        mTvOrganizer = (TextView) findViewById(R.id.tvEventOrganizerTitle);
+        mTvDescription = (TextView) findViewById(R.id.tvEventDescTitle);
+        mTvStartTime = (TextView) findViewById(R.id.tvEventTimeTitle);
         btnJoinLeave = (Button) findViewById(R.id.btnJoinLeave);
     }
 
@@ -155,13 +155,13 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     }
 
     public void populateEventInfo() {
-        tvEventName.setText(
+        mTvTitle.setText(
                 getString(R.string.event_name_title) + ": " + tempEvent.getTitle());
-        tvEventDescription.setText(
+        mTvDescription.setText(
                 getString(R.string.event_desc_title) + ": " + tempEvent.getDescription());
-        tvEventTime.setText(
+        mTvStartTime.setText(
                 getString(R.string.event_time_title) + ": " + tempEvent.getStartDate());
-        tvEventOrganizer.setText(
+        mTvOrganizer.setText(
                 getString(R.string.event_organizer_title) + ": " + tempEvent.getHost());
         if (status.equals(AttendanceStatus.PRESENT)) {
             btnJoinLeave.setText(getString(R.string.leave_event));
