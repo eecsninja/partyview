@@ -34,7 +34,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         View view;
         if (convertView == null) {
             view = LayoutInflater.from(getContext())
-                    .inflate(R.layout.home_event_item, parent, false);
+                    .inflate(R.layout.event_item, parent, false);
         } else {
             view = convertView;
         }
