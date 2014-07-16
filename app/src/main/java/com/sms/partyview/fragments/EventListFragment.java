@@ -2,7 +2,7 @@ package com.sms.partyview.fragments;
 
 import com.sms.partyview.R;
 import com.sms.partyview.activities.AcceptedEventDetailActivity;
-import com.sms.partyview.adapters.HomeScreenEventAdapter;
+import com.sms.partyview.adapters.EventAdapter;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.LocalEvent;
 
@@ -29,7 +29,7 @@ public abstract class EventListFragment extends Fragment {
 
     protected List<Event> events;
 
-    protected HomeScreenEventAdapter eventAdapter;
+    protected EventAdapter eventAdapter;
 
     protected ListView eventsView;
 
@@ -45,7 +45,7 @@ public abstract class EventListFragment extends Fragment {
 
         // Initialize event list and adapter.
         events = new ArrayList<Event>();
-        eventAdapter = new HomeScreenEventAdapter(getActivity(), events);
+        eventAdapter = new EventAdapter(getActivity(), events);
     }
 
 

@@ -22,9 +22,9 @@ import static com.sms.partyview.helpers.Utils.DISPLAY_DATE_TIME_FORMATTER;
 /**
  * Created by sque on 7/4/14.
  */
-public class HomeScreenEventAdapter extends ArrayAdapter<Event> {
+public class EventAdapter extends ArrayAdapter<Event> {
 
-    public HomeScreenEventAdapter(Context context, List<Event> event_list) {
+    public EventAdapter(Context context, List<Event> event_list) {
         super(context, 0, event_list);
     }
 
