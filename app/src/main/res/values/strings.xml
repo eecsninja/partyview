@@ -33,6 +33,7 @@
     <string name="action_new_event">New Event</string>
     <string name="action_edit_event">Edit Event</string>
     <string name="label_event_name">Event Name:</string>
+    <string name="label_event_host">Hosted by:</string>
     <string name="label_event_start_date">Start</string>
     <string name="label_event_location">Location:</string>
     <string name="label_event_description">Description:</string>

@@ -3,6 +3,7 @@ package com.sms.partyview.activities;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.common.base.Joiner;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
@@ -52,6 +53,9 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     private TextView mTvOrganizer;
     private TextView mTvDescription;
     private TextView mTvStartTime;
+    private TextView mTvEndTime;
+    private TextView mTvLocation;
+    private TextView mTvAttendeeList;
     private Button btnJoinLeave;
 
     private EventMapFragment eventMapFragment;
@@ -139,10 +143,13 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     }
 
     public void setupViews() {
-        mTvTitle = (TextView) findViewById(R.id.tvEventNameTitle);
-        mTvOrganizer = (TextView) findViewById(R.id.tvEventOrganizerTitle);
-        mTvDescription = (TextView) findViewById(R.id.tvEventDescTitle);
-        mTvStartTime = (TextView) findViewById(R.id.tvEventTimeTitle);
+        mTvTitle = (TextView) findViewById(R.id.tvEventName);
+        mTvOrganizer = (TextView) findViewById(R.id.tvEventOrganizer);
+        mTvDescription = (TextView) findViewById(R.id.tvEventDescription);
+        mTvStartTime = (TextView) findViewById(R.id.tvEventStartTime);
+        mTvEndTime = (TextView) findViewById(R.id.tvEventEndTime);
+        mTvLocation = (TextView) findViewById(R.id.tvEventLocation);
+        mTvAttendeeList = (TextView) findViewById(R.id.tvEventAttendeeList);
 
         // Dynamically create button.
         btnJoinLeave = new Button(this);
@@ -179,14 +186,12 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     }
 
     public void populateEventInfo() {
-        mTvTitle.setText(
-                getString(R.string.event_name_title) + ": " + tempEvent.getTitle());
-        mTvDescription.setText(
-                getString(R.string.event_desc_title) + ": " + tempEvent.getDescription());
-        mTvStartTime.setText(
-                getString(R.string.event_time_title) + ": " + tempEvent.getStartDate());
-        mTvOrganizer.setText(
-                getString(R.string.event_organizer_title) + ": " + tempEvent.getHost());
+        mTvTitle.setText(tempEvent.getTitle());
+        mTvOrganizer.setText(tempEvent.getHost());
+        mTvDescription.setText(tempEvent.getDescription());
+        mTvStartTime.setText("" + tempEvent.getStartDate());
+        mTvEndTime.setText("" + tempEvent.getEndDate());
+        mTvLocation.setText(tempEvent.getAddress());
         if (status.equals(PRESENT)) {
             btnJoinLeave.setText(getString(R.string.leave_event));
         } else if (status.equals(ACCEPTED)) {
@@ -206,6 +211,7 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
         query.findInBackground(new FindCallback<EventUser>() {
             @Override
             public void done(List<EventUser> users, ParseException e) {
+                List<String> eventUserStrings = new ArrayList<String>();
                 for (EventUser eventUser : users) {
                     if (eventUser != null) {
                         eventUsers.add(eventUser);
@@ -215,8 +221,10 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
                             status = eventUser.getStatus();
                             toggleJoinLeave(status);
                         }
+                        eventUserStrings.add(eventUser.getUser().getUsername());
                     }
                 }
+                mTvAttendeeList.setText(Joiner.on(", ").join(eventUserStrings));
                 setupMapFragment();
             }
         });
