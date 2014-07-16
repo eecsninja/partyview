@@ -99,36 +99,28 @@ public class HomeActivity
             fragment.addNewEventToList(event.getObjectId(), AttendanceStatus.ACCEPTED.toString());
 
             // go back to accepted events page
-            mAdapterViewPager.getItem(0);
+            vpPager.setCurrentItem(0);
         } else if ((requestCode == Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE) && (resultCode == RESULT_OK)) {
             String eventId = data.getStringExtra("eventId");
             String response = data.getStringExtra("response");
 
+            // remove from pending events
+            PendingEventsFragment pendingFragment = (PendingEventsFragment) mAdapterViewPager.getItem(1);
+            pendingFragment.removeEventFromList(eventId);
+            mAdapterViewPager.notifyDataSetChanged();
+
             if (response.equalsIgnoreCase(AttendanceStatus.ACCEPTED.toString())) {
-                // remove from pending events
-                PendingEventsFragment pendingFragment = (PendingEventsFragment) mAdapterViewPager
-                        .getItem(1);
-                pendingFragment.removeEventFromList(eventId);
-                mAdapterViewPager.getItem(1);
-                mAdapterViewPager.notifyDataSetChanged();
-
-                vpPager.setCurrentItem(0);
-
-                // go back to accepted events page
                 AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager
                         .getItem(0);
                 fragment.addNewEventToList(eventId, response);
 
-                mAdapterViewPager.getItem(0);
                 mAdapterViewPager.notifyDataSetChanged();
+
+                // go back to accepted events page
+                vpPager.setCurrentItem(0);
 
             } else {
-                PendingEventsFragment fragment = (PendingEventsFragment) mAdapterViewPager.getItem(1);
-                fragment.removeEventFromList(eventId);
-
                 // go back to invited events page
-                mAdapterViewPager.getItem(1);
-                mAdapterViewPager.notifyDataSetChanged();
                 vpPager.setCurrentItem(1);
             }
         } else if (requestCode == EventListFragment.EVENT_DETAIL_REQUEST &&
