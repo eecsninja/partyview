@@ -163,6 +163,7 @@ public class AcceptedEventDetailActivity
         fts.commit();
     }
 
+    @Override
     public void populateEventInfo() {
         super.populateEventInfo();
         // Show the attendance status on the join/leave button.
