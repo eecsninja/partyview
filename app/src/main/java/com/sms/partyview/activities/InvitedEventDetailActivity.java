@@ -12,13 +12,16 @@ import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -77,9 +80,19 @@ public class InvitedEventDetailActivity extends Activity {
         mTvStartTime = (TextView) findViewById(R.id.tvStartTime);
         mTvEndTime = (TextView) findViewById(R.id.tvEndTime);
         mTvLocation = (TextView) findViewById(R.id.tvLocation);
-        mBtnAccept = (Button) findViewById(R.id.btnAcceptInvite);
-        mBtnReject = (Button) findViewById(R.id.btnRejectInvite);
         mTvAttendeeList = (TextView) findViewById(R.id.tvAttendeeList);
+
+        // Set up buttons.
+        LinearLayout llInviteDetailButtons =
+                (LinearLayout) findViewById(R.id.llInviteDetailButtons);
+        LayoutInflater inflater =
+                (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LinearLayout llInviteButtons =
+                (LinearLayout) inflater.inflate(
+                        R.layout.layout_invite_detail_buttons, llInviteDetailButtons, false);
+        llInviteDetailButtons.addView(llInviteButtons);
+        mBtnAccept = (Button) llInviteButtons.findViewById(R.id.btnAcceptInvite);
+        mBtnReject = (Button) llInviteButtons.findViewById(R.id.btnRejectInvite);
     }
 
     public void retrieveEvent() {
