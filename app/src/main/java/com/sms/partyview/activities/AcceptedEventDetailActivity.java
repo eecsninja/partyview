@@ -24,10 +24,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -140,7 +143,25 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
         mTvOrganizer = (TextView) findViewById(R.id.tvEventOrganizerTitle);
         mTvDescription = (TextView) findViewById(R.id.tvEventDescTitle);
         mTvStartTime = (TextView) findViewById(R.id.tvEventTimeTitle);
-        btnJoinLeave = (Button) findViewById(R.id.btnJoinLeave);
+
+        // Dynamically create button.
+        btnJoinLeave = new Button(this);
+        btnJoinLeave.setLayoutParams(
+                new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT));
+        btnJoinLeave.setPadding(1, 1, 1, 1);
+        btnJoinLeave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onJoinLeave(view);
+            }
+        });
+        btnJoinLeave.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+
+        // Add it to the layout section.
+        LinearLayout llEventDetailButtons = (LinearLayout) findViewById(R.id.llEventDetailButtons);
+        llEventDetailButtons.addView(btnJoinLeave);
     }
 
     public void setupMapFragment() {
