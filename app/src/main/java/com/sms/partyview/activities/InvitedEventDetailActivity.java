@@ -163,41 +163,27 @@ public class InvitedEventDetailActivity extends EventDetailActivity {
     }
 
     public void onAcceptInvite(View v) {
-        ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
-
-        // Retrieve the object by id
-        query.getInBackground(currentEventUser.getObjectId(), new GetCallback<EventUser>() {
-            public void done(EventUser eventUser, ParseException e) {
-                if (e == null) {
-                    eventUser.put("status", ACCEPTED.toString());
-                    eventUser.saveInBackground();
-
-                    // return to list of events
-                    Intent data = new Intent();
-                    data.putExtra("eventId", tempEvent.getObjectId());
-                    data.putExtra("response", ACCEPTED.toString());
-                    setResult(RESULT_OK, data);
-
-                    finish();
-                }
-            }
-        });
+        respondToInvite(ACCEPTED);
     }
 
     public void onRejectInvite(View v) {
+        respondToInvite(DECLINED);
+    }
+
+    private void respondToInvite(final AttendanceStatus status) {
         ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
 
         // Retrieve the object by id
         query.getInBackground(currentEventUser.getObjectId(), new GetCallback<EventUser>() {
             public void done(EventUser eventUser, ParseException e) {
                 if (e == null) {
-                    eventUser.put("status", DECLINED.toString());
+                    eventUser.put("status", status.toString());
                     eventUser.saveInBackground();
 
                     // return to list of events
                     Intent data = new Intent();
                     data.putExtra("eventId", tempEvent.getObjectId());
-                    data.putExtra("response", "rejected");
+                    data.putExtra("response", status.toString());
                     setResult(RESULT_OK, data);
 
                     finish();
