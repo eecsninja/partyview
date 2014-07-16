@@ -200,14 +200,7 @@ public class AcceptedEventDetailActivity extends FragmentActivity implements Eve
     }
 
     private void retrieveAttendeeList() {
-        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
-        eventQuery.whereEqualTo("objectId", tempEvent.getObjectId());
-
-        // Define the class we would like to query
-        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
-        query.whereMatchesQuery("event", eventQuery);
-        query.include("user");
-
+        ParseQuery<EventUser> query = EventUser.getQueryForAttendeeList(tempEvent.getObjectId());
         query.findInBackground(new FindCallback<EventUser>() {
             @Override
             public void done(List<EventUser> users, ParseException e) {

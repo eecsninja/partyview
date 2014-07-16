@@ -56,6 +56,15 @@ public class EventUser extends ParseObject {
         return query;
     }
 
+    public static ParseQuery<EventUser> getQueryForAttendeeList(String eventId) {
+        // Define the class we would like to query
+        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
+        query.whereEqualTo("event", ParseObject.createWithoutData(Event.class, eventId));
+        query.include("user");
+
+        return query;
+    }
+
     public ParseUser getUser() {
         return getParseUser("user");
     }
