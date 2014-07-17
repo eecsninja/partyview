@@ -74,20 +74,8 @@ public class InvitedEventDetailActivity extends EventDetailActivity {
         llEventDetailButtons.addView(llInviteButtons);
     }
 
-    private void retrieveEvent() {
-        ParseQuery<Event> query = Event.getQueryForEventWithId(tempEvent.getObjectId());
-
-        query.getFirstInBackground(new GetCallback<Event>() {
-            @Override
-            public void done(Event event, ParseException e) {
-                mEvent = event;
-                retrieveAttendeeList();
-               // populateEventInfo();
-            }
-        });
-    }
-
-    private void retrieveAttendeeList() {
+    @Override
+    protected void retrieveAttendeeList() {
         ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
         eventQuery.whereEqualTo("objectId", tempEvent.getObjectId());
 
