@@ -56,6 +56,7 @@ dependencies {
     }
 }
 
+// Credit: https://gist.github.com/dmarcato/d7c91b94214acd936e42
 afterEvaluate { project ->
     android.applicationVariants.each { variant ->
         variant.javaCompile.dependsOn stripPlayServices
@@ -83,6 +84,9 @@ task stripPlayServices << {
                 exclude "com/google/android/gms/plus/**"
                 exclude "com/google/android/gms/drive/**"
                 exclude "com/google/android/gms/ads/**"
+                exclude "com/google/android/gms/wallet/**"
+                exclude "com/google/android/gms/wearable/**"
+                exclude "com/google/android/gms/panorama/**"
             }
         }.execute()
         delete {
