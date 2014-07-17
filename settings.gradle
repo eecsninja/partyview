@@ -2,3 +2,5 @@ include ':app'
 
 // Parse Login UI Library
 include ':ParseLoginUI'
+
+include ':swipelistview'

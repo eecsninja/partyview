@@ -25,6 +25,7 @@ dependencies {
     compile files('libs/Pubnub-Android-3.6.2.jar')
     compile files('libs/bcprov-jdk15on-1.47.jar')
     compile project(':ParseLoginUI')
+    compile project(':swipelistview')
 
     // support library
     compile "com.android.support:support-v4:19.1.0"
