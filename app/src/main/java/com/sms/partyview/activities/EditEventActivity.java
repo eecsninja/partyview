@@ -4,6 +4,7 @@ import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseInstallation;
+import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -140,14 +141,7 @@ abstract public class EditEventActivity extends FragmentActivity implements Even
     protected static void createUserEventIfNoneExists(
             final AttendanceStatus status, final ParseUser user, final Event event) {
         // Search for EventUsers with the given user and event.
-        ParseQuery userQuery = ParseQuery.getQuery(ParseUser.class);
-        userQuery.whereEqualTo("objectId", user.getObjectId());
-        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
-        eventQuery.whereEqualTo("objectId", event.getObjectId());
-
-        ParseQuery<EventUser> query = new ParseQuery(EventUser.class);
-        query.whereMatchesQuery("user", userQuery);
-        query.whereMatchesQuery("event", eventQuery);
+        ParseQuery<EventUser> query = EventUser.getQueryForEventUserWith(user.getObjectId(), event.getObjectId());
         query.findInBackground(new FindCallback<EventUser>() {
             @Override
             public void done(List<EventUser> eventUsers, ParseException e) {
