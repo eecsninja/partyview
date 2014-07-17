@@ -12,6 +12,8 @@ import org.joda.time.format.DateTimeFormatter;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,5 +37,22 @@ public class Utils {
 
         // Query for new results from the network.
         query.findInBackground(callBack);
+    }
+
+    public static String joinStrings(List<String> strings, String joinedByText) {
+        String result = "";
+        for (String string : strings) {
+            if (!result.isEmpty()) {
+                result += joinedByText;
+            }
+            result += string;
+        }
+        return result;
+    }
+
+    public static List<String> splitString(String input) {
+        String[] splitArray = input.split(",");
+        List<String> result = new ArrayList<String>(Arrays.asList(splitArray));
+        return result;
     }
 }

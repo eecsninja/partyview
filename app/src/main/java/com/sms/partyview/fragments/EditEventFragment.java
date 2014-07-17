@@ -1,8 +1,5 @@
 package com.sms.partyview.fragments;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
-
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
@@ -56,9 +53,6 @@ public abstract class EditEventFragment extends Fragment
     private static final String TAG = EditEventFragment.class.getSimpleName() + "_DEBUG";
     private static final String FRAG_TAG_DATE_PICKER = "datePickerDialogFragment";
     private static final String FRAG_TAG_TIME_PICKER = "timePickerDialogFragment";
-    private static final Splitter INVITEES_SPLITTER = Splitter.on(',').omitEmptyStrings()
-            .trimResults();
-    private static final Joiner JOINER = Joiner.on(',');
 
     protected TextView mTvStartDate;
     protected TextView mTvStartTime;
@@ -203,7 +197,7 @@ public abstract class EditEventFragment extends Fragment
             validationErrorMessage.append(getResources().getString(R.string.error_blank_invitees));
         }
 
-        Iterable<String> tokens = INVITEES_SPLITTER.split(invitees);
+        List<String> tokens = Utils.splitString(invitees);
         StringBuilder invalidInviteesErrorMessage = new StringBuilder();
         boolean inviteesValidationError = false;
         List<String> incorrectUserNames = new ArrayList<String>();
@@ -216,7 +210,7 @@ public abstract class EditEventFragment extends Fragment
 
         if (inviteesValidationError) {
 
-            invalidInviteesErrorMessage.append(JOINER.join(incorrectUserNames));
+            invalidInviteesErrorMessage.append(Utils.joinStrings(incorrectUserNames, ", "));
 
             if (incorrectUserNames.size() > 1) {
                 invalidInviteesErrorMessage
@@ -384,7 +378,7 @@ public abstract class EditEventFragment extends Fragment
     }
 
     public List<ParseUser> getAttendeeList(String inviteesString) {
-        Iterable<String> tokens = INVITEES_SPLITTER.split(inviteesString);
+        List<String> tokens = Utils.splitString(inviteesString);
 
         List<ParseUser> attendeeList = new ArrayList<ParseUser>();
         for (String userName : tokens) {

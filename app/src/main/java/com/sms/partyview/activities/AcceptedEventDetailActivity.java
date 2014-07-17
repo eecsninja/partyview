@@ -3,13 +3,13 @@ package com.sms.partyview.activities;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.common.base.Joiner;
 
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.AttendeeListDialogFragment;
@@ -192,7 +192,7 @@ public class AcceptedEventDetailActivity
                         eventUserStrings.add(eventUser.getUser().getUsername());
                     }
                 }
-                mTvAttendeeList.setText(Joiner.on(", ").join(eventUserStrings));
+                mTvAttendeeList.setText(Utils.joinStrings(eventUserStrings, ", "));
                 setupMapFragment();
             }
         });
