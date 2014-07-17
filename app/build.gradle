@@ -44,9 +44,42 @@ dependencies {
 
     compile 'joda-time:joda-time:2.3'
 
-    compile 'com.google.guava:guava:17.0'
-
     compile 'eu.inmite.android.lib:android-styled-dialogs:1.1.2@aar'
 
     compile 'org.ocpsoft.prettytime:prettytime:3.2.5.Final'
+}
+
+afterEvaluate { project ->
+    android.applicationVariants.each { variant ->
+        variant.javaCompile.dependsOn stripPlayServices
+    }
+}
+
+task stripPlayServices << {
+    def playServiceRootFolder = new File(rootProject.buildDir, "intermediates/exploded-aar/com.google.android.gms/play-services/")
+    playServiceRootFolder.list().each { versionName ->
+        def versionFolder = new File(playServiceRootFolder, versionName)
+        copy {
+            from (file(new File(versionFolder, "classes.jar")))
+            into (file(versionFolder))
+            rename { fileName ->
+                fileName = "classes_orig.jar"
+            }
+        }
+        tasks.create(name: "strip" + versionName, type: Jar) {
+            destinationDir = versionFolder
+            archiveName = "classes.jar"
+            from (zipTree(new File(versionFolder, "classes_orig.jar"))) {
+                exclude "com/google/ads/**"
+                exclude "com/google/android/gms/analytics/**"
+                exclude "com/google/android/gms/games/**"
+                exclude "com/google/android/gms/plus/**"
+                exclude "com/google/android/gms/drive/**"
+                exclude "com/google/android/gms/ads/**"
+            }
+        }.execute()
+        delete {
+            delete (file(new File(versionFolder, "classes_orig.jar")))
+        }
+    }
 }
