@@ -52,7 +52,11 @@ public class Utils {
 
     public static List<String> splitString(String input) {
         String[] splitArray = input.split(",");
-        List<String> result = new ArrayList<String>(Arrays.asList(splitArray));
-        return result;
+        List<String> results = new ArrayList<String>(Arrays.asList(splitArray));
+        for (int i = 0; i < results.size(); ++i) {
+            String trimmedResult = results.get(i).replaceAll("\\s+","");
+            results.set(i, trimmedResult);
+        }
+        return results;
     }
 }

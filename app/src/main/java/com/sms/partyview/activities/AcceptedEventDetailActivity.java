@@ -88,21 +88,6 @@ public class AcceptedEventDetailActivity
         }
     }
 
-    private void retrieveEvent() {
-        ParseQuery<Event> query = Event.getQueryForEventWithId(tempEvent.getObjectId());
-
-        query.getFirstInBackground(new GetCallback<Event>() {
-            @Override
-            public void done(Event event, ParseException e) {
-                mEvent = event;
-                Log.d("DEBUG", "in detailed view");
-                Log.d("DEBUG", mEvent.getTitle().toString());
-
-                retrieveAttendeeList();
-            }
-        });
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -174,7 +159,8 @@ public class AcceptedEventDetailActivity
         }
     }
 
-    private void retrieveAttendeeList() {
+    @Override
+    protected void retrieveAttendeeList() {
         ParseQuery<EventUser> query = EventUser.getQueryForAttendeeList(tempEvent.getObjectId());
         query.findInBackground(new FindCallback<EventUser>() {
             @Override

@@ -1,5 +1,8 @@
 package com.sms.partyview.activities;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.sms.partyview.R;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
@@ -7,12 +10,13 @@ import com.sms.partyview.models.LocalEvent;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 /**
  * Created by sque on 7/16/14.
  */
-public class EventDetailActivity extends FragmentActivity {
+public abstract class EventDetailActivity extends FragmentActivity {
 
     // Data objects.
     protected Event mEvent;
@@ -54,4 +58,21 @@ public class EventDetailActivity extends FragmentActivity {
         mTvStartTime.setText(tempEvent.getStartDate().toString());
         mTvEndTime.setText(tempEvent.getEndDate().toString());
     }
+
+    protected void retrieveEvent() {
+        ParseQuery<Event> query = Event.getQueryForEventWithId(tempEvent.getObjectId());
+
+        query.getFirstInBackground(new GetCallback<Event>() {
+            @Override
+            public void done(Event event, ParseException e) {
+                mEvent = event;
+                Log.d("DEBUG", "in detailed view");
+                Log.d("DEBUG", mEvent.getTitle().toString());
+
+                retrieveAttendeeList();
+            }
+        });
+    }
+
+    protected abstract void retrieveAttendeeList();
 }
