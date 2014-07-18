@@ -1,18 +1,20 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <color name="com_parse_ui_parse_login_button">#A0000000</color>
-    <color name="com_parse_ui_parse_login_button_push">#60CC8800</color>
+    <color name="com_parse_ui_parse_login_button">#FFFFFF</color>
+    <color name="com_parse_ui_parse_login_button_push">#60FF717E</color>
     <color name="com_parse_ui_parse_login_button_focus">#80CC8800</color>
     <color name="com_parse_ui_parse_login_help_button_label">#ffffff</color>
     <color name="com_parse_ui_parse_login_help_button_label_push">#AAAAEE</color>
     <color name="com_parse_ui_parse_login_help_button_label_focus">#7777EE</color>
-    <color name="com_parse_ui_parse_login_text_hint">#ffffff</color>
-    <color name="com_parse_ui_parse_login_display_text">@android:color/white</color>
+    <color name="com_parse_ui_parse_login_text_hint">#1FBED6</color>
+    <color name="com_parse_ui_parse_login_display_text">#1FBED6</color>
     <color name="com_parse_ui_facebook_login_button">#3B5998</color>
-    <color name="com_parse_ui_facebook_login_button_push">#2E4677</color>
+    <color name="com_parse_ui_facebook_login_button_push">#FF717E</color>
     <color name="com_parse_ui_facebook_login_button_focus">#304F8B</color>
     <color name="com_parse_ui_twitter_login_button">#2DAAE2</color>
     <color name="com_parse_ui_twitter_login_button_push">#2588B5</color>
     <color name="com_parse_ui_twitter_login_button_focus">#2788BE</color>
+
+    <color name="blue_background_color">#1FBED6</color>
 
 </resources>

@@ -26,6 +26,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 
 import android.app.Activity;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -90,6 +91,10 @@ public class ParseLoginFragment extends ParseLoginFragmentBase {
         if (allowParseLoginAndSignup()) {
             setUpParseLoginAndSignup();
         }
+
+        Typeface myTypeface = Typeface.createFromAsset(getActivity().getAssets(), "pacifico.ttf");
+        TextView myTextView = (TextView)v.findViewById(R.id.tvGroupies);
+        myTextView.setTypeface(myTypeface);
 
         return v;
     }

@@ -7,12 +7,14 @@
     android:visibility="gone">
 
     <TextView
-        android:text="groupies"
+        android:id="@+id/tvGroupies"
+        android:text="@string/groupies_lowercase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="60sp"
-        android:textColor="#AAffffff"
-        android:layout_marginTop="20dp"/>
+        android:textColor="#ffffff"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="10dp"/>
 
     <EditText
         android:id="@+id/login_username_input"
