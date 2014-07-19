@@ -14,12 +14,10 @@ import com.sms.partyview.models.LocalEvent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.LinearLayout;
 
 import java.util.List;
@@ -28,7 +26,7 @@ import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 import static com.sms.partyview.models.AttendanceStatus.DECLINED;
 
 
-public class InvitedEventDetailActivity extends EventDetailActivity {
+public class InvitedEventDetailFragment extends EventDetailFragment {
 
     // For passing in intent data.
     // TODO: These are also in class EventDetailActivity. Find some way to

@@ -15,7 +15,6 @@ import com.sms.partyview.R;
 import com.sms.partyview.fragments.AttendeeListDialogFragment;
 import com.sms.partyview.fragments.EventMapFragment;
 import com.sms.partyview.models.Attendee;
-import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
 
@@ -38,8 +37,8 @@ import java.util.List;
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 import static com.sms.partyview.models.AttendanceStatus.PRESENT;
 
-public class AcceptedEventDetailActivity
-        extends EventDetailActivity
+public class AcceptedEventDetailFragment
+        extends EventDetailFragment
         implements EventMapFragment.EventMapFragmentListener {
 
     // For passing in intent data.
@@ -251,7 +250,7 @@ public class AcceptedEventDetailActivity
                 @Override
                 public void onMapClick(LatLng latLng) {
                     if (status.equals(PRESENT)) {
-                        Intent mapIntent = new Intent(AcceptedEventDetailActivity.this, FullMapActivity.class);
+                        Intent mapIntent = new Intent(AcceptedEventDetailFragment.this, FullMapActivity.class);
                         mapIntent.putParcelableArrayListExtra("attendees", attendees);
                         mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
                         mapIntent.putExtra("eventId", mEvent.getObjectId());

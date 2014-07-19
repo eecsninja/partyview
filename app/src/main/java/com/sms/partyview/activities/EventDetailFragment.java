@@ -4,19 +4,27 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.sms.partyview.R;
+import com.sms.partyview.adapters.EventAdapter;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 /**
  * Created by sque on 7/16/14.
  */
-public abstract class EventDetailActivity extends FragmentActivity {
+public abstract class EventDetailFragment extends FragmentActivity {
 
     // Data objects.
     protected Event mEvent;
@@ -32,12 +40,45 @@ public abstract class EventDetailActivity extends FragmentActivity {
     protected TextView mTvLocation;
     protected TextView mTvAttendeeList;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_event_detail);
+    public static EventDetailFragment newInstance() {
+        AcceptedEventsFragment fragment = new AcceptedEventsFragment();
+        return fragment;
+    }
 
-        setupViews();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Initialize event list and adapter.
+        events = new ArrayList<Event>();
+        eventAdapter = new EventAdapter(getActivity(), events);
+    }
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate layout.
+        View view = inflater.inflate(
+                R.layout.fragment_event_list, container, false);
+
+        // Set up to display tweets.
+        eventsView = (ListView) view.findViewById(R.id.lvHomeEventList);
+        eventsView.setAdapter(eventAdapter);
+
+        populateEventList();
+
+        // Add item click listener.
+
+        setUpDisplayDetailedView();
+
+        // Return it.
+        return view;
     }
 
     protected void setupViews() {
