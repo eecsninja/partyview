@@ -11,7 +11,6 @@ import com.sms.partyview.adapters.NavDrawerListAdapter;
 import com.sms.partyview.fragments.EventListFragment;
 import com.sms.partyview.fragments.EventTabsFragment;
 import com.sms.partyview.fragments.ProfileFragment;
-import com.sms.partyview.fragments.ProfileSettingDialog;
 import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.NavDrawerItem;
 
@@ -160,12 +159,6 @@ public class HomeActivity
             case R.id.action_new_event:
                 displayNewEventActivity();
                 return true;
-            case R.id.action_settings:
-                displaySettingDialog();
-                return true;
-            case R.id.action_sign_out:
-                signOutUser();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -178,7 +171,6 @@ public class HomeActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         // if nav drawer is opened, hide the action items
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -236,11 +228,6 @@ public class HomeActivity
         }
         installation.put(INSTALLATION_USER_NAME_KEY, currentUserName);
         installation.saveInBackground();
-    }
-
-    public void displaySettingDialog() {
-        ProfileSettingDialog profileSettingDialog = ProfileSettingDialog.newInstance();
-        profileSettingDialog.show(getFragmentManager(), "fragment_profile_setting");
     }
 
     private void cacheAppUsers() {

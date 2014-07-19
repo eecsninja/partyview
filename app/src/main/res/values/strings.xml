@@ -84,7 +84,6 @@
     <string name="reset_password">Forgot password</string>
 
     <!--for changing password-->
-    <string name="label_user_name">Username</string>
     <string name="label_new_password">New password</string>
     <string name="label_change_password">Change password</string>
     <string name="label_verify_password">Verify password</string>
@@ -98,7 +97,7 @@
     <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
         <item >Home</item>
-        <item >Change Password</item>
+        <item >Profile</item>
         <item >Sign out</item>
     </string-array>
 
@@ -106,11 +105,15 @@
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
         <item>@drawable/ic_home</item>
-        <item>@drawable/ic_action_setting</item>
+        <item>@drawable/ic_profile</item>
         <item>@drawable/ic_action_sign_out</item>
     </array>
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
+
+    <!--Profile Fragment-->
+    <string name="label_user_name">Username:</string>
+    <string name="label_email">Email:</string>
 
 </resources>
