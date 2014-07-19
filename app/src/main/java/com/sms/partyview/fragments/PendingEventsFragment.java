@@ -4,19 +4,15 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.sms.partyview.activities.InvitedEventDetailFragment;
+import com.sms.partyview.activities.InviteActivity;
 import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import java.util.ArrayList;
@@ -65,8 +61,8 @@ public class PendingEventsFragment extends EventListFragment {
                                     int position, long id) {
                 Log.d(TAG, "starting detail view");
                 Event event = events.get(position);
-                Intent intent = new Intent(getActivity(), InvitedEventDetailFragment.class);
-                intent.putExtra(InvitedEventDetailFragment.EVENT_INTENT_KEY, new LocalEvent(event));
+                Intent intent = new Intent(getActivity(), InviteActivity.class);
+                intent.putExtra(InviteActivity.EVENT_INTENT_KEY, new LocalEvent(event));
                 getActivity().startActivityForResult(intent, Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE);
             }
         });

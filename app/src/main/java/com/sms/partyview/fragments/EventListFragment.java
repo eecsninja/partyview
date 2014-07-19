@@ -1,7 +1,7 @@
 package com.sms.partyview.fragments;
 
 import com.sms.partyview.R;
-import com.sms.partyview.activities.AcceptedEventDetailFragment;
+import com.sms.partyview.activities.EventActivity;
 import com.sms.partyview.adapters.EventAdapter;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.LocalEvent;
@@ -85,9 +85,9 @@ public abstract class EventListFragment extends Fragment {
                 Log.d("DEBUG", "calling detailed view");
                 Log.d("DEBUG", event.getTitle().toString());
                 Log.d("DEBUG", "calling act: " + getActivity().toString());
-                Intent intent = new Intent(getActivity(), AcceptedEventDetailFragment.class);
-                intent.putExtra(AcceptedEventDetailFragment.EVENT_INTENT_KEY, new LocalEvent(event));
-                intent.putExtra(AcceptedEventDetailFragment.EVENT_LIST_INDEX_KEY, position);
+                Intent intent = new Intent(getActivity(), EventActivity.class);
+                intent.putExtra(EventActivity.EVENT_INTENT_KEY, new LocalEvent(event));
+                intent.putExtra(EventActivity.EVENT_LIST_INDEX_KEY, position);
 
                 if (statusMap.get(event.getObjectId()) != null) {
                     intent.putExtra("eventStatus", statusMap.get(event.getObjectId()));

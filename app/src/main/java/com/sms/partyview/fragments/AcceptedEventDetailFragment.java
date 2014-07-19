@@ -10,7 +10,6 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
-import com.sms.partyview.activities.EventDetailFragment;
 import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.models.Attendee;
@@ -81,7 +80,7 @@ public class AcceptedEventDetailFragment
     }
 
     // Displays an event in the activity's UI.
-    private void saveAndDisplayEvent(LocalEvent event) {
+    public void saveAndDisplayEvent(LocalEvent event) {
         tempEvent = event;
         if (tempEvent.getTitle().isEmpty()) {
             return;
@@ -135,19 +134,19 @@ public class AcceptedEventDetailFragment
         retrieveEvent();
     }
 
-    private void setupMapFragment() {
-        // Create the transaction
-        FragmentTransaction fts = getActivity().getSupportFragmentManager().beginTransaction();
-        // Replace the content of the container
-        eventMapFragment = EventMapFragment.newInstance(
-                attendees,
-                currentEventUser.getObjectId(),
-                tempEvent.getObjectId(),
-                mEvent.getLocation().getLatitude(),
-                mEvent.getLocation().getLongitude());
-        fts.replace(R.id.flMapContainer, eventMapFragment);
-        fts.commit();
-    }
+//    private void setupMapFragment() {
+//        // Create the transaction
+//        FragmentTransaction fts = getActivity().getSupportFragmentManager().beginTransaction();
+//        // Replace the content of the container
+//        eventMapFragment = EventMapFragment.newInstance(
+//                attendees,
+//                currentEventUser.getObjectId(),
+//                tempEvent.getObjectId(),
+//                mEvent.getLocation().getLatitude(),
+//                mEvent.getLocation().getLongitude());
+//        fts.replace(R.id.flMapContainer, eventMapFragment);
+//        fts.commit();
+//    }
 
     @Override
     public void populateEventInfo() {
@@ -181,7 +180,7 @@ public class AcceptedEventDetailFragment
                     }
                 }
                 mTvAttendeeList.setText(Utils.joinStrings(eventUserStrings, ", "));
-                setupMapFragment();
+             //   setupMapFragment();
             }
         });
     }

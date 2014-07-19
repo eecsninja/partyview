@@ -1,7 +1,7 @@
 package com.sms.partyview.helpers;
 
 import com.sms.partyview.R;
-import com.sms.partyview.activities.InvitedEventDetailFragment;
+import com.sms.partyview.activities.InviteActivity;
 import com.sms.partyview.models.LocalEvent;
 
 import org.json.JSONException;
@@ -73,8 +73,8 @@ public class PushNotificationReceiver extends BroadcastReceiver {
         int flags = PendingIntent.FLAG_CANCEL_CURRENT;
         // TODO: InviteDetailActivity doesn't make sense if it is already accepted.
         // Find a way to properly handle that case.
-        Intent intent = new Intent(context, InvitedEventDetailFragment.class);
-        intent.putExtra(InvitedEventDetailFragment.EVENT_INTENT_KEY, event);
+        Intent intent = new Intent(context, InviteActivity.class);
+        intent.putExtra(InviteActivity.EVENT_INTENT_KEY, event);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, requestId, intent, flags);
         return pendingIntent;
     }

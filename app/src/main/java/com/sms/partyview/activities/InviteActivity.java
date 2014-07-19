@@ -1,25 +1,46 @@
 package com.sms.partyview.activities;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
-import com.sms.partyview.R;
+import android.view.View;
 
-public class InviteActivity extends Activity {
+import com.sms.partyview.R;
+import com.sms.partyview.fragments.InvitedEventDetailFragment;
+import com.sms.partyview.models.LocalEvent;
+
+import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
+import static com.sms.partyview.models.AttendanceStatus.DECLINED;
+
+public class InviteActivity extends FragmentActivity
+        implements InvitedEventDetailFragment.InviteFragmentListener {
+
+    // Data objects.
+    protected LocalEvent tempEvent;
+
+    protected InvitedEventDetailFragment detailFragment;
+
+    public static final String EVENT_INTENT_KEY = "event";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
+
+        tempEvent = (LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY);
+        setupDetailFragment();
     }
 
+    public void onSaveResponse(String response, String eventId) {
+        // return to list of events
+        Intent data = new Intent();
+        data.putExtra("eventId", eventId);
+        data.putExtra("response", response);
+        setResult(RESULT_OK, data);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.invite, menu);
-        return true;
+        finish();
     }
 
     @Override
@@ -27,10 +48,30 @@ public class InviteActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    public void setupDetailFragment() {
+        // Create the transaction
+        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+        // Replace the content of the container
+        detailFragment = InvitedEventDetailFragment.newInstance(tempEvent);
+        fts.replace(R.id.flInviteDetailContainer, detailFragment);
+        fts.commit();
+    }
+
+    public void onAcceptInvite(View v) {
+        detailFragment.respondToInvite(ACCEPTED);
+    }
+
+    public void onRejectInvite(View v) {
+        detailFragment.respondToInvite(DECLINED);
     }
 }

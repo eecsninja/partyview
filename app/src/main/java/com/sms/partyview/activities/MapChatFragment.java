@@ -1,10 +1,11 @@
 package com.sms.partyview.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.ChatFragment;
@@ -13,7 +14,7 @@ import com.sms.partyview.models.Attendee;
 
 import java.util.ArrayList;
 
-public class MapChatFragment extends FragmentActivity implements EventMapFragment.EventMapFragmentListener,
+public class MapChatFragment extends Fragment implements EventMapFragment.EventMapFragmentListener,
         ChatFragment.OnFragmentInteractionListener{
 
     private EventMapFragment eventMapFragment;
@@ -24,46 +25,44 @@ public class MapChatFragment extends FragmentActivity implements EventMapFragmen
     private Double longitude;
     private ChatFragment chatFragment;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_full_map);
+    public static MapChatFragment newInstance(ArrayList<Attendee> attendees, String currentEventUserObjId,
+                                              String eventId, Double latitude, Double longitude) {
+        MapChatFragment fragment = new MapChatFragment();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList("attendees", attendees);
+        args.putString("currentEventUserObjId", currentEventUserObjId);
+        args.putString("eventId", eventId);
+        args.putDouble("latitude", latitude);
+        args.putDouble("longitude", longitude);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-        attendees = getIntent().getParcelableArrayListExtra("attendees");
-        currentEventUserObjId = getIntent().getStringExtra("currentEventUserObjId");
-        eventId = getIntent().getStringExtra("eventId");
-        latitude = getIntent().getDoubleExtra("latitude", 0);
-        longitude = getIntent().getDoubleExtra("longitude", 0);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        attendees = getArguments().getParcelableArrayList("attendees");
+        currentEventUserObjId = getArguments().getString("currentEventUserObjId");
+        eventId = getArguments().getString("eventId");
+        latitude = getArguments().getDouble("latitude");
+        longitude = getArguments().getDouble("longitude");
         setupMapFragment();
         setupChatFragment();
     }
 
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-       // getMenuInflater().inflate(R.menu.full_map, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate layout.
+        View view = inflater.inflate(
+                R.layout.fragment_full_map, container, false);
+        return view;
     }
 
     public void setupMapFragment() {
         // Create the transaction
-        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fts = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace the content of the container
         eventMapFragment = EventMapFragment.newInstance(attendees, currentEventUserObjId, eventId, latitude, longitude);
         fts.replace(R.id.flFullMapContainer, eventMapFragment);
@@ -72,7 +71,7 @@ public class MapChatFragment extends FragmentActivity implements EventMapFragmen
 
     public void setupChatFragment() {
         // Create the transaction
-        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fts = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace the content of the container
         chatFragment = ChatFragment.newInstance(eventId);
         fts.replace(R.id.flChatContainer2, chatFragment);

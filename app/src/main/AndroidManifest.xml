@@ -58,7 +58,7 @@
             android:label="@string/title_activity_home" >
         </activity>
         <activity
-            android:name=".activities.AcceptedEventDetailFragment"
+            android:name=".activities.EventActivity"
             android:label="@string/event_details_title"
             android:parentActivityName=".activities.HomeActivity" >
 
@@ -83,7 +83,7 @@
         <activity
             android:name=".activities.UpdateEventActivity"
             android:label="@string/title_activity_update_event"
-            android:parentActivityName=".activities.AcceptedEventDetailFragment"
+            android:parentActivityName=".activities.EventActivity"
             android:windowSoftInputMode="adjustPan" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
@@ -100,17 +100,6 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="AIzaSyDA7uC9seko40SmU5a-twCNO7Y3qVljDWg" />
 
-        <activity
-            android:name=".activities.FullMapActivity"
-            android:label="@string/title_activity_full_map"
-            android:parentActivityName=".activities.AcceptedEventDetailFragment" >
-
-            <!-- Parent activity meta-data to support 4.0 and lower -->
-            <!-- need this to implement home as back button -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activities.EventDetailActivity" />
-        </activity>
 
         <service android:name="com.parse.PushService" />
 
@@ -139,7 +128,7 @@
         </receiver>
 
         <activity
-            android:name=".activities.InvitedEventDetailFragment"
+            android:name=".activities.InviteActivity"
             android:label="@string/title_activity_invite_detail"
             android:parentActivityName=".activities.HomeActivity" >
 
@@ -154,10 +143,7 @@
             android:label="@string/title_activity_chat"
             android:windowSoftInputMode="adjustPan" >
         </activity>
-        <activity
-            android:name=".activities.EventActivity"
-            android:label="@string/title_activity_event" >
-        </activity>
+
     </application>
 
 </manifest>

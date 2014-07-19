@@ -2,7 +2,6 @@ package com.sms.partyview.fragments;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.sms.partyview.R;
-import com.sms.partyview.activities.AcceptedEventDetailActivity;
 import com.sms.partyview.activities.EditEventActivity;
 import com.sms.partyview.adapters.MyPagerAdapter;
 import com.sms.partyview.models.LocalEvent;
@@ -10,7 +9,6 @@ import com.sms.partyview.models.LocalEvent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -96,13 +94,13 @@ public class EventTabsFragment extends Fragment {
     public void respondToEventEdit(Intent data) {
         LocalEvent event =
                 (LocalEvent) data.getSerializableExtra(
-                        AcceptedEventDetailActivity.UDPATED_EVENT_INTENT_KEY);
+                        AcceptedEventDetailFragment.UDPATED_EVENT_INTENT_KEY);
         Log.d("DEBUG", "returned local event: " + event);
         if (event == null) {
             return;
         }
         // Replace the existing event if it was updated.
-        int index = data.getIntExtra(AcceptedEventDetailActivity.EVENT_LIST_INDEX_KEY, 0);
+        int index = data.getIntExtra(AcceptedEventDetailFragment.EVENT_LIST_INDEX_KEY, 0);
         EventListFragment fragment =
                 (EventListFragment) mAdapterViewPager.getItem(mViewPager.getCurrentItem());
         fragment.updateEvent(index, event);

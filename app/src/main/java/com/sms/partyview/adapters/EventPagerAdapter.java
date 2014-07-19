@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EventPagerAdapter extends FragmentPagerAdapter {
 
-    private static final String[] CONTENT = { "Events", "Invites"};
+    private static final String[] CONTENT = { "Event Details", "Chat"};
 
     private List<Fragment> mFragments;
 

@@ -4,7 +4,6 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.sms.partyview.R;
-import com.sms.partyview.adapters.EventAdapter;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
@@ -12,15 +11,11 @@ import com.sms.partyview.models.LocalEvent;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 /**
  * Created by sque on 7/16/14.
@@ -58,7 +53,7 @@ public abstract class EventDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate layout.
         View view = inflater.inflate(
-                R.layout.activity_event_detail, container, false);
+                R.layout.fragment_event_detail, container, false);
 
         setupViews(view);
 
