@@ -35,6 +35,9 @@ public class InvitedEventDetailActivity extends EventDetailActivity {
     // put them in a common place.
     public static final String EVENT_INTENT_KEY = "event";
 
+    // Save the response locally if it's not ready to be saved to database yet.
+    private String mSelectedResponse = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,6 +122,10 @@ public class InvitedEventDetailActivity extends EventDetailActivity {
             @Override
             public void done(EventUser eventUser, ParseException e) {
                 currentEventUser = eventUser;
+                // If user already selected a response, save that response.
+                if (mSelectedResponse != null) {
+                    saveAndFinish(mSelectedResponse);
+                }
             }
         });
     }
@@ -156,22 +163,25 @@ public class InvitedEventDetailActivity extends EventDetailActivity {
     private void respondToInvite(final AttendanceStatus status) {
         ParseQuery<EventUser> query = ParseQuery.getQuery("EventUser");
 
-        // Retrieve the object by id
-        query.getInBackground(currentEventUser.getObjectId(), new GetCallback<EventUser>() {
-            public void done(EventUser eventUser, ParseException e) {
-                if (e == null) {
-                    eventUser.put("status", status.toString());
-                    eventUser.saveInBackground();
+        // Save the response locally, so it could be sent later if no current event user is loaded.
+        mSelectedResponse = status.toString();
 
-                    // return to list of events
-                    Intent data = new Intent();
-                    data.putExtra("eventId", tempEvent.getObjectId());
-                    data.putExtra("response", status.toString());
-                    setResult(RESULT_OK, data);
+        // Do not attempt to save to database if there is no current event user object loaded.
+        if (currentEventUser != null) {
+            saveAndFinish(status.toString());
+        }
+    }
 
-                    finish();
-                }
-            }
-        });
+    private void saveAndFinish(String response) {
+        currentEventUser.put("status", response);
+        currentEventUser.saveInBackground();
+
+        // return to list of events
+        Intent data = new Intent();
+        data.putExtra("eventId", tempEvent.getObjectId());
+        data.putExtra("response", response);
+        setResult(RESULT_OK, data);
+
+        finish();
     }
 }
