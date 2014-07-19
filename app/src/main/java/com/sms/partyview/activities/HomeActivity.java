@@ -11,6 +11,7 @@ import com.sms.partyview.adapters.NavDrawerListAdapter;
 import com.sms.partyview.fragments.EventListFragment;
 import com.sms.partyview.fragments.EventTabsFragment;
 import com.sms.partyview.fragments.ProfileFragment;
+import com.sms.partyview.fragments.SignOutDialogFragment;
 import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.NavDrawerItem;
 
@@ -19,6 +20,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
@@ -32,8 +34,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sms.partyview.fragments.SignOutDialogFragment.SignOutDialogListener;
+
 public class HomeActivity
-        extends FragmentActivity {
+        extends FragmentActivity
+implements SignOutDialogListener{
 
     // Key used to store the user name in the installation info.
     public static final String INSTALLATION_USER_NAME_KEY = "username";
@@ -267,6 +272,9 @@ public class HomeActivity
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frame_container, fragment).commit();
                 break;
+            case 2:
+                SignOutDialogFragment signOutDialogFragment = new SignOutDialogFragment();
+                signOutDialogFragment.show(getSupportFragmentManager(), "SignOutFragment");
             default:
                 break;
         }
@@ -276,6 +284,16 @@ public class HomeActivity
         mDrawerList.setSelection(position);
         setTitle(navMenuTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    @Override
+    public void onDialogPositiveClick() {
+        signOutUser();
+    }
+
+    @Override
+    public void onDialogNegativeClick() {
+        // do nothing
     }
 
     /**

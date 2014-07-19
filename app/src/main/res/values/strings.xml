@@ -115,5 +115,8 @@
     <!--Profile Fragment-->
     <string name="label_user_name">Username:</string>
     <string name="label_email">Email:</string>
+    <string name="dialog_sign_out">Are you sure you want to sign out?</string>
+    <string name="alert_sign_out">Sign out</string>
+    <string name="alert_cancel">Cancel</string>
 
 </resources>
