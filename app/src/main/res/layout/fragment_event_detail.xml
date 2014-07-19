@@ -7,20 +7,38 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.sms.partyview.activities.InvitedEventDetailFragment">
+    tools:context="com.sms.partyview.fragments.AcceptedEventDetailFragment">
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <TextView
-            android:id="@+id/tvInviteTitle"
+            android:id="@+id/tvEventName"
             android:text=""
             android:textSize="22sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"/>
-        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="@string/label_event_host"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:textStyle="bold"/>
+
+
+        <TextView
+            android:id="@+id/tvEventOrganizer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -33,11 +51,10 @@
             android:layout_marginRight="5dp"
             android:textStyle="bold"/>
 
-
         <TextView
-            android:id="@+id/tvStartTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:id="@+id/tvEventStartTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
@@ -51,7 +68,7 @@
             android:layout_marginRight="5dp"
             android:textStyle="bold"/>
         <TextView
-            android:id="@+id/tvEndTime"
+            android:id="@+id/tvEventEndTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -68,7 +85,7 @@
             android:layout_marginRight="5dp"
             android:textStyle="bold"/>
         <TextView
-            android:id="@+id/tvLocation"
+            android:id="@+id/tvEventLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -85,7 +102,7 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tvDescription"
+            android:id="@+id/tvEventDescription"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
@@ -101,16 +118,28 @@
             android:textStyle="bold"/>
 
         <TextView
-            android:id="@+id/tvAttendeeList"
+            android:id="@+id/tvEventAttendeeList"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llInviteDetailButtons"
+        android:id="@+id/llEventDetailButtons"
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" />
-
+        android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvMiniMap"
+        android:text="@string/mini_map"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:padding="2dp"/>
+    <FrameLayout
+        android:id="@+id/flMapContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="225dp"
+        android:layout_gravity="center"
+        android:padding="5dp"/>
 
 </LinearLayout>

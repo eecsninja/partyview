@@ -57,6 +57,13 @@ public class Utils {
             String trimmedResult = results.get(i).replaceAll("\\s+","");
             results.set(i, trimmedResult);
         }
+        // Remove any empty strings from the split.
+        for (int i = results.size() - 1; i >= 0; --i) {
+            if (!results.get(i).isEmpty()) {
+                continue;
+            }
+            results.remove(i);
+        }
         return results;
     }
 }

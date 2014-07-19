@@ -1,4 +1,4 @@
-package com.sms.partyview.activities;
+package com.sms.partyview.fragments;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -9,23 +9,17 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.sms.partyview.R;
+import com.sms.partyview.activities.EventDetailFragment;
 import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.AttendanceStatus;
-import com.sms.partyview.R;
-import com.sms.partyview.fragments.AttendeeListDialogFragment;
-import com.sms.partyview.fragments.EventMapFragment;
 import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.NavUtils;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -56,18 +50,19 @@ public class AcceptedEventDetailFragment
     private ArrayList<Attendee> attendees;
     private List<Marker> markers;
 
-    public static AcceptedEventDetailFragment newInstance(String status, int eventListIndexKey) {
+    public static AcceptedEventDetailFragment newInstance(String status, int eventListIndexKey, LocalEvent tempEvent) {
         AcceptedEventDetailFragment fragment = new AcceptedEventDetailFragment();
         Bundle args = new Bundle();
-        args.putString("status", status);
+        args.putString("eventStatus", status);
         args.putInt(EVENT_LIST_INDEX_KEY, eventListIndexKey);
+        args.putSerializable(EVENT_INTENT_KEY, tempEvent);
         fragment.setArguments(args);
         return fragment;
     }
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         markers = new ArrayList<Marker>();
@@ -80,10 +75,9 @@ public class AcceptedEventDetailFragment
         status = AttendanceStatus.valueOf(getArguments().getString("eventStatus"));
 
         mEventListIndex = getArguments().getInt(EVENT_LIST_INDEX_KEY);
+        tempEvent = (LocalEvent) getArguments().getSerializable(EVENT_INTENT_KEY);
 
-        saveAndDisplayEvent((LocalEvent) getArguments().getSerializable(EVENT_INTENT_KEY));
-
-        retrieveEvent();
+//        retrieveEvent();
     }
 
     // Displays an event in the activity's UI.
@@ -121,7 +115,8 @@ public class AcceptedEventDetailFragment
         btnJoinLeave.setLayoutParams(
                 new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                        ViewGroup.LayoutParams.WRAP_CONTENT)
+        );
         btnJoinLeave.setPadding(1, 1, 1, 1);
         btnJoinLeave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,6 +129,10 @@ public class AcceptedEventDetailFragment
         // Add it to the layout section.
         LinearLayout llEventDetailButtons = (LinearLayout) view.findViewById(R.id.llEventDetailButtons);
         llEventDetailButtons.addView(btnJoinLeave);
+
+
+        saveAndDisplayEvent((LocalEvent) getArguments().getSerializable(EVENT_INTENT_KEY));
+        retrieveEvent();
     }
 
     private void setupMapFragment() {
@@ -172,7 +171,8 @@ public class AcceptedEventDetailFragment
                     if (eventUser != null) {
                         eventUsers.add(eventUser);
                         attendees.add(new Attendee(eventUser));
-                        if (eventUser.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                        if (eventUser.getUser().getObjectId()
+                                .equals(ParseUser.getCurrentUser().getObjectId())) {
                             currentEventUser = eventUser;
                             status = eventUser.getStatus();
                             toggleJoinLeave(status);
@@ -253,7 +253,8 @@ public class AcceptedEventDetailFragment
                 @Override
                 public void onMapClick(LatLng latLng) {
                     if (status.equals(PRESENT)) {
-//                        Intent mapIntent = new Intent(AcceptedEventDetailFragment.this, FullMapActivity.class);
+//                        Intent mapIntent = new Intent(AcceptedEventDetailActivity.this,
+//                                FullMapActivity.class);
 //                        mapIntent.putParcelableArrayListExtra("attendees", attendees);
 //                        mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
 //                        mapIntent.putExtra("eventId", mEvent.getObjectId());
@@ -267,38 +268,13 @@ public class AcceptedEventDetailFragment
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == EDIT_EVENT_REQUEST && resultCode == RESULT_OK) {
-            // If the event was (most likely) updated, load the event again.
-            // Also, flag it as updated.
-            LocalEvent updatedEvent =
-                    (LocalEvent) data.getSerializableExtra(UpdateEventActivity.SAVED_EVENT_KEY);
-            if (updatedEvent != null) {
-                saveAndDisplayEvent(updatedEvent);
-                mEventWasUpdated = true;
-            }
-        }
-    }
 
-    @Override
-    public void onBackPressed() {
-        // Finish the activity, passing back data about whether the
-        // event was updated.
-        Intent data = new Intent();
-        Log.d("DEBUG", "Event was updated? " + mEventWasUpdated);
-        if (mEventWasUpdated) {
-            data.putExtra(UDPATED_EVENT_INTENT_KEY, tempEvent);
-        }
-        data.putExtra(EVENT_LIST_INDEX_KEY, mEventListIndex);
-        Log.d("DEBUG", "Updated list index: " + mEventListIndex);
-        setResult(RESULT_OK, data);
-        finish();
-    }
 
-    public void onJoinChat(MenuItem mi) {
-        Intent intent = new Intent(this, ChatActivity.class);
-        intent.putExtra(UpdateEventActivity.EVENT_ID_INTENT_KEY, tempEvent.getObjectId());
-        startActivity(intent);
-    }
+
+
+//    public void onJoinChat(MenuItem mi) {
+//        Intent intent = new Intent(this, ChatActivity.class);
+//        intent.putExtra(UpdateEventActivity.EVENT_ID_INTENT_KEY, tempEvent.getObjectId());
+//        startActivity(intent);
+//    }
 }

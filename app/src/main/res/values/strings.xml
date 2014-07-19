@@ -85,11 +85,41 @@
 
     <!-- for changing password -->
     <string name="label_user_name">Username</string>
+    <!--for changing password-->
     <string name="label_new_password">New password</string>
     <string name="label_change_password">Change password</string>
     <string name="label_verify_password">Verify password</string>
     <string name="password_changed">Successfully change password</string>
     <string name="action_sign_out">Sign Out</string>
+
+    <!--for sliding menu-->
+    <string name="drawer_open">Slider Menu Opened</string>
+    <string name="drawer_close">Slider Menu Closed</string>
+
+    <!-- Nav Drawer Menu Items -->
+    <string-array name="nav_drawer_items">
+        <item >Home</item>
+        <item >Profile</item>
+        <item >Sign out</item>
+    </string-array>
+
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="nav_drawer_icons">
+        <item>@drawable/ic_home</item>
+        <item>@drawable/ic_profile</item>
+        <item>@drawable/ic_action_sign_out</item>
+    </array>
+
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+
+    <!--Profile Fragment-->
+    <string name="label_user_name">Username:</string>
+    <string name="label_email">Email:</string>
+    <string name="dialog_sign_out">Are you sure you want to sign out?</string>
+    <string name="alert_sign_out">Sign out</string>
+    <string name="alert_cancel">Cancel</string>
     <string name="title_activity_event">EventActivity</string>
 
 </resources>

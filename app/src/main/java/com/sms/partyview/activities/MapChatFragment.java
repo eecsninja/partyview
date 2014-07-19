@@ -13,7 +13,7 @@ import com.sms.partyview.models.Attendee;
 
 import java.util.ArrayList;
 
-public class FullMapActivity extends FragmentActivity implements EventMapFragment.EventMapFragmentListener,
+public class MapChatFragment extends FragmentActivity implements EventMapFragment.EventMapFragmentListener,
         ChatFragment.OnFragmentInteractionListener{
 
     private EventMapFragment eventMapFragment;

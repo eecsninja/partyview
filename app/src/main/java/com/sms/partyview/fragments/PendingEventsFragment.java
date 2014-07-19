@@ -10,9 +10,13 @@ import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 
 import java.util.ArrayList;
@@ -22,6 +26,8 @@ import java.util.List;
  * Created by myho on 7/3/14.
  */
 public class PendingEventsFragment extends EventListFragment {
+
+    private static final String TAG = PendingEventsFragment.class.getSimpleName() + "_DEBUG";
 
     public static PendingEventsFragment newInstance() {
         PendingEventsFragment fragment = new PendingEventsFragment();
@@ -57,6 +63,7 @@ public class PendingEventsFragment extends EventListFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
+                Log.d(TAG, "starting detail view");
                 Event event = events.get(position);
                 Intent intent = new Intent(getActivity(), InvitedEventDetailFragment.class);
                 intent.putExtra(InvitedEventDetailFragment.EVENT_INTENT_KEY, new LocalEvent(event));

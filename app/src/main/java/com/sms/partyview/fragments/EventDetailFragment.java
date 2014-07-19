@@ -1,4 +1,4 @@
-package com.sms.partyview.activities;
+package com.sms.partyview.fragments;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;

@@ -11,21 +11,19 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import static android.view.View.OnClickListener;
 
-public class ProfileSettingDialog extends DialogFragment implements OnClickListener {
+public class ChangePasswordDialog extends DialogFragment implements OnClickListener {
 
     private static final int DEFAULT_MIN_PASSWORD_LENGTH = 6;
-    private static final String TAG = ProfileSettingDialog.class.getSimpleName() + "_DEBUG";
+    private static final String TAG = ChangePasswordDialog.class.getSimpleName() + "_DEBUG";
 
     private EditText mEtNewPassword;
     private EditText mEtVerifyPassword;
@@ -34,19 +32,19 @@ public class ProfileSettingDialog extends DialogFragment implements OnClickListe
     private ParseLoginConfig config;
     private int minPasswordLength;
 
-    public ProfileSettingDialog() {
+    public ChangePasswordDialog() {
         // empty constructor required
     }
 
-    public static ProfileSettingDialog newInstance() {
-        ProfileSettingDialog searchFiltersDialog = new ProfileSettingDialog();
-        return searchFiltersDialog;
+    public static ChangePasswordDialog newInstance() {
+        ChangePasswordDialog changePasswordDialog = new ChangePasswordDialog();
+        return changePasswordDialog;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile_setting, container);
+        View view = inflater.inflate(R.layout.fragment_change_password, container);
 
         minPasswordLength = DEFAULT_MIN_PASSWORD_LENGTH;
 
