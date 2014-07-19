@@ -1,6 +1,5 @@
 package com.sms.partyview.activities;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -8,28 +7,31 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
-import com.sms.partyview.adapters.MyPagerAdapter;
-import com.sms.partyview.fragments.AcceptedEventsFragment;
+import com.sms.partyview.adapters.NavDrawerListAdapter;
 import com.sms.partyview.fragments.EventListFragment;
-import com.sms.partyview.fragments.PendingEventsFragment;
+import com.sms.partyview.fragments.EventTabsFragment;
+import com.sms.partyview.fragments.ProfileFragment;
 import com.sms.partyview.fragments.ProfileSettingDialog;
 import com.sms.partyview.helpers.Utils;
-import com.sms.partyview.models.LocalEvent;
+import com.sms.partyview.models.NavDrawerItem;
 
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 
 public class HomeActivity
         extends FragmentActivity {
@@ -37,9 +39,23 @@ public class HomeActivity
     // Key used to store the user name in the installation info.
     public static final String INSTALLATION_USER_NAME_KEY = "username";
     private static final String TAG = HomeActivity.class.getSimpleName() + "_DEBUG";
-    private FragmentPagerAdapter mAdapterViewPager;
-    private PagerSlidingTabStrip mTabs;
-    private ViewPager vpPager;
+
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private ActionBarDrawerToggle mDrawerToggle;
+
+    // nav drawer title
+    private CharSequence mDrawerTitle;
+
+    // used to store app title
+    private CharSequence mTitle;
+
+    // slide menu items
+    private String[] navMenuTitles;
+    private TypedArray navMenuIcons;
+
+    private ArrayList<NavDrawerItem> navDrawerItems;
+    private NavDrawerListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +69,78 @@ public class HomeActivity
                         " (" + ParseUser.getCurrentUser().getUsername() + ")"
         );
 
-        setupTabs();
+        setupNavDrawer(savedInstanceState);
+    }
+
+    private void setupNavDrawer(Bundle savedInstanceState) {
+        mTitle = mDrawerTitle = getTitle();
+
+        // load slide menu items
+        navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
+
+        // nav drawer icons from resources
+        navMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_icons);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+
+        navDrawerItems = new ArrayList<NavDrawerItem>();
+
+//        // adding nav drawer items to array
+//        // Event, add a counter for events
+//        navDrawerItems
+//                .add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1), true,
+//                        "2"));
+//        // Event, add a counter for invites
+//        navDrawerItems
+//                .add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1), true,
+//                        "3"));
+
+
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[0], navMenuIcons.getResourceId(0, -1)));
+        // Change password
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[1], navMenuIcons.getResourceId(1, -1)));
+        // Log out
+        navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
+
+        // Recycle the typed array
+        navMenuIcons.recycle();
+
+        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+
+        // setting the nav drawer list adapter
+        adapter = new NavDrawerListAdapter(getApplicationContext(),
+                navDrawerItems);
+        mDrawerList.setAdapter(adapter);
+
+        // enabling action bar app icon and behaving it as toggle button
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                R.drawable.ic_drawer, //nav menu toggle icon
+                R.string.app_name, // nav drawer open - description for accessibility
+                R.string.app_name // nav drawer close - description for accessibility
+        ) {
+            public void onDrawerClosed(View view) {
+                getActionBar().setTitle(mTitle);
+                // calling onPrepareOptionsMenu() to show action bar icons
+                invalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getActionBar().setTitle(mDrawerTitle);
+                // calling onPrepareOptionsMenu() to hide action bar icons
+                invalidateOptionsMenu();
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+
+        if (savedInstanceState == null) {
+            // on first time display view for first nav item
+            displayView(0);
+        }
     }
 
     @Override
@@ -65,6 +152,11 @@ public class HomeActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // toggle nav drawer on selecting action bar app icon/title
+        if (mDrawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -83,6 +175,17 @@ public class HomeActivity
         }
     }
 
+    /* *
+     * Called when invalidateOptionsMenu() is triggered
+     */
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // if nav drawer is opened, hide the action items
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
+        menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     private void signOutUser() {
         ParseUser.getCurrentUser().logOut();
         Intent intent = new Intent(this, LoginActivity.class);
@@ -92,72 +195,36 @@ public class HomeActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        EventTabsFragment eventTabsFragment = EventTabsFragment.newInstance();
         if ((requestCode == Utils.NEW_EVENT_REQUEST_CODE) && (resultCode == RESULT_OK)) {
-            LocalEvent event =
-                    (LocalEvent) data.getSerializableExtra(EditEventActivity.SAVED_EVENT_KEY);
+            eventTabsFragment.respondToEventCreation(data);
+        } else if ((requestCode == Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE) && (resultCode
+                == RESULT_OK)) {
+            eventTabsFragment.respondToInvite(data);
 
-            AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager.getItem(0);
-            fragment.addNewEventToList(event.getObjectId(), ACCEPTED.toString());
-
-            // go back to accepted events page
-            vpPager.setCurrentItem(0);
-        } else if ((requestCode == Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE) && (resultCode == RESULT_OK)) {
-            String eventId = data.getStringExtra("eventId");
-            String response = data.getStringExtra("response");
-
-            // remove from pending events
-            PendingEventsFragment pendingFragment = (PendingEventsFragment) mAdapterViewPager.getItem(1);
-            pendingFragment.removeEventFromList(eventId);
-            mAdapterViewPager.notifyDataSetChanged();
-
-            if (response.equalsIgnoreCase(ACCEPTED.toString())) {
-                AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager
-                        .getItem(0);
-                fragment.addNewEventToList(eventId, response);
-
-                mAdapterViewPager.notifyDataSetChanged();
-
-                // go back to accepted events page
-                vpPager.setCurrentItem(0);
-
-            } else {
-                // go back to invited events page
-                vpPager.setCurrentItem(1);
-            }
         } else if (requestCode == EventListFragment.EVENT_DETAIL_REQUEST &&
-                   resultCode == RESULT_OK) {
-            LocalEvent event =
-                    (LocalEvent) data.getSerializableExtra(
-                            AcceptedEventDetailActivity.UDPATED_EVENT_INTENT_KEY);
-            Log.d("DEBUG", "returned local event: " + event);
-            if (event == null) {
-                return;
-            }
-            // Replace the existing event if it was updated.
-            int index = data.getIntExtra(AcceptedEventDetailActivity.EVENT_LIST_INDEX_KEY, 0);
-            EventListFragment fragment =
-                    (EventListFragment) mAdapterViewPager.getItem(vpPager.getCurrentItem());
-            fragment.updateEvent(index, event);
+                resultCode == RESULT_OK) {
+            eventTabsFragment.respondToEventEdit(data);
         }
     }
 
-    private void setupTabs() {
-        // Initialize the ViewPager and set an adapter
-        vpPager = (ViewPager) findViewById(R.id.vpPager);
-        mAdapterViewPager = new MyPagerAdapter(getSupportFragmentManager(), getFragments());
-        vpPager.setAdapter(mAdapterViewPager);
+    /**
+     * When using the ActionBarDrawerToggle, you must call it during
+     * onPostCreate() and onConfigurationChanged()...
+     */
 
-        mTabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        mTabs.setViewPager(vpPager);
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        mDrawerToggle.syncState();
     }
 
-    private List<Fragment> getFragments() {
-        List<Fragment> fragments = new ArrayList<Fragment>();
-
-        fragments.add(AcceptedEventsFragment.newInstance());
-        fragments.add(PendingEventsFragment.newInstance());
-
-        return fragments;
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggls
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     private void displayNewEventActivity() {
@@ -200,5 +267,47 @@ public class HomeActivity
         };
 
         Utils.cacheAppUsers(callback);
+    }
+
+    /**
+     * Diplaying fragment view for selected nav drawer list item
+     */
+    private void displayView(int position) {
+        // update the main content by replacing fragments
+        Fragment fragment;
+        switch (position) {
+            case 0:
+                fragment = EventTabsFragment.newInstance();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, fragment).commit();
+                break;
+            case 1:
+                fragment = ProfileFragment.newInstance();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frame_container, fragment).commit();
+                break;
+            default:
+                break;
+        }
+
+        // update selected item and title, then close the drawer
+        mDrawerList.setItemChecked(position, true);
+        mDrawerList.setSelection(position);
+        setTitle(navMenuTitles[position]);
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    /**
+     * Slide menu item click listener
+     */
+    private class SlideMenuClickListener implements
+            ListView.OnItemClickListener {
+
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                long id) {
+            // display view for selected nav drawer item
+            displayView(position);
+        }
     }
 }

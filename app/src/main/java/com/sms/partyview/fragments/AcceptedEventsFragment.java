@@ -9,6 +9,7 @@ import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -49,7 +50,6 @@ public class AcceptedEventsFragment extends EventListFragment {
     public void addNewEventToList(String eventId, final String attendanceStatus) {
         // Define the class we would like to query
         ParseQuery<Event> query = Event.getQueryForEventWithId(eventId);
-
 
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override
