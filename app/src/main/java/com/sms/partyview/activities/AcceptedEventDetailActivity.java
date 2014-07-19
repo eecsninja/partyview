@@ -9,13 +9,12 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
-import com.sms.partyview.helpers.Utils;
-import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.AttendeeListDialogFragment;
 import com.sms.partyview.fragments.EventMapFragment;
+import com.sms.partyview.helpers.Utils;
+import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.models.Attendee;
-import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
 
@@ -119,7 +118,8 @@ public class AcceptedEventDetailActivity
         btnJoinLeave.setLayoutParams(
                 new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                        ViewGroup.LayoutParams.WRAP_CONTENT)
+        );
         btnJoinLeave.setPadding(1, 1, 1, 1);
         btnJoinLeave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,7 +170,8 @@ public class AcceptedEventDetailActivity
                     if (eventUser != null) {
                         eventUsers.add(eventUser);
                         attendees.add(new Attendee(eventUser));
-                        if (eventUser.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+                        if (eventUser.getUser().getObjectId()
+                                .equals(ParseUser.getCurrentUser().getObjectId())) {
                             currentEventUser = eventUser;
                             status = eventUser.getStatus();
                             toggleJoinLeave(status);
@@ -251,7 +252,8 @@ public class AcceptedEventDetailActivity
                 @Override
                 public void onMapClick(LatLng latLng) {
                     if (status.equals(PRESENT)) {
-                        Intent mapIntent = new Intent(AcceptedEventDetailActivity.this, FullMapActivity.class);
+                        Intent mapIntent = new Intent(AcceptedEventDetailActivity.this,
+                                FullMapActivity.class);
                         mapIntent.putParcelableArrayListExtra("attendees", attendees);
                         mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
                         mapIntent.putExtra("eventId", mEvent.getObjectId());
