@@ -56,6 +56,16 @@ public class AcceptedEventDetailFragment
     private ArrayList<Attendee> attendees;
     private List<Marker> markers;
 
+    public static AcceptedEventDetailFragment newInstance(String status, int eventListIndexKey) {
+        AcceptedEventDetailFragment fragment = new AcceptedEventDetailFragment();
+        Bundle args = new Bundle();
+        args.putString("status", status);
+        args.putInt(EVENT_LIST_INDEX_KEY, eventListIndexKey);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +76,12 @@ public class AcceptedEventDetailFragment
         eventUsers = new ArrayList<EventUser>();
         attendees = new ArrayList<Attendee>();
 
-        status = AttendanceStatus.valueOf(getIntent().getStringExtra("eventStatus"));
 
-        mEventListIndex = getIntent().getIntExtra(EVENT_LIST_INDEX_KEY, 0);
+        status = AttendanceStatus.valueOf(getArguments().getString("eventStatus"));
 
-        saveAndDisplayEvent((LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY));
+        mEventListIndex = getArguments().getInt(EVENT_LIST_INDEX_KEY);
+
+        saveAndDisplayEvent((LocalEvent) getArguments().getSerializable(EVENT_INTENT_KEY));
 
         retrieveEvent();
     }
@@ -81,40 +92,32 @@ public class AcceptedEventDetailFragment
         if (tempEvent.getTitle().isEmpty()) {
             return;
         }
-        getActionBar().setTitle(tempEvent.getTitle());
+        //getActionBar().setTitle(tempEvent.getTitle());
         if (tempEvent != null) {
             populateEventInfo();
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.event_detail, menu);
-        // Show the edit menu item if the current user is the host.
-        menu.findItem(R.id.action_edit_event)
-                .setVisible(tempEvent.getHost().equals(ParseUser.getCurrentUser().getUsername()));
-        return true;
-    }
+
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            // Respond to the action bar's Up/Home button
+//            case android.R.id.home:
+//                NavUtils.navigateUpFromSameTask(this);
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    public void setupViews() {
-        super.setupViews();
+    public void setupViews(View view) {
+        super.setupViews(view);
 
         // Dynamically create button.
-        btnJoinLeave = new Button(this);
+        btnJoinLeave = new Button(getActivity());
         btnJoinLeave.setLayoutParams(
                 new ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -129,13 +132,13 @@ public class AcceptedEventDetailFragment
         btnJoinLeave.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
 
         // Add it to the layout section.
-        LinearLayout llEventDetailButtons = (LinearLayout) findViewById(R.id.llEventDetailButtons);
+        LinearLayout llEventDetailButtons = (LinearLayout) view.findViewById(R.id.llEventDetailButtons);
         llEventDetailButtons.addView(btnJoinLeave);
     }
 
     private void setupMapFragment() {
         // Create the transaction
-        FragmentTransaction fts = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fts = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace the content of the container
         eventMapFragment = EventMapFragment.newInstance(
                 attendees,
@@ -183,9 +186,9 @@ public class AcceptedEventDetailFragment
         });
     }
 
-    public void onViewAttendees(MenuItem mi) {
-        AttendeeListDialogFragment.show(this, getString(R.string.attendees_title), attendees);
-    }
+//    public void onViewAttendees(MenuItem mi) {
+//        AttendeeListDialogFragment.show(this, getString(R.string.attendees_title), attendees);
+//    }
 
     public void onJoinLeave(View v) {
         String currentState = btnJoinLeave.getText().toString();
@@ -250,24 +253,18 @@ public class AcceptedEventDetailFragment
                 @Override
                 public void onMapClick(LatLng latLng) {
                     if (status.equals(PRESENT)) {
-                        Intent mapIntent = new Intent(AcceptedEventDetailFragment.this, FullMapActivity.class);
-                        mapIntent.putParcelableArrayListExtra("attendees", attendees);
-                        mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
-                        mapIntent.putExtra("eventId", mEvent.getObjectId());
-                        mapIntent.putExtra("latitude", mEvent.getLocation().getLatitude());
-                        mapIntent.putExtra("longitude", mEvent.getLocation().getLongitude());
-                        startActivity(mapIntent);
+//                        Intent mapIntent = new Intent(AcceptedEventDetailFragment.this, FullMapActivity.class);
+//                        mapIntent.putParcelableArrayListExtra("attendees", attendees);
+//                        mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
+//                        mapIntent.putExtra("eventId", mEvent.getObjectId());
+//                        mapIntent.putExtra("latitude", mEvent.getLocation().getLatitude());
+//                        mapIntent.putExtra("longitude", mEvent.getLocation().getLongitude());
+//                        startActivity(mapIntent);
                     }
                 }
             });
             eventMapFragment.setMarkerVisibility(status.equals(PRESENT));
         }
-    }
-
-    public void editEvent(MenuItem menuItem) {
-        Intent intent = new Intent(this, UpdateEventActivity.class);
-        intent.putExtra(UpdateEventActivity.EVENT_ID_INTENT_KEY, mEvent.getObjectId());
-        startActivityForResult(intent, EDIT_EVENT_REQUEST);
     }
 
     @Override

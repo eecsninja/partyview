@@ -4,7 +4,7 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.sms.partyview.activities.InvitedEventDetailActivity;
+import com.sms.partyview.activities.InvitedEventDetailFragment;
 import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
@@ -58,8 +58,8 @@ public class PendingEventsFragment extends EventListFragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Event event = events.get(position);
-                Intent intent = new Intent(getActivity(), InvitedEventDetailActivity.class);
-                intent.putExtra(InvitedEventDetailActivity.EVENT_INTENT_KEY, new LocalEvent(event));
+                Intent intent = new Intent(getActivity(), InvitedEventDetailFragment.class);
+                intent.putExtra(InvitedEventDetailFragment.EVENT_INTENT_KEY, new LocalEvent(event));
                 getActivity().startActivityForResult(intent, Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE);
             }
         });

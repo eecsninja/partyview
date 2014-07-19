@@ -33,6 +33,12 @@ public class InvitedEventDetailFragment extends EventDetailFragment {
     // put them in a common place.
     public static final String EVENT_INTENT_KEY = "event";
 
+
+    public static InvitedEventDetailFragment newInstance(LocalEvent event) {
+        InvitedEventDetailFragment fragment = new InvitedEventDetailFragment();
+        return fragment;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

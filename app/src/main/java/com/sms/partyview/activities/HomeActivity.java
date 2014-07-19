@@ -128,13 +128,13 @@ public class HomeActivity
                    resultCode == RESULT_OK) {
             LocalEvent event =
                     (LocalEvent) data.getSerializableExtra(
-                            AcceptedEventDetailActivity.UDPATED_EVENT_INTENT_KEY);
+                            AcceptedEventDetailFragment.UDPATED_EVENT_INTENT_KEY);
             Log.d("DEBUG", "returned local event: " + event);
             if (event == null) {
                 return;
             }
             // Replace the existing event if it was updated.
-            int index = data.getIntExtra(AcceptedEventDetailActivity.EVENT_LIST_INDEX_KEY, 0);
+            int index = data.getIntExtra(AcceptedEventDetailFragment.EVENT_LIST_INDEX_KEY, 0);
             EventListFragment fragment =
                     (EventListFragment) mAdapterViewPager.getItem(vpPager.getCurrentItem());
             fragment.updateEvent(index, event);
