@@ -88,6 +88,7 @@ public class AcceptedEventDetailFragment
         //getActionBar().setTitle(tempEvent.getTitle());
         if (tempEvent != null) {
             populateEventInfo();
+            getActivity().getActionBar().setTitle(tempEvent.getTitle());
         }
     }
 
