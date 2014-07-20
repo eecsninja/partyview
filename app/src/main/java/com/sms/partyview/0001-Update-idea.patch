@@ -1,0 +1,84 @@
+From 208168715f06f84388f19d6c32931a854bb09dc2 Mon Sep 17 00:00:00 2001
+From: Simon Que <simonque@gmail.com>
+Date: Thu, 17 Jul 2014 01:21:21 -0700
+Subject: [PATCH] Update idea
+
+---
+ .idea/libraries/appcompat_v7_19_0_1.xml        | 2 +-
+ .idea/libraries/pagerslidingtabstrip_1_0_1.xml | 2 +-
+ .idea/libraries/play_services_5_0_77.xml       | 2 +-
+ .idea/libraries/swipelistview_1_0_SNAPSHOT.xml | 2 +-
+ .idea/modules.xml                              | 1 +
+ 5 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/.idea/libraries/appcompat_v7_19_0_1.xml b/.idea/libraries/appcompat_v7_19_0_1.xml
+index bfe6a30..02bdb8a 100644
+--- a/.idea/libraries/appcompat_v7_19_0_1.xml
++++ b/.idea/libraries/appcompat_v7_19_0_1.xml
+@@ -1,8 +1,8 @@
+ <component name="libraryTable">
+   <library name="appcompat-v7-19.0.1">
+     <CLASSES>
+-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res" />
+       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/classes.jar!/" />
++      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/19.0.1/res" />
+     </CLASSES>
+     <JAVADOC />
+     <SOURCES />
+diff --git a/.idea/libraries/pagerslidingtabstrip_1_0_1.xml b/.idea/libraries/pagerslidingtabstrip_1_0_1.xml
+index d493167..49f9078 100644
+--- a/.idea/libraries/pagerslidingtabstrip_1_0_1.xml
++++ b/.idea/libraries/pagerslidingtabstrip_1_0_1.xml
+@@ -1,8 +1,8 @@
+ <component name="libraryTable">
+   <library name="pagerslidingtabstrip-1.0.1">
+     <CLASSES>
+-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.astuetz/pagerslidingtabstrip/1.0.1/res" />
+       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.astuetz/pagerslidingtabstrip/1.0.1/classes.jar!/" />
++      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.astuetz/pagerslidingtabstrip/1.0.1/res" />
+     </CLASSES>
+     <JAVADOC />
+     <SOURCES />
+diff --git a/.idea/libraries/play_services_5_0_77.xml b/.idea/libraries/play_services_5_0_77.xml
+index 5e604fd..0a492ef 100644
+--- a/.idea/libraries/play_services_5_0_77.xml
++++ b/.idea/libraries/play_services_5_0_77.xml
+@@ -1,8 +1,8 @@
+ <component name="libraryTable">
+   <library name="play-services-5.0.77">
+     <CLASSES>
+-      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.77/classes.jar!/" />
+       <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.77/res" />
++      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.google.android.gms/play-services/5.0.77/classes.jar!/" />
+     </CLASSES>
+     <JAVADOC />
+     <SOURCES />
+diff --git a/.idea/libraries/swipelistview_1_0_SNAPSHOT.xml b/.idea/libraries/swipelistview_1_0_SNAPSHOT.xml
+index faaa8ac..e134a06 100644
+--- a/.idea/libraries/swipelistview_1_0_SNAPSHOT.xml
++++ b/.idea/libraries/swipelistview_1_0_SNAPSHOT.xml
+@@ -1,8 +1,8 @@
+ <component name="libraryTable">
+   <library name="swipelistview-1.0-SNAPSHOT">
+     <CLASSES>
+-      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.fortysevendeg.swipelistview/swipelistview/1.0-SNAPSHOT/res" />
+       <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.fortysevendeg.swipelistview/swipelistview/1.0-SNAPSHOT/classes.jar!/" />
++      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.fortysevendeg.swipelistview/swipelistview/1.0-SNAPSHOT/res" />
+     </CLASSES>
+     <JAVADOC />
+     <SOURCES />
+diff --git a/.idea/modules.xml b/.idea/modules.xml
+index d5e4235..2e93141 100644
+--- a/.idea/modules.xml
++++ b/.idea/modules.xml
+@@ -5,6 +5,7 @@
+       <module fileurl="file://$PROJECT_DIR$/ParseLoginUI/ParseLoginUI.iml" filepath="$PROJECT_DIR$/ParseLoginUI/ParseLoginUI.iml" />
+       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+       <module fileurl="file://$PROJECT_DIR$/partyview.iml" filepath="$PROJECT_DIR$/partyview.iml" />
++      <module fileurl="file://$PROJECT_DIR$/swipelistview/swipelistview.iml" filepath="$PROJECT_DIR$/swipelistview/swipelistview.iml" />
+     </modules>
+   </component>
+ </project>
+-- 
+1.8.5.2 (Apple Git-48)
+

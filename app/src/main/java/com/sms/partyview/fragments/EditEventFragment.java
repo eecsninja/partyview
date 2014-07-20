@@ -71,7 +71,6 @@ public abstract class EditEventFragment extends Fragment
     private MutableDateTime mEndDateTime;
 
     private EventSaverInterface mEventSaver;
-    private View.OnFocusChangeListener mOnFocusChangeListener;
 
     private String picker;
     private String TAG_START_PICKER = "start";
@@ -86,13 +85,6 @@ public abstract class EditEventFragment extends Fragment
         } else {
             throw new ClassCastException(activity.toString() +
                     " must implement EventSaverInterface.");
-        }
-
-        if (activity instanceof View.OnFocusChangeListener) {
-            mOnFocusChangeListener = (View.OnFocusChangeListener) activity;
-        } else {
-            throw new ClassCastException(activity.toString() +
-                    " must implement View.OnFocusChangeListener.");
         }
     }
 
@@ -117,7 +109,6 @@ public abstract class EditEventFragment extends Fragment
         findViews(view);
         populateViews();
         setUpClickListeners();
-        setUpFocusListeners();
     }
 
     private void initializedDateTime() {
@@ -145,13 +136,6 @@ public abstract class EditEventFragment extends Fragment
         mTvStartTime.setOnClickListener(this);
         mTvEndDate.setOnClickListener(this);
         mTvEndTime.setOnClickListener(this);
-    }
-
-    private void setUpFocusListeners() {
-        mEtTitle.setOnFocusChangeListener(mOnFocusChangeListener);
-        mEtDescription.setOnFocusChangeListener(mOnFocusChangeListener);
-        mEtAddress.setOnFocusChangeListener(mOnFocusChangeListener);
-        mAutoTvInvites.setOnFocusChangeListener(mOnFocusChangeListener);
     }
 
     private void populateViews() {

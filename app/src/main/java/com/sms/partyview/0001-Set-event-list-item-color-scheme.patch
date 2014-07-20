@@ -1,0 +1,68 @@
+From 8159d5e62e3be86deb128505cf09494cbd9dba98 Mon Sep 17 00:00:00 2001
+From: Simon Que <simonque@gmail.com>
+Date: Sat, 19 Jul 2014 22:39:42 -0700
+Subject: [PATCH] Set event list item color scheme
+
+---
+ app/src/main/res/layout/event_item.xml | 11 +++++++----
+ app/src/main/res/values/colors.xml     |  2 ++
+ 2 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/app/src/main/res/layout/event_item.xml b/app/src/main/res/layout/event_item.xml
+index 49d0ea0..c82d5f3 100644
+--- a/app/src/main/res/layout/event_item.xml
++++ b/app/src/main/res/layout/event_item.xml
+@@ -2,7 +2,8 @@
+ 
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:layout_width="match_parent"
+-                android:layout_height="match_parent">
++                android:layout_height="match_parent" android:clickable="false"
++                android:background="@color/event_list_item_background">
+ 
+     <TextView
+             android:layout_width="wrap_content"
+@@ -12,7 +13,7 @@
+             android:id="@+id/tvEventItemTitle" android:layout_alignParentTop="true"
+             android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+             android:layout_marginLeft="16dp" android:layout_marginTop="16dp"
+-            android:textStyle="bold"/>
++            android:textStyle="bold" android:textColor="@color/event_list_item_text"/>
+     <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+@@ -20,7 +21,8 @@
+             android:text="@string/home_event_host_label"
+             android:id="@+id/tvEventItemHost" android:layout_below="@+id/tvEventItemTitle"
+             android:layout_alignLeft="@+id/tvEventItemTitle"
+-            android:layout_alignStart="@+id/tvEventItemTitle"/>
++            android:layout_alignStart="@+id/tvEventItemTitle"
++            android:textColor="@color/event_list_item_text"/>
+     <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+@@ -29,5 +31,6 @@
+             android:id="@+id/tvEventItemTime"
+             android:layout_below="@+id/tvEventItemHost"
+             android:layout_alignLeft="@+id/tvEventItemHost"
+-            android:layout_alignStart="@+id/tvEventItemHost"/>
++            android:layout_alignStart="@+id/tvEventItemHost"
++            android:textColor="@color/event_list_item_text"/>
+ </RelativeLayout>
+\ No newline at end of file
+diff --git a/app/src/main/res/values/colors.xml b/app/src/main/res/values/colors.xml
+index d3af458..d2367b5 100644
+--- a/app/src/main/res/values/colors.xml
++++ b/app/src/main/res/values/colors.xml
+@@ -22,6 +22,8 @@
+     <color name="light_green">#00C000</color>
+     <color name="light_blue">#0040FF</color>
+ 
++    <color name="event_list_item_background">#204080</color>
++    <color name="event_list_item_text">#FFFFFF</color>
+ 
+     <!-- custom light theme: -->
+     <color name="dialog_message_text">#333333</color>
+-- 
+1.8.5.2 (Apple Git-48)
+

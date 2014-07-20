@@ -21,33 +21,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
-import android.widget.ScrollView;
 import android.widget.Toast;
 
 import java.util.List;
 
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 import static com.sms.partyview.models.AttendanceStatus.INVITED;
 
 /**
  * Created by sque on 7/12/14.
  */
-abstract public class EditEventActivity
-        extends FragmentActivity
-        implements EventSaverInterface, View.OnFocusChangeListener {
+abstract public class EditEventActivity extends FragmentActivity implements EventSaverInterface {
     private static final String TAG = EditEventActivity.class.getSimpleName() + "_DEBUG";
     public static final String SAVED_EVENT_KEY = "savedEvent";
     protected EditEventFragment mEditEventFragment;
-    protected ScrollView mScrollViewContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,9 +52,6 @@ abstract public class EditEventActivity
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 
         setContentView(R.layout.activity_edit_event);
-
-        // Load the scroll view containing it all.
-        mScrollViewContainer = (ScrollView) findViewById(R.id.svEditEvent);
 
         // Display the edit event fragment.
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -83,32 +73,6 @@ abstract public class EditEventActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    @Override
-    public void onFocusChange(View view, boolean hasFocus) {
-        if (!hasFocus) {
-            return;
-        }
-        int[] coordinates = new int[2];
-        view.getLocationInWindow(coordinates);
-        float y = coordinates[1];
-        // Get location of the scroll view container and the location of the view relative to it.
-        float scrollViewY = mScrollViewContainer.getY();
-        float viewYWithinScrollView = y - scrollViewY;
-        // Get window size.
-        Point size = new Point();
-        getWindowManager().getDefaultDisplay().getSize(size);
-
-        // Scroll so that the view is shown 1/3 of the way down the screen. However, do not scroll
-        // it down too much.
-        float scrollY = size.y / 3 - viewYWithinScrollView;
-        if (scrollY > 0)
-            scrollY = 0;
-        animate(mScrollViewContainer).translationY(scrollY);
-
-        // TODO: What happens when the view has been scrolled and then
-        // the soft keyboard is closed?
     }
 
     @Override
