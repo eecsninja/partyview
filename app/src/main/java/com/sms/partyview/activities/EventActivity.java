@@ -15,6 +15,7 @@ import com.sms.partyview.fragments.AcceptedEventDetailFragment;
 import com.sms.partyview.fragments.AttendeeListDialogFragment;
 import com.sms.partyview.fragments.ChatFragment;
 import com.sms.partyview.fragments.EventMapFragment;
+import com.sms.partyview.fragments.MapChatFragment;
 import com.sms.partyview.models.AttendanceStatus;
 import com.sms.partyview.models.Attendee;
 import com.sms.partyview.models.Event;
@@ -31,6 +32,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
@@ -217,5 +219,10 @@ public class EventActivity extends FragmentActivity implements
                 setupTabs();
             }
         });
+    }
+
+
+    public void onViewAttendees(View view) {
+        AttendeeListDialogFragment.show(this, getString(R.string.attendees_title), attendees);
     }
 }

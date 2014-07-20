@@ -17,6 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 repositories {
@@ -41,9 +42,9 @@ dependencies {
 
     // date picker
     compile("com.doomonafireball.betterpickers:library:1.5.2")
-    {
-        exclude group: 'com.android.support', module: 'support-v4'
-    }
+            {
+                exclude group: 'com.android.support', module: 'support-v4'
+            }
 
     compile 'joda-time:joda-time:2.3'
 
@@ -51,9 +52,11 @@ dependencies {
 
     compile 'org.ocpsoft.prettytime:prettytime:3.2.5.Final'
 
-    compile ('com.fortysevendeg.swipelistview:swipelistview:1.0-SNAPSHOT@aar') {
+    compile('com.fortysevendeg.swipelistview:swipelistview:1.0-SNAPSHOT@aar') {
         transitive = true
     }
+
+    compile 'com.github.johnkil.android-robototextview:robototextview:2.1.0'
 }
 
 // Credit: https://gist.github.com/dmarcato/d7c91b94214acd936e42
@@ -68,8 +71,8 @@ task stripPlayServices << {
     playServiceRootFolder.list().each { versionName ->
         def versionFolder = new File(playServiceRootFolder, versionName)
         copy {
-            from (file(new File(versionFolder, "classes.jar")))
-            into (file(versionFolder))
+            from(file(new File(versionFolder, "classes.jar")))
+            into(file(versionFolder))
             rename { fileName ->
                 fileName = "classes_orig.jar"
             }
@@ -77,7 +80,7 @@ task stripPlayServices << {
         tasks.create(name: "strip" + versionName, type: Jar) {
             destinationDir = versionFolder
             archiveName = "classes.jar"
-            from (zipTree(new File(versionFolder, "classes_orig.jar"))) {
+            from(zipTree(new File(versionFolder, "classes_orig.jar"))) {
                 exclude "com/google/ads/**"
                 exclude "com/google/android/gms/analytics/**"
                 exclude "com/google/android/gms/games/**"
@@ -90,7 +93,7 @@ task stripPlayServices << {
             }
         }.execute()
         delete {
-            delete (file(new File(versionFolder, "classes_orig.jar")))
+            delete(file(new File(versionFolder, "classes_orig.jar")))
         }
     }
 }

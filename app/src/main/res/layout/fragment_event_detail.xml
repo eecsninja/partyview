@@ -7,120 +7,157 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
+    android:background="#f0f0f0"
     tools:context="com.sms.partyview.fragments.AcceptedEventDetailFragment">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <TextView
-            android:id="@+id/tvEventName"
-            android:text=""
-            android:textSize="22sp"
-            android:layout_width="wrap_content"
+        android:padding="10dp"
+        android:background="@drawable/event_detail_background"
+        android:layout_marginBottom="10dp">
+        <LinearLayout
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"/>
-    </LinearLayout>
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvEventName"
+                android:text=""
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_event_host"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textStyle="bold"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/label_event_host"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textStyle="bold"
+                android:textSize="12sp"/>
 
 
-        <TextView
-            android:id="@+id/tvEventOrganizer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tvEventOrganizer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"/>
+        </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_event_start_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textStyle="bold"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/label_event_start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textStyle="bold"
+                android:textSize="12sp"/>
 
-        <TextView
+            <TextView
                 android:id="@+id/tvEventStartTime"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/label_event_end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textStyle="bold"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tvEventEndTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/label_event_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textStyle="bold"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/tvEventDescription"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llAttendees"
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/attendees_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textStyle="bold"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/tvEventAttendeeList"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_event_end_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textStyle="bold"/>
-        <TextView
-            android:id="@+id/tvEventEndTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        </LinearLayout>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_event_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textStyle="bold"/>
-        <TextView
-            android:id="@+id/tvEventLocation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/label_event_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textStyle="bold"/>
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@drawable/event_detail_background"
+        android:layout_marginBottom="10dp">
 
-        <TextView
-            android:id="@+id/tvEventDescription"
+        <fragment
+            android:id="@+id/location_map"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:text="@string/attendees_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/tvEventAttendeeList"
+            android:layout_height="200dp"
+            android:name="com.google.android.gms.maps.SupportMapFragment" />
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="@string/label_event_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:textStyle="bold"
+                android:textSize="12sp"/>
+            <TextView
+                android:id="@+id/tvEventLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -128,18 +165,25 @@
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvMiniMap"
-        android:text="@string/mini_map"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:padding="2dp"/>
-    <FrameLayout
-        android:id="@+id/flMapContainer"
+    <Button
+        android:id="@+id/btnViewAttendees"
         android:layout_width="fill_parent"
-        android:layout_height="225dp"
-        android:layout_gravity="center"
-        android:padding="5dp"/>
+        android:layout_height="wrap_content"
+        android:text="@string/view_attendees"
+        android:background="@drawable/event_detail_background"
+        android:onClick="onViewAttendees"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/tvMiniMap"-->
+        <!--android:text="@string/mini_map"-->
+        <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+        <!--android:padding="2dp"/>-->
+    <!--<FrameLayout-->
+        <!--android:id="@+id/flMapContainer"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="225dp"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:padding="5dp"/>-->
 
 </LinearLayout>

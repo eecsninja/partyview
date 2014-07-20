@@ -53,9 +53,14 @@ public class InvitedEventDetailFragment extends EventDetailFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         // TODO: This code is quite similar to the stuff in EventDetailActivity.
         // They should be related classes.
         tempEvent = (LocalEvent) getArguments().getSerializable(EVENT_INTENT_KEY);
+
+        latitude = tempEvent.getLatitude();
+        longitude = tempEvent.getLongitude();
+
 
         retrieveEvent();
 
@@ -65,9 +70,6 @@ public class InvitedEventDetailFragment extends EventDetailFragment {
     @Override
     public void setupViews(View view) {
         super.setupViews(view);
-
-        // No need to show the "Mini Map" label when there's no map.
-        view.findViewById(R.id.tvMiniMap).setVisibility(View.GONE);
 
         // Add accept/reject buttons to activity.
         LinearLayout llEventDetailButtons =
@@ -79,6 +81,7 @@ public class InvitedEventDetailFragment extends EventDetailFragment {
                         R.layout.layout_invite_detail_buttons, llEventDetailButtons, false);
         llEventDetailButtons.addView(llInviteButtons);
 
+        view.findViewById(R.id.btnViewAttendees).setVisibility(View.GONE);
         if (tempEvent != null) {
             populateEventInfo();
             if (!tempEvent.getTitle().isEmpty()) {
