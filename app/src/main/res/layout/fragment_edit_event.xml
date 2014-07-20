@@ -14,6 +14,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/hint_title"/>
 
+
     <LinearLayout
             android:id="@+id/llStartDateTime"
             android:layout_below="@+id/etEventName"
@@ -195,14 +196,12 @@
                 android:id="@+id/etEventDescription"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine|textAutoCorrect"
+                android:inputType="textMultiLine|textAutoCorrect|textCapSentences"
                 android:ems="10"
-                android:minLines="2"
-                android:maxLines="2"
                 android:layout_marginTop="5dp"
                 android:hint="@string/hint_description"
+                android:imeOptions="actionNext"
                 android:textSize="12sp"/>
-
     </LinearLayout>
 
     <LinearLayout
