@@ -84,6 +84,9 @@ public class EventAdapter extends ArrayAdapter<Event> {
         }
         titleField.setTextColor(color);
 
+        // Date/time should be of a lighter color.
+        timeField.setTextColor(getContext().getResources().getColor(R.color.gray));
+
         return view;
     }
 
