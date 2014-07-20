@@ -72,7 +72,7 @@
             android:name=".activities.NewEventActivity"
             android:label="@string/title_activity_new_event"
             android:parentActivityName=".activities.HomeActivity"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustResize" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <!-- need this to implement home as back button -->
@@ -84,7 +84,7 @@
             android:name=".activities.UpdateEventActivity"
             android:label="@string/title_activity_update_event"
             android:parentActivityName=".activities.EventActivity"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustResize" >
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <!-- need this to implement home as back button -->
