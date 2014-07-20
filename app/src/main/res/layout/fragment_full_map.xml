@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:text="@string/share_location"
             android:id="@+id/switchLocation"
-            android:onClick="onJoinLeave"/>
+            android:onClick="onJoinLeave"
+            android:textSize="12sp"/>
 
     </LinearLayout>
     <LinearLayout

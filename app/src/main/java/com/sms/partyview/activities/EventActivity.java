@@ -1,7 +1,5 @@
 package com.sms.partyview.activities;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import com.astuetz.PagerSlidingTabStrip;
@@ -112,6 +110,7 @@ public class EventActivity extends FragmentActivity implements
         mTabs.setViewPager(vpPager);
 
         mapChatFragment = (MapChatFragment) mAdapterViewPager.getItem(1);
+
     }
 
     private List<Fragment> getFragments() {

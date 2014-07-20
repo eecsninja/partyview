@@ -4,11 +4,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.sms.partyview.R;
+
 import java.util.List;
 
 public class EventPagerAdapter extends FragmentPagerAdapter {
 
     private static final String[] CONTENT = { "Event Details", "Chat"};
+    private static final int[] ICONS = {R.drawable.ic_info, R.drawable.ic_action_chat};
 
     private List<Fragment> mFragments;
 
