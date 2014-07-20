@@ -161,7 +161,8 @@
     <LinearLayout
             android:id="@+id/llLocation"
             android:layout_below="@+id/llEndDateTime"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -176,8 +177,8 @@
 
         <EditText
                 android:id="@+id/etEventLocation"
-                android:layout_marginLeft="10dp"
-                android:layout_width="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPostalAddress"
                 android:text=""
@@ -185,7 +186,6 @@
                 android:textSize="12sp"/>
 
     </LinearLayout>
-
 
     <LinearLayout
             android:id="@+id/llDescription"
@@ -205,7 +205,6 @@
 
         <EditText
                 android:id="@+id/etEventDescription"
-                android:layout_marginLeft="10dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine|textAutoCorrect"
@@ -237,7 +236,6 @@
 
         <MultiAutoCompleteTextView
                 android:id="@+id/autoTvInvites"
-                android:layout_marginLeft="10dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
