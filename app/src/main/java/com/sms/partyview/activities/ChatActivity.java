@@ -1,17 +1,18 @@
 package com.sms.partyview.activities;
 
-import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.EditText;
 import com.pubnub.api.Pubnub;
 import com.sms.partyview.R;
 import com.sms.partyview.fragments.ChatFragment;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+
+import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.EditText;
 
 public class ChatActivity extends FragmentActivity implements ChatFragment.OnFragmentInteractionListener {
     public static final String PUBLISH_KEY = "pub-c-adf5251f-8c96-477d-95fd-ab1907f93905";

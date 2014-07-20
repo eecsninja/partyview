@@ -1,5 +1,26 @@
 package com.sms.partyview.activities;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+
+import com.astuetz.PagerSlidingTabStrip;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.sms.partyview.R;
+import com.sms.partyview.adapters.EventPagerAdapter;
+import com.sms.partyview.fragments.AcceptedEventDetailFragment;
+import com.sms.partyview.fragments.AttendeeListDialogFragment;
+import com.sms.partyview.fragments.ChatFragment;
+import com.sms.partyview.fragments.EventMapFragment;
+import com.sms.partyview.models.AttendanceStatus;
+import com.sms.partyview.models.Attendee;
+import com.sms.partyview.models.Event;
+import com.sms.partyview.models.EventUser;
+import com.sms.partyview.models.LocalEvent;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,30 +32,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-
-import com.astuetz.PagerSlidingTabStrip;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.parse.FindCallback;
-import com.parse.GetCallback;
-import com.parse.ParseException;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
-import com.sms.partyview.R;
-import com.sms.partyview.adapters.EventPagerAdapter;
-import com.sms.partyview.fragments.AcceptedEventDetailFragment;
-import com.sms.partyview.fragments.AcceptedEventsFragment;
-import com.sms.partyview.fragments.AttendeeListDialogFragment;
-import com.sms.partyview.fragments.ChatFragment;
-import com.sms.partyview.fragments.EventMapFragment;
-import com.sms.partyview.fragments.PendingEventsFragment;
-import com.sms.partyview.helpers.Utils;
-import com.sms.partyview.models.AttendanceStatus;
-import com.sms.partyview.models.Attendee;
-import com.sms.partyview.models.Event;
-import com.sms.partyview.models.EventUser;
-import com.sms.partyview.models.LocalEvent;
 
 import java.util.ArrayList;
 import java.util.List;

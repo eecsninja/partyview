@@ -17,7 +17,6 @@ import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;

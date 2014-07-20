@@ -2,8 +2,6 @@ package com.sms.partyview.apps;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
-import com.parse.PushService;
-import com.sms.partyview.activities.HomeActivity;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 

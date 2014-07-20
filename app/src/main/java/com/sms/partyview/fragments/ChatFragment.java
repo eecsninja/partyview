@@ -1,6 +1,20 @@
 package com.sms.partyview.fragments;
 
 
+import com.parse.ParseUser;
+import com.pubnub.api.Callback;
+import com.pubnub.api.Pubnub;
+import com.pubnub.api.PubnubError;
+import com.pubnub.api.PubnubException;
+import com.sms.partyview.R;
+import com.sms.partyview.adapters.ChatMessageAdapter;
+import com.sms.partyview.models.ChatMessage;
+
+import org.joda.time.MutableDateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -15,25 +29,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import com.parse.ParseUser;
-import com.pubnub.api.Callback;
-import com.pubnub.api.Pubnub;
-import com.pubnub.api.PubnubError;
-import com.pubnub.api.PubnubException;
-import com.sms.partyview.R;
-import com.sms.partyview.adapters.AttendeeArrayAdapter;
-import com.sms.partyview.adapters.ChatMessageAdapter;
-import com.sms.partyview.models.Attendee;
-import com.sms.partyview.models.ChatMessage;
-import com.sms.partyview.models.EventUser;
-
-import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;

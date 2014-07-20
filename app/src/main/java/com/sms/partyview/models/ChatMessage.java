@@ -3,8 +3,6 @@ package com.sms.partyview.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.Date;
-
 /**
  * Created by sandra on 7/12/14.
  */

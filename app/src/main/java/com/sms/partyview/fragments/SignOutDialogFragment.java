@@ -1,14 +1,11 @@
 package com.sms.partyview.fragments;
 
-import com.parse.ParseUser;
 import com.sms.partyview.R;
-import com.sms.partyview.activities.LoginActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 

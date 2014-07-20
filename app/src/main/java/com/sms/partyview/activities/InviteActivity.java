@@ -1,15 +1,15 @@
 package com.sms.partyview.activities;
 
+import com.sms.partyview.R;
+import com.sms.partyview.fragments.InvitedEventDetailFragment;
+import com.sms.partyview.models.LocalEvent;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.view.View;
-
-import com.sms.partyview.R;
-import com.sms.partyview.fragments.InvitedEventDetailFragment;
-import com.sms.partyview.models.LocalEvent;
 
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 import static com.sms.partyview.models.AttendanceStatus.DECLINED;

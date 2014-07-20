@@ -1,16 +1,16 @@
 package com.sms.partyview.activities;
 
+import com.sms.partyview.R;
+import com.sms.partyview.fragments.ChatFragment;
+import com.sms.partyview.fragments.EventMapFragment;
+import com.sms.partyview.models.Attendee;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.sms.partyview.R;
-import com.sms.partyview.fragments.ChatFragment;
-import com.sms.partyview.fragments.EventMapFragment;
-import com.sms.partyview.models.Attendee;
 
 import java.util.ArrayList;
 

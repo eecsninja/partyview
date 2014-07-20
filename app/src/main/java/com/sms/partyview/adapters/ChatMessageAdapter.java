@@ -1,17 +1,14 @@
 package com.sms.partyview.adapters;
 
+import com.sms.partyview.R;
+import com.sms.partyview.models.ChatMessage;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import com.sms.partyview.R;
-import com.sms.partyview.models.Attendee;
-import com.sms.partyview.models.ChatMessage;
-
-import org.ocpsoft.prettytime.PrettyTime;
 
 import java.util.List;
 

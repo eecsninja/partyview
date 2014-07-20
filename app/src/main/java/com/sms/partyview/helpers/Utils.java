@@ -1,16 +1,11 @@
 package com.sms.partyview.helpers;
 
-import com.parse.DeleteCallback;
 import com.parse.FindCallback;
-import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
