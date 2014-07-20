@@ -4,7 +4,7 @@
     <item android:id="@+id/action_new_event"
           android:icon="@drawable/ic_action_new_event"
           android:title="@string/action_new_event"
-          android:showAsAction="ifRoom|withText"
+          android:showAsAction="always"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content" />
 
