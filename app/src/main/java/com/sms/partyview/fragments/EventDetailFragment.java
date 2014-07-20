@@ -17,6 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
+
+import static com.sms.partyview.helpers.Utils.DISPLAY_DATE_TIME_FORMATTER;
+
 /**
  * Created by sque on 7/16/14.
  */
@@ -76,8 +80,8 @@ public abstract class EventDetailFragment extends Fragment {
         mTvOrganizer.setText(tempEvent.getHost());
         mTvLocation.setText(tempEvent.getAddress());
         mTvDescription.setText(tempEvent.getDescription());
-        mTvStartTime.setText(tempEvent.getStartDate().toString());
-        mTvEndTime.setText(tempEvent.getEndDate().toString());
+        mTvStartTime.setText(DISPLAY_DATE_TIME_FORMATTER.print(new DateTime(tempEvent.getStartDate())));
+        mTvEndTime.setText(DISPLAY_DATE_TIME_FORMATTER.print(new DateTime(tempEvent.getEndDate())));
     }
 
     protected void retrieveEvent() {
