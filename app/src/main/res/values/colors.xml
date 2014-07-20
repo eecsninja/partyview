@@ -16,6 +16,11 @@
     <color name="blue">#0000FF</color>
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
+    <color name="gold">#E0A000</color>
+    <color name="orange">#F06000</color>
+    <color name="dark_red">#C00000</color>
+    <color name="light_green">#00C000</color>
+    <color name="light_blue">#0040FF</color>
 
 
     <!-- custom light theme: -->
