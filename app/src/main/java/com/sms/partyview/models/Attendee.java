@@ -14,6 +14,7 @@ public class Attendee implements Parcelable {
     private double latitude;
     private double longitude;
     private Date updatedAt;
+    private String objectId;
 
     public Attendee(Parcel in) {
         super();
@@ -27,6 +28,7 @@ public class Attendee implements Parcelable {
         this.latitude = eventUser.getLocation().getLatitude();
         this.longitude = eventUser.getLocation().getLongitude();
         this.updatedAt = eventUser.getUpdatedAt();
+        this.objectId = eventUser.getObjectId();
     }
 
     public static final Parcelable.Creator<Attendee> CREATOR = new Parcelable.Creator<Attendee>() {
@@ -47,6 +49,7 @@ public class Attendee implements Parcelable {
         latitude = in.readDouble();
         longitude = in.readDouble();
         updatedAt = new Date(in.readLong());
+        objectId = in.readString();
     }
 
     public int describeContents() {
@@ -59,6 +62,7 @@ public class Attendee implements Parcelable {
         dest.writeDouble(latitude);
         dest.writeDouble(longitude);
         dest.writeLong(updatedAt.getTime());
+        dest.writeString(objectId);
     }
 
     public String getUsername() {
@@ -101,6 +105,13 @@ public class Attendee implements Parcelable {
         return updatedAt;
     }
 
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
 
 
 }

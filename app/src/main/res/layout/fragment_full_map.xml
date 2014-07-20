@@ -9,12 +9,26 @@
     tools:context="com.sms.partyview.fragments.MapChatFragment"
     android:orientation="vertical">
     <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share_location"
+            android:id="@+id/switchLocation"
+            android:onClick="onJoinLeave"/>
+
+    </LinearLayout>
+    <LinearLayout
         android:id="@+id/flFullMapContainer"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:padding="5dp"
         android:layout_weight="2"
-        android:orientation="vertical"/>
+        android:orientation="vertical">
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/flChatContainer2"

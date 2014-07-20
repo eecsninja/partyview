@@ -38,8 +38,6 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sms.partyview.models.AttendanceStatus.PRESENT;
-
 public class EventActivity extends FragmentActivity implements
         ChatFragment.OnFragmentInteractionListener,
         EventMapFragment.EventMapFragmentListener{
@@ -70,6 +68,7 @@ public class EventActivity extends FragmentActivity implements
 
     // Fragments
     AcceptedEventDetailFragment detailFragment;
+    MapChatFragment mapChatFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +110,8 @@ public class EventActivity extends FragmentActivity implements
 
         mTabs = (PagerSlidingTabStrip) findViewById(R.id.eventTabs);
         mTabs.setViewPager(vpPager);
+
+        mapChatFragment = (MapChatFragment) mAdapterViewPager.getItem(1);
     }
 
     private List<Fragment> getFragments() {
@@ -118,7 +119,7 @@ public class EventActivity extends FragmentActivity implements
 
         fragments.add(AcceptedEventDetailFragment.newInstance(status.toString(), mEventListIndex, tempEvent));
         fragments.add(MapChatFragment.newInstance(attendees, currentEventUser.getObjectId(), tempEvent.getObjectId(),
-                tempEvent.getLatitude(), tempEvent.getLongitude()));
+                tempEvent.getLatitude(), tempEvent.getLongitude(), currentEventUser.getStatus().toString()));
 
         return fragments;
     }
@@ -176,47 +177,25 @@ public class EventActivity extends FragmentActivity implements
         finish();
     }
 
-    @Override
-    public void onViewCreated() {
-        if (eventMapFragment != null) {
-            eventMapFragment.setOnMapClick(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-                    if (status.equals(PRESENT)) {
-//                        Intent mapIntent = new Intent(AcceptedEventDetailActivity.this,
-//                                FullMapActivity.class);
-//                        mapIntent.putParcelableArrayListExtra("attendees", attendees);
-//                        mapIntent.putExtra("currentEventUserObjId", currentEventUser.getObjectId());
-//                        mapIntent.putExtra("eventId", mEvent.getObjectId());
-//                        mapIntent.putExtra("latitude", mEvent.getLocation().getLatitude());
-//                        mapIntent.putExtra("longitude", mEvent.getLocation().getLongitude());
-//                        startActivity(mapIntent);
-                    }
-                }
-            });
-            eventMapFragment.setMarkerVisibility(status.equals(PRESENT));
-        }
-    }
-
     protected void retrieveAttendeeList() {
         ParseQuery<EventUser> query = EventUser.getQueryForAttendeeList(tempEvent.getObjectId());
         query.findInBackground(new FindCallback<EventUser>() {
             @Override
             public void done(List<EventUser> users, ParseException e) {
-                List<String> eventUserStrings = new ArrayList<String>();
-                for (EventUser eventUser : users) {
-                    if (eventUser != null) {
-                        eventUsers.add(eventUser);
-                        attendees.add(new Attendee(eventUser));
-                        if (eventUser.getUser().getObjectId()
-                                .equals(ParseUser.getCurrentUser().getObjectId())) {
-                            currentEventUser = eventUser;
-                            status = eventUser.getStatus();
-                        }
-                        eventUserStrings.add(eventUser.getUser().getUsername());
+            List<String> eventUserStrings = new ArrayList<String>();
+            for (EventUser eventUser : users) {
+                if (eventUser != null) {
+                    eventUsers.add(eventUser);
+                    attendees.add(new Attendee(eventUser));
+                    if (eventUser.getUser().getObjectId()
+                            .equals(ParseUser.getCurrentUser().getObjectId())) {
+                        currentEventUser = eventUser;
+                        status = eventUser.getStatus();
                     }
+                    eventUserStrings.add(eventUser.getUser().getUsername());
                 }
-                setupTabs();
+            }
+            setupTabs();
             }
         });
     }
@@ -224,5 +203,18 @@ public class EventActivity extends FragmentActivity implements
 
     public void onViewAttendees(View view) {
         AttendeeListDialogFragment.show(this, getString(R.string.attendees_title), attendees);
+    }
+
+    public void onViewCreated() {
+        if (mapChatFragment == null) {
+            mapChatFragment = (MapChatFragment) mAdapterViewPager.getItem(1);
+        }
+        if (mapChatFragment != null) {
+            mapChatFragment.onViewCreated();
+        }
+    }
+
+    public void onJoinLeave(View v) {
+        mapChatFragment.onJoinLeave(v);
     }
 }

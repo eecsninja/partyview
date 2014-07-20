@@ -246,10 +246,6 @@ public class EventMapFragment extends Fragment implements LocationListener,
     private void addUsersToMap(List<Attendee> attendees) {
         if (map != null) {
             for (Attendee attendee : attendees) {
-//                Marker marker = map.addMarker(new MarkerOptions()
-//                        .position(new LatLng(attendee.getLatitude(),
-//                                attendee.getLongitude()))
-//                        .title(attendee.getUsername()));
                 UserMarker userMarker = new UserMarker(attendee.getUsername(),
                         attendee.getLatitude(), attendee.getLongitude(), attendee.getUpdatedAt());
 
@@ -307,8 +303,10 @@ public class EventMapFragment extends Fragment implements LocationListener,
     }
 
     public void setMarkerVisibility(boolean visible) {
-        for (Marker marker : markers) {
-            marker.setVisible(visible);
+        if (markers != null) {
+            for (Marker marker : markers) {
+                marker.setVisible(visible);
+            }
         }
     }
 
