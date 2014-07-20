@@ -57,6 +57,8 @@ dependencies {
     }
 
     compile 'com.github.johnkil.android-robototextview:robototextview:2.1.0'
+
+    compile 'com.iangclifton.android:floatlabel:1.0'
 }
 
 // Credit: https://gist.github.com/dmarcato/d7c91b94214acd936e42

@@ -38,7 +38,7 @@ public class UpdateEventFragment extends EditEventFragment {
     public void loadEvent(Event event) {
         mEvent = event;
 
-        mEtTitle.setText(event.getTitle());
+        mEtTitle.getEditText().setText(event.getTitle());
         mEtAddress.setText(event.getAddress());
         mEtDescription.setText(event.getDescription());
 

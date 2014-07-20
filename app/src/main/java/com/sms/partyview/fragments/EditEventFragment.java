@@ -3,6 +3,7 @@ package com.sms.partyview.fragments;
 import com.doomonafireball.betterpickers.calendardatepicker.CalendarDatePickerDialog;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialPickerLayout;
 import com.doomonafireball.betterpickers.radialtimepicker.RadialTimePickerDialog;
+import com.iangclifton.android.floatlabel.FloatLabel;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -58,7 +59,7 @@ public abstract class EditEventFragment extends Fragment
     protected TextView mTvStartTime;
     protected TextView mTvEndDate;
     protected TextView mTvEndTime;
-    protected EditText mEtTitle;
+    protected FloatLabel mEtTitle;
     protected EditText mEtAddress;
     protected EditText mEtDescription;
     protected Button mBtnSubmit;
@@ -151,7 +152,7 @@ public abstract class EditEventFragment extends Fragment
         mTvStartTime = (TextView) view.findViewById(R.id.tvStartTime);
         mTvEndDate = (TextView) view.findViewById(R.id.tvEndDate);
         mTvEndTime = (TextView) view.findViewById(R.id.tvEndTime);
-        mEtTitle = (EditText) view.findViewById(R.id.etEventName);
+        mEtTitle = (FloatLabel) view.findViewById(R.id.etEventName);
         mEtAddress = (EditText) view.findViewById(R.id.etEventLocation);
         mEtDescription = (EditText) view.findViewById(R.id.etEventDescription);
         mBtnSubmit = (Button) view.findViewById(R.id.btnSubmitEvent);
@@ -172,7 +173,7 @@ public abstract class EditEventFragment extends Fragment
         StringBuilder validationErrorMessage =
                 new StringBuilder(getResources().getString(R.string.error_intro));
 
-        String title = mEtTitle.getText().toString();
+        String title = mEtTitle.getEditText().getText().toString();
         String address = mEtAddress.getText().toString();
         String invitees = mAutoTvInvites.getText().toString();
 
@@ -254,7 +255,7 @@ public abstract class EditEventFragment extends Fragment
 
     // Reads input fields and populates an event object with the fields' contents.
     protected void readEventInfoFromInputFields(Event event) {
-        event.setTitle(mEtTitle.getText().toString());
+        event.setTitle(mEtTitle.getEditText().toString());
         event.setDescription(mEtDescription.getText().toString());
         event.setStartDate(mStartDateTime.toDate());
         event.setEndDate(mEndDateTime.toDate());
