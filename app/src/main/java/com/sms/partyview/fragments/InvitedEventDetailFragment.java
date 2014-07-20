@@ -106,17 +106,17 @@ public class InvitedEventDetailFragment extends EventDetailFragment {
         query.findInBackground(new FindCallback<EventUser>() {
             @Override
             public void done(List<EventUser> users, ParseException e) {
-                String eventUsers = "";
-                for (EventUser eventUser : users) {
-                    if (eventUser != null) {
-                        if (eventUsers.equals("")) {
-                            eventUsers += eventUser.getUser().getUsername();
-                        } else {
-                            eventUsers += ", " + eventUser.getUser().getUsername();
-                        }
+            String eventUsers = "";
+            for (EventUser eventUser : users) {
+                if (eventUser != null) {
+                    if (eventUsers.equals("")) {
+                        eventUsers += eventUser.getUser().getUsername();
+                    } else {
+                        eventUsers += ", " + eventUser.getUser().getUsername();
                     }
                 }
-                mTvAttendeeList.setText(eventUsers);
+            }
+            mTvAttendeeList.setText(eventUsers);
 
             }
         });

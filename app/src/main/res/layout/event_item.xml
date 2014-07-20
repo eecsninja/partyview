@@ -8,16 +8,16 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="14sp"
             android:text="@string/home_event_title_label"
             android:id="@+id/tvEventItemTitle" android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
-            android:layout_marginLeft="16dp" android:layout_marginTop="16dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="@color/custom_blue"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"
             android:text="@string/home_event_host_label"
             android:id="@+id/tvEventItemHost" android:layout_below="@+id/tvEventItemTitle"
             android:layout_alignLeft="@+id/tvEventItemTitle"
@@ -25,7 +25,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="14sp"
             android:text="@string/home_event_time_label"
             android:id="@+id/tvEventItemTime"
             android:layout_below="@+id/tvEventItemHost"

@@ -52,4 +52,8 @@
     <color name="counter_text_bg">#626262</color>
     <color name="counter_text_color">#c5c4c4</color>
 
+
+    <color name="custom_teal">#20c6b3</color>
+    <color name="custom_blue">#33b5e5</color>
+    <color name="custom_coral">#fd6b6b</color>
 </resources>

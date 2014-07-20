@@ -80,8 +80,8 @@ public abstract class EventDetailFragment extends Fragment {
         View view = inflater.inflate(
                 R.layout.fragment_event_detail, container, false);
 
-        openSansTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Regular.ttf");
-        openSansBold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/OpenSans-Bold.ttf");
+        openSansTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Rg.ttf");
+        openSansBold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Aller_Bd.ttf");
         setupViews(view);
 
         // Return it.
@@ -90,19 +90,12 @@ public abstract class EventDetailFragment extends Fragment {
 
     protected void setupViews(View view) {
         mTvTitle = (TextView) view.findViewById(R.id.tvEventName);
-        mTvTitle.setTypeface(openSansBold);
         mTvOrganizer = (TextView) view.findViewById(R.id.tvEventOrganizer);
-        mTvOrganizer.setTypeface(openSansTypeface);
         mTvDescription = (TextView) view.findViewById(R.id.tvEventDescription);
-        mTvDescription.setTypeface(openSansTypeface);
         mTvStartTime = (TextView) view.findViewById(R.id.tvEventStartTime);
-        mTvStartTime.setTypeface(openSansTypeface);
         mTvEndTime = (TextView) view.findViewById(R.id.tvEventEndTime);
-        mTvEndTime.setTypeface(openSansTypeface);
         mTvLocation = (TextView) view.findViewById(R.id.tvEventLocation);
-        mTvLocation.setTypeface(openSansTypeface);
         mTvAttendeeList = (TextView) view.findViewById(R.id.tvEventAttendeeList);
-        mTvAttendeeList.setTypeface(openSansTypeface);
     }
 
     protected void populateEventInfo () {

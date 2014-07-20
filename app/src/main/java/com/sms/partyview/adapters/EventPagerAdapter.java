@@ -10,7 +10,7 @@ import java.util.List;
 
 public class EventPagerAdapter extends FragmentPagerAdapter {
 
-    private static final String[] CONTENT = { "Event Details", "Chat"};
+    private static final String[] CONTENT = { "Info", "Chat"};
     private static final int[] ICONS = {R.drawable.ic_info, R.drawable.ic_action_chat};
 
     private List<Fragment> mFragments;

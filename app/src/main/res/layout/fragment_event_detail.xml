@@ -17,6 +17,15 @@
         android:padding="10dp"
         android:background="@drawable/event_detail_background"
         android:layout_marginBottom="10dp">
+        <TextView
+            android:text="@string/details"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textColor="@color/custom_teal"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="5dp"/>
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -24,7 +33,7 @@
             <TextView
                 android:id="@+id/tvEventName"
                 android:text=""
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"/>
@@ -122,7 +131,8 @@
             <TextView
                 android:id="@+id/tvEventAttendeeList"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="12sp"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -135,29 +145,27 @@
         android:padding="10dp"
         android:background="@drawable/event_detail_background"
         android:layout_marginBottom="10dp">
-
+        <TextView
+            android:text="@string/location"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textColor="@color/custom_teal"
+            android:textSize="12sp"
+            android:layout_marginBottom="5dp"
+            android:textStyle="bold"/>
         <fragment
             android:id="@+id/location_map"
             android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:name="com.google.android.gms.maps.SupportMapFragment" />
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:text="@string/label_event_location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:textStyle="bold"
-                android:textSize="12sp"/>
-            <TextView
-                android:id="@+id/tvEventLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"/>
-        </LinearLayout>
+            android:layout_height="150dp"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/tvEventLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
     <LinearLayout
@@ -171,7 +179,9 @@
         android:layout_height="wrap_content"
         android:text="@string/view_attendees"
         android:background="@drawable/event_detail_background"
-        android:onClick="onViewAttendees"/>
+        android:onClick="onViewAttendees"
+        android:textSize="14sp"
+        android:textColor="@color/custom_teal"/>
     <!--<TextView-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
