@@ -33,12 +33,12 @@ public class AcceptedEventsFragment extends EventListFragment {
             new FindCallback<EventUser>() {
                 @Override
                 public void done(List<EventUser> eventUsers, ParseException e) {
-                List<Event> events = new ArrayList<Event>();
-                for (EventUser eventUser : eventUsers) {
-                    events.add(eventUser.getEvent());
-                    statusMap.put(eventUser.getEvent().getObjectId(), eventUser.getStatus().toString());
-                }
-                eventAdapter.addAll(events);
+                    List<Event> events = new ArrayList<Event>();
+                    for (EventUser eventUser : eventUsers) {
+                        events.add(eventUser.getEvent());
+                        statusMap.put(eventUser.getEvent().getObjectId(), eventUser.getStatus().toString());
+                    }
+                    eventAdapter.addAll(events);
                 }
             }
         );
