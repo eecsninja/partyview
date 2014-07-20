@@ -11,7 +11,8 @@
             android:text="@string/home_event_title_label"
             android:id="@+id/tvEventItemTitle" android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
-            android:layout_marginLeft="16dp" android:layout_marginTop="16dp"/>
+            android:layout_marginLeft="16dp" android:layout_marginTop="16dp"
+            android:textStyle="bold"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
