@@ -71,10 +71,10 @@ implements SignOutDialogListener{
 
         cacheAppUsers();
 
-        getActionBar().setTitle(
-                getString(R.string.title_activity_home) +
-                        " (" + ParseUser.getCurrentUser().getUsername() + ")"
-        );
+//        getActionBar().setTitle(
+//                getString(R.string.title_activity_home) +
+//                        " (" + ParseUser.getCurrentUser().getUsername() + ")"
+//        );
 
         mEventTabsFragment = EventTabsFragment.newInstance();
 
