@@ -13,9 +13,9 @@
         <item name="displayOptions">showHome|useLogo</item>
     </style>
     <style name="ListItem">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_vertical|left</item>
+        <item name="android:gravity">center</item>
         <item name="android:orientation">vertical</item>
     </style>
 
@@ -28,7 +28,7 @@
     <style name="CustomButton" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/event_detail_background</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/custom_teal</item>
+        <item name="android:textColor">@color/custom_coral</item>
         <item name="android:padding">15dp</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -37,7 +37,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">@color/custom_teal</item>
+        <item name="android:textColor">@color/custom_purple</item>
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_marginBottom">5dp</item>

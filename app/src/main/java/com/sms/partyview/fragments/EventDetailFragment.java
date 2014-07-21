@@ -151,7 +151,7 @@ public abstract class EventDetailFragment extends Fragment {
         // For dropping a marker at a point on the  Map
         mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)).title(getString(R.string.label_event_location)));
         // For zooming automatically to the Dropped PIN Location
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,
                 longitude), 12.0f));
 
         mMap.getUiSettings().setZoomControlsEnabled(false);

@@ -13,7 +13,7 @@
             android:id="@+id/tvEventItemTitle" android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
             android:textStyle="bold"
-            android:textColor="@color/custom_teal"/>
+            android:textColor="@color/custom_coral"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

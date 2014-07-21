@@ -162,10 +162,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/view_attendees"
-        android:background="@drawable/event_detail_background"
-        android:onClick="onViewAttendees"
-        android:textSize="14sp"
-        android:textColor="@color/custom_teal"/>
+        style="@style/CustomButton"
+        android:onClick="onViewAttendees"/>
     <!--<TextView-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->

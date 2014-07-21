@@ -291,8 +291,8 @@ public class EventMapFragment extends Fragment implements LocationListener,
             //CameraUpdateFactory.
 
 
-            map.animateCamera(cu);
-            map.animateCamera(CameraUpdateFactory.zoomTo(14f));
+            map.moveCamera(cu);
+            map.moveCamera(CameraUpdateFactory.zoomTo(14f));
         }
     }
 

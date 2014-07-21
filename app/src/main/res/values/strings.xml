@@ -32,11 +32,11 @@
     <string name="title_activity_new_event">Create New Event</string>
     <string name="action_new_event">New Event</string>
     <string name="action_edit_event">Edit Event</string>
-    <string name="label_event_name">Event Name:</string>
-    <string name="label_event_host">Hosted by:</string>
+    <string name="label_event_name">Event Name</string>
+    <string name="label_event_host">Hosted by</string>
     <string name="label_event_start_date">Start</string>
-    <string name="label_event_location">Location:</string>
-    <string name="label_event_description">Description:</string>
+    <string name="label_event_location">Location</string>
+    <string name="label_event_description">Description</string>
     <string name="label_event_invites">Invites:</string>
     <string name="hint_event_date">07/05/2014</string>
     <string name="btn_label_submit_event">Submit Event</string>
