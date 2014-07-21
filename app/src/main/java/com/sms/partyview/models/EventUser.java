@@ -7,6 +7,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
@@ -104,6 +105,11 @@ public class EventUser extends ParseObject {
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.whereContainedIn("status", statuses);
         query.include("event.host");
+
+        // Limit the query to events that have not yet passed.
+        ParseQuery eventQuery = ParseQuery.getQuery(Event.class);
+        eventQuery.whereGreaterThan("end_date", new Date());
+        query.whereMatchesQuery("event", eventQuery);
 
         return query;
     }
