@@ -255,7 +255,7 @@ public abstract class EditEventFragment extends Fragment
 
     // Reads input fields and populates an event object with the fields' contents.
     protected void readEventInfoFromInputFields(Event event) {
-        event.setTitle(mEtTitle.getEditText().toString());
+        event.setTitle(mEtTitle.getEditText().getText().toString());
         event.setDescription(mEtDescription.getText().toString());
         event.setStartDate(mStartDateTime.toDate());
         event.setEndDate(mEndDateTime.toDate());
