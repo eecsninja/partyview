@@ -26,6 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+
 /**
  * A fragment representing a list of events.
  */
@@ -42,6 +46,8 @@ public abstract class EventListFragment extends Fragment {
     protected Map<String, String> statusMap = new HashMap<String, String>();
 
     public static final int EVENT_DETAIL_REQUEST = 123;
+
+    private PullToRefreshLayout mPullToRefreshLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +74,25 @@ public abstract class EventListFragment extends Fragment {
         // Set up to display tweets.
         eventsView = (ListView) view.findViewById(R.id.lvHomeEventList);
         eventsView.setAdapter(eventAdapter);
+
+        // TODO: This causes the pull down refresh UI to appear over the
+        // tabs, not over this list fragment. Should fix that somehow.
+        mPullToRefreshLayout = (PullToRefreshLayout) view.findViewById(R.id.refreshLayoutEventList);
+        // Now setup the PullToRefreshLayout
+        ActionBarPullToRefresh.from(getActivity())
+                // Mark All Children as pullable
+                .allChildrenArePullable()
+                // Set a OnRefreshListener
+                .listener(new OnRefreshListener() {
+                    @Override
+                    public void onRefreshStarted(View view) {
+                        // Get the updated event list.
+                        // TODO: Refresh events for both lists.
+                        populateEventList();
+                    }
+                })
+                // Finally commit the setup to our PullToRefreshLayout
+                .setup(mPullToRefreshLayout);
 
         populateEventList();
 
@@ -131,7 +156,10 @@ public abstract class EventListFragment extends Fragment {
                                         eventUser.getEvent().getObjectId(),
                                         eventUser.getStatus().toString());
                             }
+                            eventAdapter.clear();
                             eventAdapter.addAll(events);
+                            // This may be called from a pull down refresh.
+                            mPullToRefreshLayout.setRefreshComplete();
                         } else {
                             System.err.println("EventListFragment.populateEventList(): " +
                                                e.getMessage());
