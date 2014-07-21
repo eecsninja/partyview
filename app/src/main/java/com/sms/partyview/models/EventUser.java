@@ -6,7 +6,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
@@ -37,28 +37,13 @@ public class EventUser extends ParseObject {
     }
 
     public static ParseQuery<EventUser> getQueryForAcceptedEvents() {
-        // Define the class we would like to query
-        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
-        query.whereEqualTo("user", ParseUser.getCurrentUser());
-
-        List<String> statuses = new ArrayList<String>();
-        statuses.add(PRESENT.toString());
-        statuses.add(ACCEPTED.toString());
-        query.whereContainedIn("status", statuses);
-        query.include("event.host");
-
-        return query;
+        List<String> statuses = Arrays.asList(PRESENT.toString(), ACCEPTED.toString());
+        return getQueryForCurrentUserEventsWithStatus(statuses);
     }
 
     public static ParseQuery<EventUser> getQueryForPendingEvents() {
-        // Define the class we would like to query
-        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
-
-        query.whereEqualTo("user", ParseUser.getCurrentUser());
-        query.whereEqualTo("status", INVITED.toString());
-        query.include("event.host");
-
-        return query;
+        List<String> statuses = Arrays.asList(INVITED.toString());
+        return getQueryForCurrentUserEventsWithStatus(statuses);
     }
 
     public static ParseQuery<EventUser> getQueryForAttendeeList(String eventId) {
@@ -108,5 +93,18 @@ public class EventUser extends ParseObject {
 
     public void setEvent(Event event) {
         put("event", event);
+    }
+
+    // Given a list of attendance statuses in string format, return a query that for all EventUser
+    // objects with that status, for the current user.
+    private static ParseQuery<EventUser> getQueryForCurrentUserEventsWithStatus(
+            List<String> statuses) {
+        // Define the class we would like to query
+        ParseQuery<EventUser> query = ParseQuery.getQuery(EventUser.class);
+        query.whereEqualTo("user", ParseUser.getCurrentUser());
+        query.whereContainedIn("status", statuses);
+        query.include("event.host");
+
+        return query;
     }
 }
