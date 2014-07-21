@@ -1,6 +1,5 @@
 package com.sms.partyview.fragments;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -15,9 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by myho on 7/3/14.
  */
@@ -31,26 +27,8 @@ public class PendingEventsFragment extends EventListFragment {
     }
 
     @Override
-    protected void populateEventList() {
-        // Define the class we would like to query
-        ParseQuery<EventUser> query = EventUser.getQueryForPendingEvents();
-
-        query.findInBackground(
-                new FindCallback<EventUser>() {
-                    @Override
-                    public void done(List<EventUser> eventUsers, ParseException e) {
-                        if (e == null) {
-                          //  Log.d("DEBUG", "invited eventUsers");
-                          //  Log.d("DEBUG", eventUsers.size() + eventUsers.toString());
-                            List<Event> events = new ArrayList<Event>();
-                            for (EventUser eventUser : eventUsers) {
-                                events.add(eventUser.getEvent());
-                            }
-                            eventAdapter.addAll(events);
-                        }
-                    }
-                }
-        );
+    protected ParseQuery<EventUser> getQueryForEvents() {
+        return EventUser.getQueryForPendingEvents();
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.sms.partyview.fragments;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -8,9 +7,6 @@ import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
 import android.util.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by myho on 7/3/14.
@@ -25,23 +21,8 @@ public class AcceptedEventsFragment extends EventListFragment {
     }
 
     @Override
-    protected void populateEventList() {
-        // Query for new results from the network.
-        ParseQuery<EventUser> query = EventUser.getQueryForAcceptedEvents();
-
-        query.findInBackground(
-            new FindCallback<EventUser>() {
-                @Override
-                public void done(List<EventUser> eventUsers, ParseException e) {
-                    List<Event> events = new ArrayList<Event>();
-                    for (EventUser eventUser : eventUsers) {
-                        events.add(eventUser.getEvent());
-                        statusMap.put(eventUser.getEvent().getObjectId(), eventUser.getStatus().toString());
-                    }
-                    eventAdapter.addAll(events);
-                }
-            }
-        );
+    protected ParseQuery<EventUser> getQueryForEvents() {
+        return EventUser.getQueryForAcceptedEvents();
     }
 
     public void addNewEventToList(String eventId, final String attendanceStatus) {

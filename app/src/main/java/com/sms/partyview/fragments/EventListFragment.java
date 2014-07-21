@@ -1,9 +1,13 @@
 package com.sms.partyview.fragments;
 
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
 import com.sms.partyview.R;
 import com.sms.partyview.activities.EventActivity;
 import com.sms.partyview.adapters.EventAdapter;
 import com.sms.partyview.models.Event;
+import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
 
 import android.app.Activity;
@@ -110,5 +114,33 @@ public abstract class EventListFragment extends Fragment {
         eventAdapter.update(index, event);
     }
 
-    protected abstract void populateEventList();
+
+    protected void populateEventList() {
+        // Query for new results from the network.
+        ParseQuery<EventUser> query = getQueryForEvents();
+
+        query.findInBackground(
+                new FindCallback<EventUser>() {
+                    @Override
+                    public void done(List<EventUser> eventUsers, ParseException e) {
+                        if (e == null) {
+                            List<Event> events = new ArrayList<Event>();
+                            for (EventUser eventUser : eventUsers) {
+                                events.add(eventUser.getEvent());
+                                statusMap.put(
+                                        eventUser.getEvent().getObjectId(),
+                                        eventUser.getStatus().toString());
+                            }
+                            eventAdapter.addAll(events);
+                        } else {
+                            System.err.println("EventListFragment.populateEventList(): " +
+                                               e.getMessage());
+                        }
+                    }
+                }
+        );
+    }
+
+    // Returns a parse query for the events shown in this list.
+    protected abstract ParseQuery<EventUser> getQueryForEvents();
 }
