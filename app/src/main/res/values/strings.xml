@@ -123,5 +123,6 @@
     <string name="alert_cancel">Cancel</string>
     <string name="title_activity_event">EventActivity</string>
     <string name="title_activity_invite">InviteActivity</string>
+    <string name="user_details">User Details</string>
 
 </resources>

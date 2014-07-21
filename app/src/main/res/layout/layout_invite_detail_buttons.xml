@@ -12,20 +12,12 @@
             android:text="@string/accept_invite"
             android:onClick="onAcceptInvite"
             android:layout_weight=".5"
-            android:background="@drawable/event_detail_background"
-            android:textSize="14sp"
-            android:textColor="@color/custom_teal"
-            android:layout_marginRight="10dp"
-            android:padding="5dp"/>
+            android:layout_marginRight="10dp"/>
     <Button
             android:id="@+id/btnRejectInvite"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/reject_invite"
             android:onClick="onRejectInvite"
-            android:layout_weight=".5"
-            android:background="@drawable/event_detail_background"
-            android:textSize="14sp"
-            android:textColor="@color/custom_teal"
-            android:padding="5dp"/>
+            android:layout_weight=".5"/>
 </LinearLayout>
