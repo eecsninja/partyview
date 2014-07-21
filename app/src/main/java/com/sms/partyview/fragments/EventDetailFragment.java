@@ -153,6 +153,9 @@ public abstract class EventDetailFragment extends Fragment {
         // For zooming automatically to the Dropped PIN Location
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(latitude,
                 longitude), 12.0f));
+
+        mMap.getUiSettings().setZoomControlsEnabled(false);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
 
     protected boolean isPlayServicesAvailable() {

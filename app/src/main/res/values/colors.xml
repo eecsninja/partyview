@@ -45,10 +45,10 @@
     <color name="background_dark">#C35817</color>
 
     <!--for sliding menu-->
-    <color name="list_item_title">#fff</color>
-    <color name="list_background">#303030</color>
-    <color name="list_background_pressed">#992416</color>
-    <color name="list_divider">#272727</color>
+    <color name="list_item_title">#3d3e3c</color>
+    <color name="list_background">#ffffff</color>
+    <color name="list_background_pressed">#20c6b3</color>
+    <color name="list_divider">#20c6b3</color>
     <color name="counter_text_bg">#626262</color>
     <color name="counter_text_color">#c5c4c4</color>
 
