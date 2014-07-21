@@ -93,10 +93,8 @@ public class EventActivity extends FragmentActivity implements
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.event, menu);
         // Show the edit menu item if the current user is the host.
-        if (tempEvent != null && tempEvent.getHost() != null) {
-            menu.findItem(R.id.action_edit_event)
-                    .setVisible(tempEvent.getHost().equals(ParseUser.getCurrentUser().getUsername()));
-        }
+        menu.findItem(R.id.action_edit_event)
+                .setVisible(tempEvent.getHost().equals(ParseUser.getCurrentUser().getUsername()));
         return true;
     }
 

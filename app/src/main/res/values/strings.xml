@@ -109,7 +109,7 @@
     <array name="nav_drawer_icons">
         <item>@drawable/ic_home</item>
         <item>@drawable/ic_profile</item>
-        <item>@drawable/ic_action_sign_out</item>
+        <item>@drawable/ic_sign_out</item>
     </array>
 
     <!-- Content Description -->
