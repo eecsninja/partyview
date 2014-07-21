@@ -17,6 +17,7 @@
     <style name="CustomLightTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="sdlDialogStyle">@style/DialogStyleLight.Custom</item>
         <item name="android:windowBackground">@color/white</item>
+        <item name="android:buttonStyle">@style/CustomButton</item>
     </style>
 
     <style name="DialogStyleLight.Custom">
