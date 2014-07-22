@@ -4,8 +4,8 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
+                android:paddingTop="5dp"
+                android:background="#f0f0f0"
                 tools:context="com.sms.partyview.activities.NewEventActivity">
 
     <com.iangclifton.android.floatlabel.FloatLabel
@@ -21,7 +21,6 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:weightSum="3">
 
         <LinearLayout
@@ -155,14 +154,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:padding="10dp"
+            android:background="@drawable/event_detail_background">
 
         <TextView
                 android:id="@+id/tvLocationLabel"
                 android:text="@string/label_event_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"/>
+                android:layout_gravity="bottom"
+                style="@style/SectionTitles"/>
 
         <EditText
                 android:id="@+id/etEventLocation"
@@ -184,13 +186,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@drawable/event_detail_background">
 
         <TextView
                 android:id="@+id/tvDescriptionLabel"
                 android:text="@string/label_event_description"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                style="@style/SectionTitles"/>
 
         <EditText
                 android:id="@+id/etEventDescription"
@@ -212,14 +217,17 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:background="@drawable/event_detail_background">
 
         <TextView
                 android:id="@+id/tvInvitesLabel"
                 android:text="@string/label_event_invites"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"/>
+                android:layout_gravity="bottom"
+                style="@style/SectionTitles"/>
 
         <MultiAutoCompleteTextView
                 android:id="@+id/autoTvInvites"

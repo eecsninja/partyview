@@ -60,13 +60,15 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_detail_background">
         <TextView
             android:text="@string/label_event_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            style="@style/SectionTitles"/>
         <TextView
             android:id="@+id/tvLocation"
             android:layout_width="wrap_content"
@@ -76,13 +78,15 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_detail_background">
         <TextView
             android:text="@string/label_event_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            style="@style/SectionTitles"/>
 
         <TextView
             android:id="@+id/tvDescription"
@@ -92,13 +96,15 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/event_detail_background">
         <TextView
             android:text="@string/attendees_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            style="@style/SectionTitles"/>
 
         <TextView
             android:id="@+id/tvAttendeeList"
