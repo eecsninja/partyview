@@ -8,6 +8,7 @@ import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 
 import org.joda.time.DateTime;
+import org.joda.time.MutableDateTime;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,14 +43,9 @@ public class UpdateEventFragment extends EditEventFragment {
         mEtAddress.setText(event.getAddress());
         mEtDescription.setText(event.getDescription());
 
-        DateTime startDate = new DateTime(event.getStartDate());
-        mTvStartDate.setText(DISPLAY_DATE_FORMATTER.print(startDate));
-        mTvStartTime.setText(DISPLAY_TIME_FORMATTER.print(startDate));
-
-        DateTime endDate = new DateTime(event.getEndDate());
-        mTvEndDate.setText(DISPLAY_DATE_FORMATTER.print(endDate));
-        mTvEndTime.setText(DISPLAY_TIME_FORMATTER.print(endDate));
-
+        mStartDateTime = new MutableDateTime(event.getStartDate());
+        mEndDateTime = new MutableDateTime(event.getEndDate());
+        populateDatTimeViews();
         getEventInvitees(event);
     }
 

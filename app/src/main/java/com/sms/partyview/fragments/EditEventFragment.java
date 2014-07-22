@@ -68,8 +68,8 @@ public abstract class EditEventFragment extends Fragment
     private List<String> mUserNames = new ArrayList<String>();
     private Map<String, ParseUser> mUserNameToUser = new HashMap<String, ParseUser>();
     private ArrayAdapter<String> mAdapterInvitesAutoComplete;
-    private MutableDateTime mStartDateTime;
-    private MutableDateTime mEndDateTime;
+    protected MutableDateTime mStartDateTime;
+    protected MutableDateTime mEndDateTime;
 
     private EventSaverInterface mEventSaver;
 
@@ -108,7 +108,7 @@ public abstract class EditEventFragment extends Fragment
     private void setUpViews(View view) {
         initializedDateTime();
         findViews(view);
-        populateViews();
+        populateDatTimeViews();
         setUpClickListeners();
     }
 
@@ -139,7 +139,7 @@ public abstract class EditEventFragment extends Fragment
         mTvEndTime.setOnClickListener(this);
     }
 
-    private void populateViews() {
+    protected void populateDatTimeViews() {
         mTvStartDate.setText(mStartDateTime.toString(DISPLAY_DATE_FORMATTER));
         mTvStartTime.setText(mStartDateTime.toString(DISPLAY_TIME_FORMATTER));
 
