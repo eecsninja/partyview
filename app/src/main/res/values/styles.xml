@@ -9,8 +9,7 @@
     <style name="TealActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
         <item name="android:background">#20c6b3</item>
         <item name="android:textColor">#ffffff</item>
-        <item name="android:displayOptions">showHome|useLogo</item>
-        <item name="displayOptions">showHome|useLogo</item>
+        <item name="android:icon">@android:color/transparent</item>
     </style>
     <style name="ListItem">
         <item name="android:layout_width">fill_parent</item>

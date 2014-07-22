@@ -76,7 +76,7 @@ public class AcceptedEventDetailFragment
         }
         if (tempEvent != null) {
             populateEventInfo();
-            getActivity().getActionBar().setTitle(tempEvent.getTitle());
+          //  getActivity().getActionBar().setTitle(tempEvent.getTitle());
         }
     }
 
@@ -97,20 +97,20 @@ public class AcceptedEventDetailFragment
         query.findInBackground(new FindCallback<EventUser>() {
             @Override
             public void done(List<EventUser> users, ParseException e) {
-                List<String> eventUserStrings = new ArrayList<String>();
-                for (EventUser eventUser : users) {
-                    if (eventUser != null) {
-                        eventUsers.add(eventUser);
-                        attendees.add(new Attendee(eventUser));
-                        if (eventUser.getUser().getObjectId()
-                                .equals(ParseUser.getCurrentUser().getObjectId())) {
-                            currentEventUser = eventUser;
-                            status = eventUser.getStatus();
-                        }
-                        eventUserStrings.add(eventUser.getUser().getUsername());
+            List<String> eventUserStrings = new ArrayList<String>();
+            for (EventUser eventUser : users) {
+                if (eventUser != null) {
+                    eventUsers.add(eventUser);
+                    attendees.add(new Attendee(eventUser));
+                    if (eventUser.getUser().getObjectId()
+                            .equals(ParseUser.getCurrentUser().getObjectId())) {
+                        currentEventUser = eventUser;
+                        status = eventUser.getStatus();
                     }
+                    eventUserStrings.add(eventUser.getUser().getUsername());
                 }
-                mTvAttendeeList.setText(Utils.joinStrings(eventUserStrings, ", "));
+            }
+            mTvAttendeeList.setText(Utils.joinStrings(eventUserStrings, ", "));
             }
         });
     }

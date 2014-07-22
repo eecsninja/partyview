@@ -5,11 +5,13 @@ import com.sms.partyview.fragments.InvitedEventDetailFragment;
 import com.sms.partyview.models.LocalEvent;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 import static com.sms.partyview.models.AttendanceStatus.DECLINED;
@@ -29,6 +31,14 @@ public class InviteActivity extends FragmentActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invite);
+
+        int titleId = getResources().getIdentifier("action_bar_title", "id",
+                "android");
+        TextView yourTextView = (TextView) findViewById(titleId);
+        yourTextView.setTextColor(getResources().getColor(R.color.white));
+        yourTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf"));
+        yourTextView.setPadding(0,0,0,5);
+        yourTextView.setTextSize(22);
 
         tempEvent = (LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY);
         setupDetailFragment();

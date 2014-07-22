@@ -18,6 +18,7 @@ import com.sms.partyview.models.NavDrawerItem;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +78,14 @@ implements SignOutDialogListener{
 //                        " (" + ParseUser.getCurrentUser().getUsername() + ")"
 //        );
 
+        int titleId = getResources().getIdentifier("action_bar_title", "id",
+                "android");
+        TextView yourTextView = (TextView) findViewById(titleId);
+        yourTextView.setTextColor(getResources().getColor(R.color.white));
+        yourTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf"));
+        yourTextView.setPadding(0,0,0,5);
+        yourTextView.setTextSize(22);
+
         mEventTabsFragment = EventTabsFragment.newInstance();
 
         setupNavDrawer(savedInstanceState);
@@ -119,19 +129,20 @@ implements SignOutDialogListener{
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
+
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
                 R.drawable.ic_navigation_drawer, //nav menu toggle icon
                 R.string.app_name, // nav drawer open - description for accessibility
                 R.string.app_name // nav drawer close - description for accessibility
         ) {
             public void onDrawerClosed(View view) {
-                getActionBar().setTitle(mTitle);
+               // getActionBar().setTitle(mTitle);
                 // calling onPrepareOptionsMenu() to show action bar icons
                 invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
+               // getActionBar().setTitle(mDrawerTitle);
                 // calling onPrepareOptionsMenu() to hide action bar icons
                 invalidateOptionsMenu();
             }
@@ -283,7 +294,7 @@ implements SignOutDialogListener{
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
         mDrawerList.setSelection(position);
-        setTitle(navMenuTitles[position]);
+        //setTitle(navMenuTitles[position]);
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 

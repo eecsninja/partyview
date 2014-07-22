@@ -85,9 +85,9 @@ public class InvitedEventDetailFragment extends EventDetailFragment {
         if (tempEvent != null) {
             populateEventInfo();
             if (!tempEvent.getTitle().isEmpty()) {
-                getActivity().getActionBar().setTitle(
-                        getString(R.string.title_activity_invite_detail) + " " +
-                                tempEvent.getTitle());
+//              //  getActivity().getActionBar().setTitle(
+//                        getString(R.string.title_activity_invite_detail) + " " +
+//                                tempEvent.getTitle());
             }
         }
 

@@ -3,13 +3,16 @@ package com.sms.partyview.activities;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.sms.partyview.R;
 import com.sms.partyview.fragments.EditEventFragment;
 import com.sms.partyview.fragments.UpdateEventFragment;
 import com.sms.partyview.models.Event;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -34,6 +37,14 @@ public class UpdateEventActivity extends EditEventActivity {
         if (!getIntent().hasExtra(EVENT_ID_INTENT_KEY)) {
             showToastAndFinish("No event was provided.");
         }
+
+        int titleId = getResources().getIdentifier("action_bar_title", "id",
+                "android");
+        TextView yourTextView = (TextView) findViewById(titleId);
+        yourTextView.setTextColor(getResources().getColor(R.color.white));
+        yourTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf"));
+        yourTextView.setPadding(0,0,0,5);
+        yourTextView.setTextSize(22);
 
         String eventId = getIntent().getStringExtra(EVENT_ID_INTENT_KEY);
         getEventById(eventId);

@@ -21,12 +21,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -50,6 +52,14 @@ abstract public class EditEventActivity extends FragmentActivity implements Even
 
         // MUST request the feature before setting content view
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+        int titleId = getResources().getIdentifier("action_bar_title", "id",
+                "android");
+        TextView yourTextView = (TextView) findViewById(titleId);
+        yourTextView.setTextColor(getResources().getColor(R.color.white));
+        yourTextView.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/Pacifico.ttf"));
+        yourTextView.setPadding(0,0,0,5);
+        yourTextView.setTextSize(22);
 
         setContentView(R.layout.activity_edit_event);
 
