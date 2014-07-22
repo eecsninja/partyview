@@ -156,6 +156,27 @@ public abstract class EventListFragment extends Fragment {
         updateExistingEvent(index, event);
     }
 
+    public void removeEventFromList(LocalEvent event) {
+        ParseQuery<Event> query = Event.getQueryForEventWithId(event.getObjectId());
+
+        query.getFirstInBackground(new GetCallback<Event>() {
+            @Override
+            public void done(Event event, ParseException e) {
+                if (e == null) {
+                    eventAdapter.remove(event);
+                    if (events.isEmpty()) {
+                        displayNoItemMessage();
+                    }
+                    Log.d(TAG, "back to main");
+                    Log.d(TAG, event.getTitle().toString());
+                } else {
+                    System.err.println("EventListFragment.removeEventFromList: " +
+                            e.getMessage());
+                }
+            }
+        });
+    }
+
     protected void updateExistingEvent(int index, LocalEvent event) {
         // Make sure index is valid.
         if (index >= events.size()) {

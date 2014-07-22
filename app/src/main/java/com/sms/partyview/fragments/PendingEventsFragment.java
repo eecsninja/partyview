@@ -53,26 +53,4 @@ public class PendingEventsFragment extends EventListFragment {
         });
     }
 
-    public void removeEventFromList(LocalEvent event) {
-        ParseQuery<Event> query = Event.getQueryForEventWithId(event.getObjectId());
-
-        query.getFirstInBackground(new GetCallback<Event>() {
-            @Override
-            public void done(Event event, ParseException e) {
-                if (e == null) {
-                    eventAdapter.remove(event);
-
-                    if (events.isEmpty()) {
-                        displayNoItemMessage();
-                    }
-
-                    Log.d("DEBUG", "back to main");
-                    Log.d("DEBUG", event.getTitle().toString());
-                } else {
-                    System.err.println("PendingEventsFragment.removeEventFromList: " +
-                            e.getMessage());
-                }
-            }
-        });
-    }
 }
