@@ -28,6 +28,10 @@ public class EventTabsFragment extends Fragment {
 
     private static final String TAG = EventTabsFragment.class.getSimpleName() + "_DEBUG";
 
+    // TODO: How to make these an enum?
+    private static final int ACCEPTED_EVENTS_TAB = 0;
+    private static final int PENDING_EVENTS_TAB = 1;
+
     private FragmentStatePagerAdapter mAdapterViewPager;
     private PagerSlidingTabStrip mTabs;
     private ViewPager mViewPager;
@@ -63,7 +67,7 @@ public class EventTabsFragment extends Fragment {
         LocalEvent event =
                 (LocalEvent) data.getSerializableExtra(EditEventActivity.SAVED_EVENT_KEY);
 
-        AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager.getItem(0);
+        EventListFragment fragment = getEventList();
         fragment.addNewEventToList(event, ACCEPTED.toString());
 
         displayEventTab();
@@ -74,15 +78,11 @@ public class EventTabsFragment extends Fragment {
         String response = data.getStringExtra(InviteActivity.INVITE_RESPONSE_KEY);
 
         // remove from pending events
-        PendingEventsFragment pendingFragment = (PendingEventsFragment) mAdapterViewPager
-                .getItem(1);
-        pendingFragment.removeEventFromList(event);
+        getInviteList().removeEventFromList(event);
         mAdapterViewPager.notifyDataSetChanged();
 
         if (response.equalsIgnoreCase(ACCEPTED.toString())) {
-            AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager
-                    .getItem(0);
-            fragment.addNewEventToList(event, response);
+            getEventList().addNewEventToList(event, response);
 
             mAdapterViewPager.notifyDataSetChanged();
 
@@ -131,12 +131,20 @@ public class EventTabsFragment extends Fragment {
         Log.d(TAG, "onDestroy");
     }
 
+    public EventListFragment getEventList() {
+        return (EventListFragment) mAdapterViewPager.getItem(ACCEPTED_EVENTS_TAB);
+    }
+
+    public EventListFragment getInviteList() {
+        return (EventListFragment) mAdapterViewPager.getItem(PENDING_EVENTS_TAB);
+    }
+
     public void displayEventTab() {
-        mViewPager.setCurrentItem(0);
+        mViewPager.setCurrentItem(ACCEPTED_EVENTS_TAB);
     }
 
     public void displayInviteTab() {
-        mViewPager.setCurrentItem(1);
+        mViewPager.setCurrentItem(PENDING_EVENTS_TAB);
     }
 
     @Override
