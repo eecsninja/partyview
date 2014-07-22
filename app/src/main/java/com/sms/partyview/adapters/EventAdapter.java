@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.Collection;
@@ -65,6 +66,15 @@ public class EventAdapter extends ArrayAdapter<Event> {
 
         // Date/time should be of a lighter color.
         timeField.setTextColor(getContext().getResources().getColor(R.color.gray));
+
+        LinearLayout llDate = (LinearLayout) view.findViewById(R.id.llDate);
+        if (position % 3 == 0) {
+            llDate.setBackgroundResource(R.drawable.purple_circle);
+        } else if (position % 2 == 0) {
+            llDate.setBackgroundResource(R.drawable.blue_circle);
+        } else {
+            llDate.setBackgroundResource(R.drawable.coral_circle);
+        }
 
         return view;
     }
