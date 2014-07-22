@@ -134,10 +134,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.HomeActivity" />
         </activity>
-        <activity
-            android:name=".activities.ChatActivity"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
 
     </application>
 
