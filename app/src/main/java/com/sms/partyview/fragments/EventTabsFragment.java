@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
+import static com.sms.partyview.models.AttendanceStatus.INVITED;
 
 public class EventTabsFragment extends Fragment {
 
@@ -63,6 +64,10 @@ public class EventTabsFragment extends Fragment {
         return view;
     }
 
+    public void addNewInvite(LocalEvent event) {
+        getInviteList().addNewEventToList(event, INVITED.toString());
+    }
+
     public void respondToEventCreation(Intent data) {
         LocalEvent event =
                 (LocalEvent) data.getSerializableExtra(EditEventActivity.SAVED_EVENT_KEY);
@@ -100,8 +105,17 @@ public class EventTabsFragment extends Fragment {
             return;
         }
         // Replace the existing event if it was updated.
-        EventListFragment fragment =
-                (EventListFragment) mAdapterViewPager.getItem(mViewPager.getCurrentItem());
+        String eventId = event.getObjectId();
+        EventListFragment fragment = null;
+        if (getEventList().containsEventWithId(eventId)) {
+            fragment = getEventList();
+        } else if (getInviteList().containsEventWithId(eventId)) {
+            fragment = getInviteList();
+        } else {
+            throw new IllegalStateException(
+                    "Attempting to update event that doesn't exist in any event list, with ID: " +
+                    eventId);
+        }
         fragment.updateEvent(event, null);
     }
 

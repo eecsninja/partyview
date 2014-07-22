@@ -8,14 +8,19 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.adapters.NavDrawerListAdapter;
+import com.sms.partyview.fragments.AcceptedEventDetailFragment;
 import com.sms.partyview.fragments.EventListFragment;
 import com.sms.partyview.fragments.EventTabsFragment;
 import com.sms.partyview.fragments.ProfileFragment;
 import com.sms.partyview.fragments.SignOutDialogFragment;
 import com.sms.partyview.helpers.Utils;
+import com.sms.partyview.models.LocalEvent;
 import com.sms.partyview.models.NavDrawerItem;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
@@ -43,6 +48,12 @@ implements SignOutDialogListener{
 
     // Key used to store the user name in the installation info.
     public static final String INSTALLATION_USER_NAME_KEY = "username";
+
+    // For passing in a new event from a notification.
+    public static final String EVENT_NOTIFICATION_ACTION = "com.sms.partyview.NEW_EVENT";
+    public static final String EVENT_NOTIFICATION_EVENT_KEY = "event";
+    public static final String EVENT_NOTIFICATION_IS_NEW_KEY = "is_new";
+
     private static final String TAG = HomeActivity.class.getSimpleName() + "_DEBUG";
 
     private DrawerLayout mDrawerLayout;
@@ -91,6 +102,14 @@ implements SignOutDialogListener{
         setupNavDrawer(savedInstanceState);
 
         storeInstallationInfo();
+
+        // Listen for event notifications.
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                handleEventNotificationIntent(intent);
+            }
+        }, new IntentFilter(EVENT_NOTIFICATION_ACTION));
     }
 
     private void setupNavDrawer(Bundle savedInstanceState) {
@@ -319,6 +338,25 @@ implements SignOutDialogListener{
                 long id) {
             // display view for selected nav drawer item
             displayView(position);
+        }
+    }
+
+    // Gets a new or updated event from an intent.
+    private void handleEventNotificationIntent(Intent intent) {
+        LocalEvent event = (LocalEvent) intent.getSerializableExtra(EVENT_NOTIFICATION_EVENT_KEY);
+        if (event == null) {
+            System.err.println("Intent does not contain an event.");
+            return;
+        }
+        boolean isNewEvent = intent.getBooleanExtra(EVENT_NOTIFICATION_IS_NEW_KEY, true);
+
+        // Pass the event along to the event tabs.
+        if (isNewEvent) {
+            mEventTabsFragment.addNewInvite(event);
+        } else {
+            Intent tabsIntent = new Intent();
+            tabsIntent.putExtra(AcceptedEventDetailFragment.UDPATED_EVENT_INTENT_KEY, event);
+            mEventTabsFragment.respondToEventEdit(tabsIntent);
         }
     }
 }

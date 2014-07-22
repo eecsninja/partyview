@@ -117,6 +117,16 @@ public abstract class EventListFragment extends Fragment {
         return view;
     }
 
+    // Determines whether the given event ID is present in the events list.
+    public boolean containsEventWithId(String eventId) {
+        for (Event event : events) {
+            if (event.getObjectId().equals(eventId)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     protected void setUpDisplayDetailedView() {
         eventsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

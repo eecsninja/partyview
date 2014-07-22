@@ -1,6 +1,7 @@
 package com.sms.partyview.helpers;
 
 import com.sms.partyview.R;
+import com.sms.partyview.activities.HomeActivity;
 import com.sms.partyview.activities.InviteActivity;
 import com.sms.partyview.models.LocalEvent;
 
@@ -65,6 +66,9 @@ public class PushNotificationReceiver extends BroadcastReceiver {
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
+
+        // Send the new or updated event to the activity too.
+        sendEventToActivities(context, event, isNewEvent);
     }
 
     // Builds an intent to launch an activity to view the event.
@@ -77,5 +81,14 @@ public class PushNotificationReceiver extends BroadcastReceiver {
         intent.putExtra(InviteActivity.EVENT_INTENT_KEY, event);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, requestId, intent, flags);
         return pendingIntent;
+    }
+
+    // Passes the event data to running activities.
+    protected void sendEventToActivities(Context context, LocalEvent event, boolean isNewEvent) {
+        Intent intent = new Intent();
+        intent.setAction(HomeActivity.EVENT_NOTIFICATION_ACTION);
+        intent.putExtra(HomeActivity.EVENT_NOTIFICATION_EVENT_KEY, event);
+        intent.putExtra(HomeActivity.EVENT_NOTIFICATION_IS_NEW_KEY, isNewEvent);
+        context.sendBroadcast(intent);
     }
 }
