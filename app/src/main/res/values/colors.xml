@@ -57,4 +57,5 @@
     <color name="custom_blue">#33b5e5</color>
     <color name="custom_coral">#fd6b6b</color>
     <color name="custom_purple">#8fade3</color>
+    <color name="custom_light_purple">#c0d4fe</color>
 </resources>
