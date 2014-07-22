@@ -3,6 +3,7 @@ package com.sms.partyview.fragments;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.sms.partyview.R;
 import com.sms.partyview.activities.InviteActivity;
 import com.sms.partyview.helpers.Utils;
 import com.sms.partyview.models.Event;
@@ -32,16 +33,22 @@ public class PendingEventsFragment extends EventListFragment {
     }
 
     @Override
+    protected void displayMessage() {
+        mTvMessage.setText(getString(R.string.msg_no_invitations));
+    }
+
+    @Override
     protected void setUpDisplayDetailedView() {
         eventsView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+                    int position, long id) {
                 Log.d(TAG, "starting detail view");
                 Event event = events.get(position);
                 Intent intent = new Intent(getActivity(), InviteActivity.class);
                 intent.putExtra(InviteActivity.EVENT_INTENT_KEY, new LocalEvent(event));
-                getActivity().startActivityForResult(intent, Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE);
+                getActivity()
+                        .startActivityForResult(intent, Utils.RESPOND_TO_INVITE_EVENT_REQUEST_CODE);
             }
         });
     }
@@ -54,6 +61,11 @@ public class PendingEventsFragment extends EventListFragment {
             public void done(Event event, ParseException e) {
                 if (e == null) {
                     eventAdapter.remove(event);
+
+                    if (events.isEmpty()) {
+                        displayNoItemMessage();
+                    }
+
                     Log.d("DEBUG", "back to main");
                     Log.d("DEBUG", event.getTitle().toString());
                 } else {

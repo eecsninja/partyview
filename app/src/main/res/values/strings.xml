@@ -124,5 +124,7 @@
     <string name="title_activity_event">EventActivity</string>
     <string name="title_activity_invite">InviteActivity</string>
     <string name="user_details">User Details</string>
+    <string name="msg_no_invitations">You have no invitations</string>
+    <string name="msg_no_events">You have no events</string>
 
 </resources>

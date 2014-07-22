@@ -10,4 +10,29 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/lvHomeEventList" />
+
+    <LinearLayout
+            android:id="@+id/llMessage"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical|center_horizontal"
+            android:visibility="visible">
+
+        <ImageView
+                android:id="@+id/ivMessageLogo"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/logo_msg" />
+
+        <TextView
+                android:id="@+id/tvMessage"
+                android:layout_below="@+id/ivMessageLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="20sp"
+                android:text="boo" />
+    </LinearLayout>
+
 </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>

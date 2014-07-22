@@ -19,7 +19,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,11 +32,15 @@ import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 /**
  * A fragment representing a list of events.
  */
 public abstract class EventListFragment extends Fragment {
 
+    private static final String TAG = EventListFragment.class.getSimpleName() + "_DEBUG";
     protected List<Event> events;
 
     protected EventAdapter eventAdapter;
@@ -49,6 +55,9 @@ public abstract class EventListFragment extends Fragment {
 
     private PullToRefreshLayout mPullToRefreshLayout;
 
+    protected LinearLayout mLlMessage;
+    protected TextView mTvMessage;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +66,6 @@ public abstract class EventListFragment extends Fragment {
         events = new ArrayList<Event>();
         eventAdapter = new EventAdapter(getActivity(), events);
     }
-
 
     @Override
     public void onAttach(Activity activity) {
@@ -70,6 +78,9 @@ public abstract class EventListFragment extends Fragment {
         // Inflate layout.
         View view = inflater.inflate(
                 R.layout.fragment_event_list, container, false);
+
+        mLlMessage = (LinearLayout) view.findViewById(R.id.llMessage);
+        mTvMessage = (TextView) view.findViewById(R.id.tvMessage);
 
         // Set up to display tweets.
         eventsView = (ListView) view.findViewById(R.id.lvHomeEventList);
@@ -149,6 +160,13 @@ public abstract class EventListFragment extends Fragment {
                     @Override
                     public void done(List<EventUser> eventUsers, ParseException e) {
                         if (e == null) {
+
+                            if(eventUsers.isEmpty()) {
+                                displayNoItemMessage();
+                                return;
+                            }
+
+                            mLlMessage.setVisibility(GONE);
                             List<Event> events = new ArrayList<Event>();
                             for (EventUser eventUser : eventUsers) {
                                 events.add(eventUser.getEvent());
@@ -169,6 +187,15 @@ public abstract class EventListFragment extends Fragment {
         );
     }
 
+    protected void displayNoItemMessage() {
+        eventAdapter.clear();
+        mLlMessage.setVisibility(VISIBLE);
+        displayMessage();
+        mPullToRefreshLayout.setRefreshComplete();
+    }
+
     // Returns a parse query for the events shown in this list.
     protected abstract ParseQuery<EventUser> getQueryForEvents();
+
+    protected abstract void displayMessage();
 }
