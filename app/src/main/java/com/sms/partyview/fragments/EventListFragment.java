@@ -130,9 +130,13 @@ public abstract class EventListFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), EventActivity.class);
                 intent.putExtra(EventActivity.EVENT_INTENT_KEY, new LocalEvent(event));
 
-                if (statusMap.get(event.getObjectId()) != null) {
-                    intent.putExtra(EventActivity.EVENT_STATUS_KEY,
-                                    statusMap.get(event.getObjectId()));
+                String status = statusMap.get(event.getObjectId());
+                if (status != null) {
+                    intent.putExtra(EventActivity.EVENT_STATUS_KEY, status);
+                } else {
+                    throw new IllegalArgumentException(
+                            "Could not find attendance status for event " + event.getTitle() +
+                            " with ID " + event.getObjectId());
                 }
                 getActivity().startActivityForResult(intent, EVENT_DETAIL_REQUEST);
             }
@@ -193,16 +197,24 @@ public abstract class EventListFragment extends Fragment {
     protected void addNewEventToList(LocalEvent event, final String attendanceStatus) {
         mLlMessage.setVisibility(GONE);
         statusMap.put(event.getObjectId(), attendanceStatus);
-        // Create a new Event from the LocalEvent.
-        Event newEvent = new Event();
-        newEvent.update(event);
 
-        // Create a new ParseUser event to store the host username.
-        ParseUser host = new ParseUser();
-        host.setUsername(event.getHost());
-        newEvent.setHost(host);
+        // Define the class we would like to query
+        ParseQuery<Event> query = Event.getQueryForEventWithId(event.getObjectId());
 
-        eventAdapter.add(newEvent);
+        query.getFirstInBackground(new GetCallback<Event>() {
+            @Override
+            public void done(Event event, ParseException e) {
+                if (e == null) {
+                    eventAdapter.add(event);
+                    Log.d(TAG, "back to main");
+                    Log.d(TAG, event.getTitle().toString());
+                } else {
+                    System.err.println(
+                            "EventsListFragment.addNewEventToList: " + e.getMessage());
+                }
+            }
+        });
+
     }
 
     protected void populateEventList() {
