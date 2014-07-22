@@ -64,26 +64,25 @@ public class EventTabsFragment extends Fragment {
                 (LocalEvent) data.getSerializableExtra(EditEventActivity.SAVED_EVENT_KEY);
 
         AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager.getItem(0);
-        fragment.addNewEventToList(event.getObjectId(), ACCEPTED.toString());
+        fragment.addNewEventToList(event, ACCEPTED.toString());
 
         displayEventTab();
     }
 
     public void respondToInvite(Intent data) {
         LocalEvent event = (LocalEvent) data.getSerializableExtra(InviteActivity.EVENT_INTENT_KEY);
-        String eventId = event.getObjectId();
         String response = data.getStringExtra(InviteActivity.INVITE_RESPONSE_KEY);
 
         // remove from pending events
         PendingEventsFragment pendingFragment = (PendingEventsFragment) mAdapterViewPager
                 .getItem(1);
-        pendingFragment.removeEventFromList(eventId);
+        pendingFragment.removeEventFromList(event);
         mAdapterViewPager.notifyDataSetChanged();
 
         if (response.equalsIgnoreCase(ACCEPTED.toString())) {
             AcceptedEventsFragment fragment = (AcceptedEventsFragment) mAdapterViewPager
                     .getItem(0);
-            fragment.addNewEventToList(eventId, response);
+            fragment.addNewEventToList(event, response);
 
             mAdapterViewPager.notifyDataSetChanged();
 
@@ -97,15 +96,13 @@ public class EventTabsFragment extends Fragment {
         LocalEvent event =
                 (LocalEvent) data.getSerializableExtra(
                         AcceptedEventDetailFragment.UDPATED_EVENT_INTENT_KEY);
-        Log.d("DEBUG", "returned local event: " + event);
         if (event == null) {
             return;
         }
         // Replace the existing event if it was updated.
-        int index = data.getIntExtra(AcceptedEventDetailFragment.EVENT_LIST_INDEX_KEY, 0);
         EventListFragment fragment =
                 (EventListFragment) mAdapterViewPager.getItem(mViewPager.getCurrentItem());
-        fragment.updateEvent(index, event);
+        fragment.updateEvent(event, null);
     }
 
     private void setupTabs(View view) {

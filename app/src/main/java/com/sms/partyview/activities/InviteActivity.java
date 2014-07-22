@@ -44,10 +44,10 @@ public class InviteActivity extends FragmentActivity
         setupDetailFragment();
     }
 
-    public void onSaveResponse(String response, String eventId) {
+    public void onSaveResponse(String response, LocalEvent event) {
         // return to list of events
         Intent data = new Intent();
-        data.putExtra(EVENT_INTENT_KEY, eventId);
+        data.putExtra(EVENT_INTENT_KEY, event);
         data.putExtra(INVITE_RESPONSE_KEY, response);
         setResult(RESULT_OK, data);
 

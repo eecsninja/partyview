@@ -27,22 +27,19 @@ public class AcceptedEventDetailFragment
     // For passing in intent data.
     public static final String EVENT_INTENT_KEY = "event";
     public static final String UDPATED_EVENT_INTENT_KEY = "updatedEvent";
-    public static final String EVENT_LIST_INDEX_KEY = "eventListIndex";
     public static final String EVENT_STATUS_KEY = "eventStatus";
     private AttendanceStatus status;
     private boolean mEventWasUpdated = false;
-    private int mEventListIndex;
 
     private Button btnJoinLeave;
     private List<EventUser> eventUsers;
 
 
 
-    public static AcceptedEventDetailFragment newInstance(String status, int eventListIndexKey, LocalEvent tempEvent) {
+    public static AcceptedEventDetailFragment newInstance(String status, LocalEvent tempEvent) {
         AcceptedEventDetailFragment fragment = new AcceptedEventDetailFragment();
         Bundle args = new Bundle();
         args.putString(EVENT_STATUS_KEY, status);
-        args.putInt(EVENT_LIST_INDEX_KEY, eventListIndexKey);
         args.putSerializable(EVENT_INTENT_KEY, tempEvent);
         fragment.setArguments(args);
         return fragment;
@@ -61,7 +58,6 @@ public class AcceptedEventDetailFragment
 
         status = AttendanceStatus.valueOf(getArguments().getString(EVENT_STATUS_KEY));
 
-        mEventListIndex = getArguments().getInt(EVENT_LIST_INDEX_KEY);
         tempEvent = (LocalEvent) getArguments().getSerializable(EVENT_INTENT_KEY);
 
         latitude = tempEvent.getLatitude();

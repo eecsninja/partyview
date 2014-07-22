@@ -35,7 +35,7 @@ public class InvitedEventDetailFragment extends EventDetailFragment {
     public static final String EVENT_INTENT_KEY = "event";
 
     public interface InviteFragmentListener {
-        public void onSaveResponse(String response, String eventId);
+        public void onSaveResponse(String response, LocalEvent event);
     }
 
     public static InvitedEventDetailFragment newInstance(LocalEvent event) {
@@ -182,6 +182,6 @@ public class InvitedEventDetailFragment extends EventDetailFragment {
         currentEventUser.put("status", response);
         currentEventUser.saveInBackground();
 
-        mListener.onSaveResponse(response, tempEvent.getObjectId());
+        mListener.onSaveResponse(response, tempEvent);
     }
 }

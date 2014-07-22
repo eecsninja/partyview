@@ -1,8 +1,10 @@
 package com.sms.partyview.fragments;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.activities.EventActivity;
 import com.sms.partyview.adapters.EventAdapter;
@@ -127,7 +129,6 @@ public abstract class EventListFragment extends Fragment {
                 Log.d("DEBUG", "calling act: " + getActivity().toString());
                 Intent intent = new Intent(getActivity(), EventActivity.class);
                 intent.putExtra(EventActivity.EVENT_INTENT_KEY, new LocalEvent(event));
-                intent.putExtra(EventActivity.EVENT_LIST_INDEX_KEY, position);
 
                 if (statusMap.get(event.getObjectId()) != null) {
                     intent.putExtra(EventActivity.EVENT_STATUS_KEY,
@@ -138,7 +139,24 @@ public abstract class EventListFragment extends Fragment {
         });
     }
 
-    public void updateEvent(int index, LocalEvent event) {
+    public void updateEvent(LocalEvent event, final String attendanceStatus) {
+        // Find the event in the event array, based on object ID.
+        int index = -1;
+        for (int i = 0; i < events.size(); ++i) {
+            if (events.get(i).getObjectId().equals(event.getObjectId())) {
+                index = i;
+                break;
+            }
+        }
+        // If no event was found, add it as a new event.
+        if (index == -1) {
+            addNewEventToList(event, attendanceStatus);
+            return;
+        }
+        updateExistingEvent(index, event);
+    }
+
+    protected void updateExistingEvent(int index, LocalEvent event) {
         // Make sure index is valid.
         if (index >= events.size()) {
             throw new ArrayIndexOutOfBoundsException("Event list index is too large: " + index);
@@ -151,6 +169,20 @@ public abstract class EventListFragment extends Fragment {
         eventAdapter.update(index, event);
     }
 
+    protected void addNewEventToList(LocalEvent event, final String attendanceStatus) {
+        mLlMessage.setVisibility(GONE);
+        statusMap.put(event.getObjectId(), attendanceStatus);
+        // Create a new Event from the LocalEvent.
+        Event newEvent = new Event();
+        newEvent.update(event);
+
+        // Create a new ParseUser event to store the host username.
+        ParseUser host = new ParseUser();
+        host.setUsername(event.getHost());
+        newEvent.setHost(host);
+
+        eventAdapter.add(newEvent);
+    }
 
     protected void populateEventList() {
         // Query for new results from the network.

@@ -53,8 +53,8 @@ public class PendingEventsFragment extends EventListFragment {
         });
     }
 
-    public void removeEventFromList(String eventId) {
-        ParseQuery<Event> query = Event.getQueryForEventWithId(eventId);
+    public void removeEventFromList(LocalEvent event) {
+        ParseQuery<Event> query = Event.getQueryForEventWithId(event.getObjectId());
 
         query.getFirstInBackground(new GetCallback<Event>() {
             @Override

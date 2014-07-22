@@ -45,12 +45,10 @@ public class EventActivity extends FragmentActivity implements
     // For passing in intent data.
     public static final String EVENT_INTENT_KEY = "event";
     public static final String UDPATED_EVENT_INTENT_KEY = "updatedEvent";
-    public static final String EVENT_LIST_INDEX_KEY = "eventListIndex";
     public static final String EVENT_STATUS_KEY = "eventStatus";
     private static final int EDIT_EVENT_REQUEST = 1;
     private AttendanceStatus status;
     private boolean mEventWasUpdated = false;
-    private int mEventListIndex;
 
     private Button btnJoinLeave;
     private EventMapFragment eventMapFragment;
@@ -89,8 +87,6 @@ public class EventActivity extends FragmentActivity implements
 
         status = AttendanceStatus.valueOf(getIntent().getStringExtra(EVENT_STATUS_KEY));
 
-        mEventListIndex = getIntent().getIntExtra(EVENT_LIST_INDEX_KEY, 0);
-
         tempEvent = (LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY);
        // saveAndDisplayEvent((LocalEvent) getIntent().getSerializableExtra(EVENT_INTENT_KEY));
 
@@ -125,7 +121,7 @@ public class EventActivity extends FragmentActivity implements
     private List<Fragment> getFragments() {
         List<Fragment> fragments = new ArrayList<Fragment>();
 
-        fragments.add(AcceptedEventDetailFragment.newInstance(status.toString(), mEventListIndex, tempEvent));
+        fragments.add(AcceptedEventDetailFragment.newInstance(status.toString(), tempEvent));
         fragments.add(MapChatFragment.newInstance(attendees, currentEventUser.getObjectId(), tempEvent.getObjectId(),
                 tempEvent.getLatitude(), tempEvent.getLongitude(), currentEventUser.getStatus().toString()));
 
@@ -150,10 +146,10 @@ public class EventActivity extends FragmentActivity implements
             LocalEvent updatedEvent =
                     (LocalEvent) data.getSerializableExtra(UpdateEventActivity.SAVED_EVENT_KEY);
             if (updatedEvent != null) {
-
                 AcceptedEventDetailFragment fragment = (AcceptedEventDetailFragment) mAdapterViewPager.getItem(0);
                 fragment.saveAndDisplayEvent(updatedEvent);
                 vpPager.setCurrentItem(0);
+                tempEvent = updatedEvent;
                 mEventWasUpdated = true;
             }
         }
@@ -179,8 +175,6 @@ public class EventActivity extends FragmentActivity implements
         if (mEventWasUpdated) {
             data.putExtra(UDPATED_EVENT_INTENT_KEY, tempEvent);
         }
-        data.putExtra(EVENT_LIST_INDEX_KEY, mEventListIndex);
-        Log.d("DEBUG", "Updated list index: " + mEventListIndex);
         setResult(RESULT_OK, data);
         finish();
     }
