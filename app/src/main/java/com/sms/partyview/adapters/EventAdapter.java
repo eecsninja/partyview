@@ -17,7 +17,9 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+import static com.sms.partyview.helpers.Utils.DISPLAY_MONTH_FORMATTER;
 import static com.sms.partyview.helpers.Utils.DISPLAY_DATE_TIME_FORMATTER;
+import static com.sms.partyview.helpers.Utils.DISPLAY_DAY_FORMATTER;
 
 /**
  * Created by sque on 7/4/14.
@@ -49,9 +51,15 @@ public class EventAdapter extends ArrayAdapter<Event> {
         Event event = getItem(position);
         titleField.setText(event.getTitle());
 
+        TextView monthField = (TextView) view.findViewById(R.id.tvMonth);
+        TextView dayField = (TextView) view.findViewById(R.id.tvDay);
+
         DateTime date = new DateTime(event.getStartDate());
         timeField.setText(DISPLAY_DATE_TIME_FORMATTER.print(date));
         // TODO: should show a display name.
+
+        monthField.setText(DISPLAY_MONTH_FORMATTER.print(date));
+        dayField.setText(DISPLAY_DAY_FORMATTER.print(date));
 
         hostNameField.setText("Hosted by: " + event.getHost().getUsername());
 

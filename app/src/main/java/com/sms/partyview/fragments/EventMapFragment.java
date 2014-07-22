@@ -458,26 +458,19 @@ public class EventMapFragment extends Fragment implements LocationListener,
                                 handler.post(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Marker marker = userMarkersMap.get(username);
-                                        marker.setPosition(new LatLng(latitude, longitude));
-                                        if (!marker.isVisible()) {
-                                            marker.setVisible(true);
-                                        }
-                                        userMarkersMap.put(username, marker);
+                                    Marker marker = userMarkersMap.get(username);
+                                    marker.setPosition(new LatLng(latitude, longitude));
+                                    if (!marker.isVisible()) {
+                                        marker.setVisible(true);
+                                    }
+                                    userMarkersMap.put(username, marker);
 
-                                        UserMarker userMarker = mMarkersHashMap.get(marker);
-                                        userMarker.setmLastUpdate(new Date());
+                                    UserMarker userMarker = mMarkersHashMap.get(marker);
+                                    userMarker.setmLastUpdate(new Date());
 
-                                        mMarkersHashMap.put(marker, userMarker);
+                                    mMarkersHashMap.put(marker, userMarker);
 
-//                                        Marker marker = userMarkersMap.get(ParseUser.getCurrentUser().getUsername());
-//                                        marker.setPosition(new LatLng(location.getLatitude(), location.getLongitude()));
-//                                        userMarkersMap.put(ParseUser.getCurrentUser().getUsername(), marker);
-//
-//                                        UserMarker userMarker = mMarkersHashMap.get(marker);
-//                                        userMarker.setmLastUpdate(new Date());
-//                                        mMarkersHashMap.put(marker, userMarker);
-                                        updateCameraView();
+                                    updateCameraView();
                                     }
 
                                 });

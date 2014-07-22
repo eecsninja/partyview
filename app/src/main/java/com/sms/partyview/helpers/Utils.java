@@ -27,6 +27,11 @@ public class Utils {
     public static final DateTimeFormatter DISPLAY_DATE_TIME_FORMATTER = DateTimeFormat
             .forPattern("E, MMM d, h:mm a");
 
+    public static final DateTimeFormatter DISPLAY_MONTH_FORMATTER = DateTimeFormat
+            .forPattern("MMM");
+
+    public static final DateTimeFormatter DISPLAY_DAY_FORMATTER = DateTimeFormat.forPattern("d");
+
     public static void cacheAppUsers(FindCallback<ParseUser> callBack) {
         ParseQuery<ParseUser> query = ParseUser.getQuery();
 
