@@ -28,6 +28,7 @@ public class AcceptedEventDetailFragment
     public static final String EVENT_INTENT_KEY = "event";
     public static final String UDPATED_EVENT_INTENT_KEY = "updatedEvent";
     public static final String EVENT_LIST_INDEX_KEY = "eventListIndex";
+    public static final String EVENT_STATUS_KEY = "eventStatus";
     private AttendanceStatus status;
     private boolean mEventWasUpdated = false;
     private int mEventListIndex;
@@ -40,7 +41,7 @@ public class AcceptedEventDetailFragment
     public static AcceptedEventDetailFragment newInstance(String status, int eventListIndexKey, LocalEvent tempEvent) {
         AcceptedEventDetailFragment fragment = new AcceptedEventDetailFragment();
         Bundle args = new Bundle();
-        args.putString("eventStatus", status);
+        args.putString(EVENT_STATUS_KEY, status);
         args.putInt(EVENT_LIST_INDEX_KEY, eventListIndexKey);
         args.putSerializable(EVENT_INTENT_KEY, tempEvent);
         fragment.setArguments(args);
@@ -58,7 +59,7 @@ public class AcceptedEventDetailFragment
         attendees = new ArrayList<Attendee>();
 
 
-        status = AttendanceStatus.valueOf(getArguments().getString("eventStatus"));
+        status = AttendanceStatus.valueOf(getArguments().getString(EVENT_STATUS_KEY));
 
         mEventListIndex = getArguments().getInt(EVENT_LIST_INDEX_KEY);
         tempEvent = (LocalEvent) getArguments().getSerializable(EVENT_INTENT_KEY);

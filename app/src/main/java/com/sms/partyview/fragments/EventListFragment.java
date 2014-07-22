@@ -130,7 +130,8 @@ public abstract class EventListFragment extends Fragment {
                 intent.putExtra(EventActivity.EVENT_LIST_INDEX_KEY, position);
 
                 if (statusMap.get(event.getObjectId()) != null) {
-                    intent.putExtra("eventStatus", statusMap.get(event.getObjectId()));
+                    intent.putExtra(EventActivity.EVENT_STATUS_KEY,
+                                    statusMap.get(event.getObjectId()));
                 }
                 getActivity().startActivityForResult(intent, EVENT_DETAIL_REQUEST);
             }

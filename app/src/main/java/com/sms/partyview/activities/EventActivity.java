@@ -44,6 +44,7 @@ public class EventActivity extends FragmentActivity implements
     public static final String EVENT_INTENT_KEY = "event";
     public static final String UDPATED_EVENT_INTENT_KEY = "updatedEvent";
     public static final String EVENT_LIST_INDEX_KEY = "eventListIndex";
+    public static final String EVENT_STATUS_KEY = "eventStatus";
     private static final int EDIT_EVENT_REQUEST = 1;
     private AttendanceStatus status;
     private boolean mEventWasUpdated = false;
@@ -76,7 +77,7 @@ public class EventActivity extends FragmentActivity implements
         eventUsers = new ArrayList<EventUser>();
         attendees = new ArrayList<Attendee>();
 
-        status = AttendanceStatus.valueOf(getIntent().getStringExtra("eventStatus"));
+        status = AttendanceStatus.valueOf(getIntent().getStringExtra(EVENT_STATUS_KEY));
 
         mEventListIndex = getIntent().getIntExtra(EVENT_LIST_INDEX_KEY, 0);
 

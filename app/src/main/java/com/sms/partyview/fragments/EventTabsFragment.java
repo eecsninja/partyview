@@ -3,6 +3,7 @@ package com.sms.partyview.fragments;
 import com.astuetz.PagerSlidingTabStrip;
 import com.sms.partyview.R;
 import com.sms.partyview.activities.EditEventActivity;
+import com.sms.partyview.activities.InviteActivity;
 import com.sms.partyview.adapters.MyPagerAdapter;
 import com.sms.partyview.models.LocalEvent;
 
@@ -69,8 +70,9 @@ public class EventTabsFragment extends Fragment {
     }
 
     public void respondToInvite(Intent data) {
-        String eventId = data.getStringExtra("eventId");
-        String response = data.getStringExtra("response");
+        LocalEvent event = (LocalEvent) data.getSerializableExtra(InviteActivity.EVENT_INTENT_KEY);
+        String eventId = event.getObjectId();
+        String response = data.getStringExtra(InviteActivity.INVITE_RESPONSE_KEY);
 
         // remove from pending events
         PendingEventsFragment pendingFragment = (PendingEventsFragment) mAdapterViewPager

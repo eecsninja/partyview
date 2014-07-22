@@ -23,6 +23,7 @@ public class InviteActivity extends FragmentActivity
     protected InvitedEventDetailFragment detailFragment;
 
     public static final String EVENT_INTENT_KEY = "event";
+    public static final String INVITE_RESPONSE_KEY = "response";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +37,8 @@ public class InviteActivity extends FragmentActivity
     public void onSaveResponse(String response, String eventId) {
         // return to list of events
         Intent data = new Intent();
-        data.putExtra("eventId", eventId);
-        data.putExtra("response", response);
+        data.putExtra(EVENT_INTENT_KEY, eventId);
+        data.putExtra(INVITE_RESPONSE_KEY, response);
         setResult(RESULT_OK, data);
 
         finish();
