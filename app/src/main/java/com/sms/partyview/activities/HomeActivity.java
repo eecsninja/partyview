@@ -79,6 +79,8 @@ implements SignOutDialogListener{
         mEventTabsFragment = EventTabsFragment.newInstance();
 
         setupNavDrawer(savedInstanceState);
+
+        storeInstallationInfo();
     }
 
     private void setupNavDrawer(Bundle savedInstanceState) {
