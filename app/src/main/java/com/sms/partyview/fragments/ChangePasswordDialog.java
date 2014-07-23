@@ -46,6 +46,9 @@ public class ChangePasswordDialog extends DialogFragment implements OnClickListe
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_change_password, container);
 
+        // Set title for this dialog
+        getDialog().setTitle(getString(R.string.label_change_password));
+
         minPasswordLength = DEFAULT_MIN_PASSWORD_LENGTH;
 
         setUpViews(view);
