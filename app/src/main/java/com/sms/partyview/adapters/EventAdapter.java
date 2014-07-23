@@ -44,8 +44,10 @@ public class EventAdapter extends ArrayAdapter<Event> {
         // Find views within template.
         TextView titleField =
                 (TextView) view.findViewById(R.id.tvEventItemTitle);
-        TextView timeField =
-                (TextView) view.findViewById(R.id.tvEventItemTime);
+//        TextView timeField =
+//                (TextView) view.findViewById(R.id.tvEventItemTime);
+        TextView locationField =
+                (TextView) view.findViewById(R.id.tvEventItemLocation);
         TextView hostNameField =
                 (TextView) view.findViewById(R.id.tvEventItemHost);
         // Set view content.
@@ -56,7 +58,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView dayField = (TextView) view.findViewById(R.id.tvDay);
 
         DateTime date = new DateTime(event.getStartDate());
-        timeField.setText(DISPLAY_DATE_TIME_FORMATTER.print(date));
+        //timeField.setText(DISPLAY_DATE_TIME_FORMATTER.print(date));
         // TODO: should show a display name.
 
         monthField.setText(DISPLAY_MONTH_FORMATTER.print(date));
@@ -65,7 +67,10 @@ public class EventAdapter extends ArrayAdapter<Event> {
         hostNameField.setText("Hosted by: " + event.getHost().getUsername());
 
         // Date/time should be of a lighter color.
-        timeField.setTextColor(getContext().getResources().getColor(R.color.gray));
+      //  timeField.setTextColor(getContext().getResources().getColor(R.color.gray));
+
+        locationField.setText(event.getAddress());
+        locationField.setTextColor(getContext().getResources().getColor(R.color.gray));
 
         LinearLayout llDate = (LinearLayout) view.findViewById(R.id.llDate);
         if (position % 3 == 0) {
