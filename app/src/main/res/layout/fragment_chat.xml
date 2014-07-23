@@ -21,7 +21,6 @@
             android:singleLine="true"
             android:hint="@string/send_message_hint"
             android:textSize="14sp"
-            android:background="#00000000"
             />
         <Button
             android:id="@+id/btnSendChatMessage"
