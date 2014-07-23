@@ -58,7 +58,8 @@
         </activity>
         <activity
             android:name=".activities.EventActivity"
-            android:parentActivityName=".activities.HomeActivity" >
+            android:parentActivityName=".activities.HomeActivity"
+            android:screenOrientation="portrait">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <!-- need this to implement home as back button -->
