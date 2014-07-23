@@ -10,7 +10,6 @@ import com.sms.partyview.models.LocalEvent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,27 +18,23 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 import static com.sms.partyview.models.AttendanceStatus.INVITED;
 import static java.lang.String.format;
 
-public class EventTabsFragment extends Fragment
-{
+public class EventTabsFragment extends Fragment {
+
     private static final String TAG = EventTabsFragment.class.getSimpleName() + "_DEBUG";
 
     // TODO: How to make these an enum?
     private static final int ACCEPTED_EVENTS_TAB = 0;
     private static final int PENDING_EVENTS_TAB = 1;
-
+    private static final String[] TAB_TITLES = {"Events", "Invites"};
     private MyPagerAdapter mAdapterViewPager;
     private PagerSlidingTabStrip mTabs;
     private ViewPager mViewPager;
-
-    private static final String[] TAB_TITLES = { "Events", "Invites"};
     private String[] mTitles = {"Events", "Invites"};
+
     public EventTabsFragment() {
         // Required empty public constructor
     }
@@ -117,7 +112,8 @@ public class EventTabsFragment extends Fragment
         } else {
             throw new IllegalStateException(
                     "Attempting to update event that doesn't exist in any event list, with ID: " +
-                    eventId);
+                            eventId
+            );
         }
         fragment.updateEvent(event, null);
     }
@@ -130,17 +126,7 @@ public class EventTabsFragment extends Fragment
         mTabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         mTabs.setViewPager(mViewPager);
     }
-
-    private static List<Fragment> getFragments() {
-        List<Fragment> fragments
-                = new ArrayList<Fragment>();
-
-        fragments.add(AcceptedEventsFragment.newInstance());
-        fragments.add(PendingEventsFragment.newInstance());
-
-        return fragments;
-    }
-
+    
     @Override
     public void onDestroy() {
         super.onDestroy();
