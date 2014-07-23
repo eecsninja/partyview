@@ -24,19 +24,22 @@ import java.util.List;
 
 import static com.sms.partyview.models.AttendanceStatus.ACCEPTED;
 import static com.sms.partyview.models.AttendanceStatus.INVITED;
+import static java.lang.String.format;
 
-public class EventTabsFragment extends Fragment {
-
+public class EventTabsFragment extends Fragment
+{
     private static final String TAG = EventTabsFragment.class.getSimpleName() + "_DEBUG";
 
     // TODO: How to make these an enum?
     private static final int ACCEPTED_EVENTS_TAB = 0;
     private static final int PENDING_EVENTS_TAB = 1;
 
-    private FragmentStatePagerAdapter mAdapterViewPager;
+    private MyPagerAdapter mAdapterViewPager;
     private PagerSlidingTabStrip mTabs;
     private ViewPager mViewPager;
 
+    private static final String[] TAB_TITLES = { "Events", "Invites"};
+    private String[] mTitles = {"Events", "Invites"};
     public EventTabsFragment() {
         // Required empty public constructor
     }
@@ -122,7 +125,7 @@ public class EventTabsFragment extends Fragment {
     private void setupTabs(View view) {
         // Initialize the ViewPager and set an adapter
         mViewPager = (ViewPager) view.findViewById(R.id.vpPager);
-        mAdapterViewPager = new MyPagerAdapter(getActivity().getSupportFragmentManager());
+        mAdapterViewPager = new MyPagerAdapter(getActivity().getSupportFragmentManager(), mTitles);
         mViewPager.setAdapter(mAdapterViewPager);
         mTabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         mTabs.setViewPager(mViewPager);
@@ -163,5 +166,11 @@ public class EventTabsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public void onEventListUpdate(int dataIndex, int size) {
+        String newTitle = format("%s (%d)", TAB_TITLES[dataIndex], size);
+        mTitles[dataIndex] = newTitle;
+        mTabs.notifyDataSetChanged();
     }
 }

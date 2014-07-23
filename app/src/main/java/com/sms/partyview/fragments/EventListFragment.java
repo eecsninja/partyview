@@ -4,10 +4,10 @@ import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.sms.partyview.R;
 import com.sms.partyview.activities.EventActivity;
 import com.sms.partyview.adapters.EventAdapter;
+import com.sms.partyview.helpers.EventSaverInterface;
 import com.sms.partyview.models.Event;
 import com.sms.partyview.models.EventUser;
 import com.sms.partyview.models.LocalEvent;
@@ -60,6 +60,8 @@ public abstract class EventListFragment extends Fragment {
     protected LinearLayout mLlMessage;
     protected TextView mTvMessage;
 
+    protected EventListDataChangeListener mEventListDataChangeListener;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +74,13 @@ public abstract class EventListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+
+        if (activity instanceof EventListDataChangeListener) {
+            mEventListDataChangeListener = (EventListDataChangeListener) activity;
+        } else {
+            throw new ClassCastException(activity.toString() +
+                    " must implement EventListDataChangeListener.");
+        }
     }
 
     @Override
@@ -146,7 +155,8 @@ public abstract class EventListFragment extends Fragment {
                 } else {
                     throw new IllegalArgumentException(
                             "Could not find attendance status for event " + event.getTitle() +
-                            " with ID " + event.getObjectId());
+                                    " with ID " + event.getObjectId()
+                    );
                 }
                 getActivity().startActivityForResult(intent, EVENT_DETAIL_REQUEST);
             }
@@ -252,6 +262,8 @@ public abstract class EventListFragment extends Fragment {
                             }
                             eventAdapter.clear();
                             eventAdapter.addAll(events);
+
+                            notifyDataChanged();
                             // This may be called from a pull down refresh.
                             mPullToRefreshLayout.setRefreshComplete();
                         } else {
@@ -274,4 +286,10 @@ public abstract class EventListFragment extends Fragment {
     protected abstract ParseQuery<EventUser> getQueryForEvents();
 
     protected abstract void displayMessage();
+
+    protected abstract void notifyDataChanged();
+
+    public interface EventListDataChangeListener {
+        void onEventListUpdate(int dataIndex, int size);
+    }
 }

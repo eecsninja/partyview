@@ -40,11 +40,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sms.partyview.fragments.EventListFragment.EventListDataChangeListener;
 import static com.sms.partyview.fragments.SignOutDialogFragment.SignOutDialogListener;
 
 public class HomeActivity
         extends FragmentActivity
-implements SignOutDialogListener{
+        implements SignOutDialogListener, EventListDataChangeListener {
 
     // Key used to store the user name in the installation info.
     public static final String INSTALLATION_USER_NAME_KEY = "username";
@@ -410,5 +411,10 @@ implements SignOutDialogListener{
 
         // Commit changes
         ft.commit();
+    }
+
+    @Override
+    public void onEventListUpdate(int dataIndex, int size) {
+        mEventTabsFragment.onEventListUpdate(dataIndex, size);
     }
 }

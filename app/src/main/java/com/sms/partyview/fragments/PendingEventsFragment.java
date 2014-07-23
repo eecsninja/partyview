@@ -1,7 +1,5 @@
 package com.sms.partyview.fragments;
 
-import com.parse.GetCallback;
-import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.sms.partyview.R;
 import com.sms.partyview.activities.InviteActivity;
@@ -53,4 +51,8 @@ public class PendingEventsFragment extends EventListFragment {
         });
     }
 
+    @Override
+    protected void notifyDataChanged() {
+        mEventListDataChangeListener.onEventListUpdate(1, events.size());
+    }
 }
