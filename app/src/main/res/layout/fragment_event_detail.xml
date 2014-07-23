@@ -39,14 +39,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:textStyle="bold"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
 
 
             <TextView
                 android:id="@+id/tvEventOrganizer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -59,13 +59,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:textStyle="bold"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/tvEventStartTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -78,12 +78,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:textStyle="bold"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
             <TextView
                 android:id="@+id/tvEventEndTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
 
         </LinearLayout>
 
@@ -97,13 +97,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:textStyle="bold"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/tvEventDescription"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/llAttendees"
@@ -116,13 +116,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:textStyle="bold"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/tvEventAttendeeList"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"/>
+                android:textSize="14sp"/>
         </LinearLayout>
 
     </LinearLayout>
