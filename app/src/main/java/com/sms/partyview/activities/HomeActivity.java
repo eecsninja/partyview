@@ -28,6 +28,8 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Menu;
@@ -74,8 +76,8 @@ implements SignOutDialogListener{
     private NavDrawerListAdapter adapter;
 
     private EventTabsFragment mEventTabsFragment;
-
-    private Fragment mAttachedFragment;
+    private ProfileFragment mProfileFragment;
+    private SignOutDialogFragment mSignOutDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +99,7 @@ implements SignOutDialogListener{
         yourTextView.setPadding(0,0,0,5);
         yourTextView.setTextSize(22);
 
-        mEventTabsFragment = EventTabsFragment.newInstance();
+        setUpFragments(savedInstanceState);
 
         setupNavDrawer(savedInstanceState);
 
@@ -294,18 +296,14 @@ implements SignOutDialogListener{
         // update the main content by replacing fragments
         switch (position) {
             case 0:
-                mEventTabsFragment = EventTabsFragment.newInstance();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, mEventTabsFragment).commit();
+                displayEventTabsFragment();
                 break;
             case 1:
-                Fragment fragment = ProfileFragment.newInstance();
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.frame_container, fragment).commit();
+                displayProfileFragment();
                 break;
             case 2:
-                SignOutDialogFragment signOutDialogFragment = new SignOutDialogFragment();
-                signOutDialogFragment.show(getSupportFragmentManager(), "SignOutFragment");
+                displaySignOutDialogFragment();
+                break;
             default:
                 break;
         }
@@ -324,7 +322,8 @@ implements SignOutDialogListener{
 
     @Override
     public void onDialogNegativeClick() {
-        // do nothing
+        // go back to home
+        displayEventTabsFragment();
     }
 
     /**
@@ -358,5 +357,59 @@ implements SignOutDialogListener{
             tabsIntent.putExtra(AcceptedEventDetailFragment.UDPATED_EVENT_INTENT_KEY, event);
             mEventTabsFragment.respondToEventEdit(tabsIntent);
         }
+    }
+
+    private void setUpFragments(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            mEventTabsFragment = EventTabsFragment.newInstance();
+            mProfileFragment = ProfileFragment.newInstance();
+            mSignOutDialogFragment = new SignOutDialogFragment();
+        }
+    }
+
+    private void displayEventTabsFragment()
+    {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if (mEventTabsFragment.isAdded()) { // if the fragment is already in container
+            ft.show(mEventTabsFragment);
+        } else { // fragment needs to be added to frame container
+            ft.add(R.id.frame_container, mEventTabsFragment, "EventTabsFragment");
+        }
+
+        // hide remaining fragments
+        if (mProfileFragment.isAdded()) { ft.hide(mProfileFragment); }
+
+        // Commit changes
+        ft.commit();
+    }
+
+    private void displayProfileFragment()
+    {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        if (mProfileFragment.isAdded()) {
+            ft.show(mProfileFragment);
+        } else {
+            ft.add(R.id.frame_container, mProfileFragment, "ProfileFrragment");
+        }
+
+        // hide remaining fragments
+        if (mEventTabsFragment.isAdded()) { ft.hide(mEventTabsFragment); }
+
+        // Commit changes
+        ft.commit();
+    }
+
+    private void displaySignOutDialogFragment()
+    {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        mSignOutDialogFragment.show(getSupportFragmentManager(), "SignoutFragment");
+
+        // hide remaining fragments
+        if (mEventTabsFragment.isAdded()) { ft.hide(mEventTabsFragment); }
+        if (mProfileFragment.isAdded()) { ft.hide(mProfileFragment); }
+
+        // Commit changes
+        ft.commit();
     }
 }

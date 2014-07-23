@@ -122,8 +122,7 @@ public class EventTabsFragment extends Fragment {
     private void setupTabs(View view) {
         // Initialize the ViewPager and set an adapter
         mViewPager = (ViewPager) view.findViewById(R.id.vpPager);
-        mAdapterViewPager = new MyPagerAdapter(getActivity().getSupportFragmentManager(),
-                getFragments());
+        mAdapterViewPager = new MyPagerAdapter(getActivity().getSupportFragmentManager());
         mViewPager.setAdapter(mAdapterViewPager);
         mTabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         mTabs.setViewPager(mViewPager);
