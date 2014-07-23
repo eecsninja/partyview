@@ -148,11 +148,11 @@ public class EventTabsFragment extends Fragment
     }
 
     public EventListFragment getEventList() {
-        return (EventListFragment) mAdapterViewPager.getItem(ACCEPTED_EVENTS_TAB);
+        return (EventListFragment) mAdapterViewPager.getRegisteredFragment(ACCEPTED_EVENTS_TAB);
     }
 
     public EventListFragment getInviteList() {
-        return (EventListFragment) mAdapterViewPager.getItem(PENDING_EVENTS_TAB);
+        return (EventListFragment) mAdapterViewPager.getRegisteredFragment(PENDING_EVENTS_TAB);
     }
 
     public void displayEventTab() {
