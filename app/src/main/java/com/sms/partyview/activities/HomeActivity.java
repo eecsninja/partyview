@@ -26,9 +26,7 @@ import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -50,6 +48,7 @@ implements SignOutDialogListener{
 
     // Key used to store the user name in the installation info.
     public static final String INSTALLATION_USER_NAME_KEY = "username";
+    private static final int HOME_DRAWER_POSITION = 0;
 
     // For passing in a new event from a notification.
     public static final String EVENT_NOTIFICATION_ACTION = "com.sms.partyview.NEW_EVENT";
@@ -172,7 +171,7 @@ implements SignOutDialogListener{
 
         if (savedInstanceState == null) {
             // on first time display view for first nav item
-            displayView(0);
+            showSelectedDrawerItem(0);
         }
     }
 
@@ -292,7 +291,7 @@ implements SignOutDialogListener{
     /**
      * Diplaying fragment view for selected nav drawer list item
      */
-    private void displayView(int position) {
+    private void showSelectedDrawerItem(int position) {
         // update the main content by replacing fragments
         switch (position) {
             case 0:
@@ -323,7 +322,7 @@ implements SignOutDialogListener{
     @Override
     public void onDialogNegativeClick() {
         // go back to home
-        displayEventTabsFragment();
+        showSelectedDrawerItem(HOME_DRAWER_POSITION);
     }
 
     /**
@@ -336,7 +335,7 @@ implements SignOutDialogListener{
         public void onItemClick(AdapterView<?> parent, View view, int position,
                 long id) {
             // display view for selected nav drawer item
-            displayView(position);
+            showSelectedDrawerItem(position);
         }
     }
 
