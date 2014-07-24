@@ -80,6 +80,9 @@ public class HomeActivity
     private static final int NAV_DRAWER_PROFILE = 1;
     private static final int NAV_DRAWER_SIGN_OUT = 2;
 
+    // Currently selected nav drawer index.
+    private int mCurrentNavDrawSelection = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,6 +189,10 @@ public class HomeActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
+        MenuItem menuItemNewEvent = menu.findItem(R.id.action_new_event);
+        if (menuItemNewEvent != null) {
+            menuItemNewEvent.setVisible(mCurrentNavDrawSelection == NAV_DRAWER_HOME);
+        }
         return true;
     }
 
@@ -313,6 +320,11 @@ public class HomeActivity
             default:
                 break;
         }
+        // Store the selected position. This is so that onCreateOptionsMenu() can set
+        // the visibility of the menu options based on which drawer item is selected.
+        // Do NOT set the menu option visibility here because onCreateOptionsMenu()
+        // will be called again, creating a new menu.
+        mCurrentNavDrawSelection = position;
 
         // update selected item and title, then close the drawer
         mDrawerList.setItemChecked(position, true);
