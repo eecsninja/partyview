@@ -75,6 +75,11 @@ public class HomeActivity
 
     private BroadcastReceiver mBroadcastReceiver;
 
+    // Indexes for nav drawer items.
+    private static final int NAV_DRAWER_HOME = 0;
+    private static final int NAV_DRAWER_PROFILE = 1;
+    private static final int NAV_DRAWER_SIGN_OUT = 2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -296,13 +301,13 @@ public class HomeActivity
     private void showSelectedDrawerItem(int position) {
         // update the main content by replacing fragments
         switch (position) {
-            case 0:
+            case NAV_DRAWER_HOME:
                 displayEventTabsFragment();
                 break;
-            case 1:
+            case NAV_DRAWER_PROFILE:
                 displayProfileFragment();
                 break;
-            case 2:
+            case NAV_DRAWER_SIGN_OUT:
                 displaySignOutDialogFragment();
                 break;
             default:
