@@ -237,7 +237,7 @@ public class EventMapFragment extends Fragment implements LocationListener,
                         CameraPosition cp = new CameraPosition(eventLocation, 14, 0, 0);
                         map.moveCamera(CameraUpdateFactory.newCameraPosition(cp));
                     }
-                }
+               }
                 addUsersToMap(attendees);
             }
         }
@@ -326,7 +326,6 @@ public class EventMapFragment extends Fragment implements LocationListener,
         updateUserLocation(geoPointFromLocation(location));
         updateUserMarker(location);
         publishUserLocationChange();
-        updateCameraView();
     }
 
     public void updateUserMarker(Location location) {
@@ -469,7 +468,6 @@ public class EventMapFragment extends Fragment implements LocationListener,
 
                                     mMarkersHashMap.put(marker, userMarker);
 
-                                    updateCameraView();
                                     }
 
                                 });
