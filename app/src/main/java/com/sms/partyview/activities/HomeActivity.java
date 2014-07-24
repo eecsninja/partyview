@@ -62,12 +62,6 @@ public class HomeActivity
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
 
-    // nav drawer title
-    private CharSequence mDrawerTitle;
-
-    // used to store app title
-    private CharSequence mTitle;
-
     // slide menu items
     private String[] navMenuTitles;
     private TypedArray navMenuIcons;
@@ -124,8 +118,6 @@ public class HomeActivity
     }
 
     private void setupNavDrawer(Bundle savedInstanceState) {
-        mTitle = mDrawerTitle = getTitle();
-
         // load slide menu items
         navMenuTitles = getResources().getStringArray(R.array.nav_drawer_items);
 
