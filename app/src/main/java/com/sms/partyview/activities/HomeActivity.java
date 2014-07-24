@@ -83,6 +83,9 @@ public class HomeActivity
     // Currently selected nav drawer index.
     private int mCurrentNavDrawSelection = 0;
 
+    // A handle to the New Event menu item.
+    private MenuItem mMiNewEvent = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,9 +192,9 @@ public class HomeActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
-        MenuItem menuItemNewEvent = menu.findItem(R.id.action_new_event);
-        if (menuItemNewEvent != null) {
-            menuItemNewEvent.setVisible(mCurrentNavDrawSelection == NAV_DRAWER_HOME);
+        mMiNewEvent = menu.findItem(R.id.action_new_event);
+        if (mMiNewEvent != null) {
+            mMiNewEvent.setVisible(mCurrentNavDrawSelection == NAV_DRAWER_HOME);
         }
         return true;
     }
@@ -307,9 +310,11 @@ public class HomeActivity
      */
     private void showSelectedDrawerItem(int position) {
         // update the main content by replacing fragments
+        boolean showNewEventMenuItem = false;
         switch (position) {
             case NAV_DRAWER_HOME:
                 displayEventTabsFragment();
+                showNewEventMenuItem = true;
                 break;
             case NAV_DRAWER_PROFILE:
                 displayProfileFragment();
@@ -320,10 +325,14 @@ public class HomeActivity
             default:
                 break;
         }
+        // Set the visibility of the new event menu item for certain scenarios where
+        // onCreateOptionsMenu() does not get called.
+        if (mMiNewEvent != null) {
+            mMiNewEvent.setVisible(showNewEventMenuItem);
+        }
         // Store the selected position. This is so that onCreateOptionsMenu() can set
         // the visibility of the menu options based on which drawer item is selected.
-        // Do NOT set the menu option visibility here because onCreateOptionsMenu()
-        // will be called again, creating a new menu.
+        // Anything set here will have to be re-set because the menu is re-created.
         mCurrentNavDrawSelection = position;
 
         // update selected item and title, then close the drawer
