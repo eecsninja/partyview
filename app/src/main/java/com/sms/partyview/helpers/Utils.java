@@ -50,8 +50,8 @@ public class Utils {
         return result;
     }
 
-    public static List<String> splitString(String input) {
-        String[] splitArray = input.split(",");
+    public static List<String> splitString(String input, String splitToken) {
+        String[] splitArray = input.split(splitToken);
         List<String> results = new ArrayList<String>(Arrays.asList(splitArray));
         for (int i = 0; i < results.size(); ++i) {
             String trimmedResult = results.get(i).replaceAll("\\s+","");

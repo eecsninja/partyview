@@ -38,7 +38,7 @@ public class UnitTest {
         expected.add("My");
 
         for (String input : inputs) {
-            List<String> output = Utils.splitString(input);
+            List<String> output = Utils.splitString(input, ",");
             System.out.println("Testing input: [" + input + "]");
             expectEqual(output.size(), 3);
             for (int i = 0; i < output.size() && i < expected.size(); ++i) {

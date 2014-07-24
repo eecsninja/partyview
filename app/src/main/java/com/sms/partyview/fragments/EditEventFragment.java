@@ -198,7 +198,7 @@ public abstract class EditEventFragment extends Fragment
             validationErrorMessage.append(getResources().getString(R.string.error_blank_invitees));
         }
 
-        List<String> tokens = Utils.splitString(invitees);
+        List<String> tokens = Utils.splitString(invitees, ",");
         StringBuilder invalidInviteesErrorMessage = new StringBuilder();
         boolean inviteesValidationError = false;
         List<String> incorrectUserNames = new ArrayList<String>();
@@ -379,7 +379,7 @@ public abstract class EditEventFragment extends Fragment
     }
 
     public List<ParseUser> getAttendeeList(String inviteesString) {
-        List<String> tokens = Utils.splitString(inviteesString);
+        List<String> tokens = Utils.splitString(inviteesString, ",");
 
         List<ParseUser> attendeeList = new ArrayList<ParseUser>();
         for (String userName : tokens) {
