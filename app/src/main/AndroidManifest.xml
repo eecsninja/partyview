@@ -36,7 +36,7 @@
         <activity
             android:name="com.parse.ui.ParseLoginActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan" >
+            android:windowSoftInputMode="adjustResize" >
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
                 android:value="true" />
