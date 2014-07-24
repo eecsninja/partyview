@@ -79,6 +79,8 @@ public class HomeActivity
     private ProfileFragment mProfileFragment;
     private SignOutDialogFragment mSignOutDialogFragment;
 
+    private BroadcastReceiver mBroadcastReceiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,12 +108,19 @@ public class HomeActivity
         storeInstallationInfo();
 
         // Listen for event notifications.
-        registerReceiver(new BroadcastReceiver() {
+        mBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 handleEventNotificationIntent(intent);
             }
-        }, new IntentFilter(EVENT_NOTIFICATION_ACTION));
+        };
+        registerReceiver(mBroadcastReceiver, new IntentFilter(EVENT_NOTIFICATION_ACTION));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mBroadcastReceiver);
     }
 
     private void setupNavDrawer(Bundle savedInstanceState) {
