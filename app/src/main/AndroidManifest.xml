@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.sms.partyview"
     xmlns:tools="http://schemas.android.com/tools"
-    android:versionCode="1"
-    android:versionName="1.0.0">
+    android:versionCode="2"
+    android:versionName="1.0.1">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -34,11 +34,12 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_logo"
         android:label="@string/groupies_lowercase"
-        android:theme="@style/CustomLightTheme" >
+        android:theme="@style/CustomLightTheme">
         <activity
             android:name="com.parse.ui.ParseLoginActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustResize" >
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
                 android:value="true" />
@@ -48,7 +49,8 @@
                 android:resource="@drawable/login_logo" />
         </activity>
         <activity
-            android:name=".activities.LoginActivity" >
+            android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -56,7 +58,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.HomeActivity" >
+            android:name=".activities.HomeActivity"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activities.EventActivity"
@@ -72,7 +75,8 @@
         <activity
             android:name=".activities.NewEventActivity"
             android:parentActivityName=".activities.HomeActivity"
-            android:windowSoftInputMode="adjustResize" >
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <!-- need this to implement home as back button -->
@@ -128,7 +132,8 @@
 
         <activity
             android:name=".activities.InviteActivity"
-            android:parentActivityName=".activities.HomeActivity" >
+            android:parentActivityName=".activities.HomeActivity"
+            android:screenOrientation="portrait">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <!-- need this to implement home as back button -->
