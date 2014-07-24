@@ -188,6 +188,7 @@ public abstract class EventListFragment extends Fragment {
             public void done(Event event, ParseException e) {
                 if (e == null) {
                     eventAdapter.remove(event);
+                    notifyDataChanged();
                     if (events.isEmpty()) {
                         displayNoItemMessage();
                     }
@@ -226,6 +227,7 @@ public abstract class EventListFragment extends Fragment {
             public void done(Event event, ParseException e) {
                 if (e == null) {
                     eventAdapter.add(event);
+                    notifyDataChanged();
                     Log.d(TAG, "back to main");
                     Log.d(TAG, event.getTitle().toString());
                 } else {

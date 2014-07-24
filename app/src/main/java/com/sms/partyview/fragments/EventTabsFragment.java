@@ -126,7 +126,7 @@ public class EventTabsFragment extends Fragment {
         mTabs = (PagerSlidingTabStrip) view.findViewById(R.id.tabs);
         mTabs.setViewPager(mViewPager);
     }
-    
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -155,8 +155,12 @@ public class EventTabsFragment extends Fragment {
     }
 
     public void onEventListUpdate(int dataIndex, int size) {
-        String newTitle = format("%s (%d)", TAB_TITLES[dataIndex], size);
-        mTitles[dataIndex] = newTitle;
+        if(size == 0) {
+            mTitles[dataIndex] = TAB_TITLES[dataIndex];
+        } else {
+            String newTitle = format("%s (%d)", TAB_TITLES[dataIndex], size);
+            mTitles[dataIndex] = newTitle;
+        }
         mTabs.notifyDataSetChanged();
     }
 }
